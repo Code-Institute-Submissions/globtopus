@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    return "Hello World from Globtopus"
+    return "Hello World from Globtopus with update"
 
 
 """it should work"""
