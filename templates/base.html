@@ -23,6 +23,9 @@
                 rel="stylesheet"
         />
         <link rel="stylesheet" href="{{url_for('static', filename='src/css/app.css')}}" type="text/css">
+        {% block css %}
+
+        {% endblock %}
     </head>
     <body>
         <header>
@@ -31,12 +34,12 @@
                     <a class="navbar-brand" href="{{url_for('index')}}">
                         <img src="{{url_for('static', filename='images/gloptopus_logo.gif')}}"/>
                     </a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03"
-                            aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
+                    <button class="navbar-toggler g_toggler" type="button" data-toggle="collapse" data-target="#g_nav"
+                            aria-controls="g_nav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="smaller_h text-light g_button ">menu</span>
                     </button>
 
-                    <div class="collapse navbar-collapse" id="navbarsExample03">
+                    <div class="collapse navbar-collapse" id="g_nav">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item active">
                                 <a class="nav-link" href="{{url_for('index')}}">Home <span
@@ -92,8 +95,9 @@
                 integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
                 src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         ></script>
-        <script>
-$('input[name=feeling]').on('change', function () { $('#feeling_holder').val(this.value) });
-        </script>
+        {% block js %}
+
+        {% endblock %}
+
     </body>
 </html>
