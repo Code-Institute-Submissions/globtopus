@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:300,800|Oswald&display=swap');
+/*INITIAL VALUES SET TO 0 TO AVOID ANY SURPRISES FROM THE DIFFERENT BROWSER RENDERING*/
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	}
+
+body {
+	font-family: "Lato", sans-serif;
+	color: #777777;
+	}
+h2, h3, h4 {
+	font-family: Oswald, sans-serif;
+	text-transform: uppercase;
+	letter-spacing: 4px;
+	color: #635b4e;
+	}
+.smaller_h {
+	font-family: Oswald, sans-serif;
+	text-transform: uppercase;
+	letter-spacing: 4px;
+	color: #005a5b;
+	font-size: 0.8em;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-radius: 0;
+
+	}
+.interaction-holder{
+    border: solid 1px deepskyblue;
+
+}
+.int_steps{
+    border: solid 1px deepskyblue;
+
+}
+.int_steps_img{
+    border: solid 1px deepskyblue;
+
+}
+.border_bottom_only {
+	border-top: 0;
+	border-left: 0;
+	border-right: 0;
+	}
+.no_border {
+	border: none;
+	}
+#hearth {
+
+
+	/* aspect ratio of the image 300/1600*/
+	/*https://stackoverflow.com/questions/11099930/100-width-background-image-with-an-auto-height*/
+	background-position: center center;
+	background-size: 60%;
+	background-repeat: no-repeat;
+	background-image: url("../../images/globe_2.png");
+	}
+.hearth{
+	font-size: 6em;
+	color: rgba(179,0,0,0.85);
+}
+.feel_out{
+	font-size: 3em;
+	color: #635b4e;
+}
+.feel_in{
+
+}
+.custom-range{
+	width: 66%;
+	margin-top: 30px;
+
+
+}
+#feeling_holder{
+	font-size: 2em;
+	font-family: Oswald, sans-serif;
+	text-transform: uppercase;
+	letter-spacing: 4px;
+}
+
