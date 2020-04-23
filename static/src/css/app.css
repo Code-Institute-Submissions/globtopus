@@ -97,7 +97,7 @@ h2, h3, h4 {
 	top: 0;
 	margin: 10px 0 0 10px;
 	}
-.g_button{
+.gl_button{
 	background-color: #177199;
 	color: whitesmoke;
 	font-family: "Lato", sans-serif;
@@ -106,7 +106,7 @@ h2, h3, h4 {
 	margin: 20px 10px 10px 10px  ;
 	cursor: pointer;
 }
-.g_toggler{
+.gl_toggler{
 	margin-top: -30px;
 }
 
