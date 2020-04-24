@@ -6,7 +6,7 @@
 
 
 
-    $('input[name=feeling]').on('change', function () {
+    $('#feeling').on('change', function () {
 
         var feelings = this.value;
 
