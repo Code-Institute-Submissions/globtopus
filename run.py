@@ -22,11 +22,11 @@ def mongo_connect(url):
 
 @app.route('/')
 def index():
-    conn = mongo_connect(MONGODB_URI)
-    coll = conn[DBS_NAME][COLLECTION_NAME]
-    documents = coll.find()
+    # conn = mongo_connect(MONGODB_URI)
+    # coll = conn[DBS_NAME][COLLECTION_NAME]
+    # documents = coll.find()
     return render_template('index.html',
-                           documents=documents)
+                           MONGODB_URI=MONGODB_URI)
 
 
 
