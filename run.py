@@ -1,10 +1,9 @@
 import os
 from flask import Flask, render_template, redirect, request, url_for, request
 import pymongo
-from dotenv import load_dotenv
-load_dotenv()
+
 MONGODB_URI = os.getenv('MONGO_URI')
-print('MONGODB_URI',MONGODB_URI)
+
 DBS_NAME = "globtopus_db"
 COLLECTION_NAME = "users"
 """testing"""
