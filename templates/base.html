@@ -36,22 +36,12 @@
                     </a>
                     <button class="navbar-toggler gl_toggler" type="button" data-toggle="collapse" data-target="#g_nav"
                             aria-controls="g_nav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="smaller_h text-light gl_button ">menu</span>
+                        <span class="smaller_h text-light gl_button ">m</span>
                     </button>
 
                     <div class="collapse navbar-collapse" id="g_nav">
                         <ul class="navbar-nav mr-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="{{url_for('index')}}">Home <span
-                                        class="sr-only">(current)</span></a>
 
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{url_for('user')}}">User </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{url_for('admin')}}">Admin </a>
-                            </li>
                         </ul>
                         <ul class="navbar-nav form-inline my-2 my-md-0">
                             <li class="nav-item">
@@ -95,6 +85,8 @@
                 integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
                 src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         ></script>
+        <!--SWEETALERT JS-->
+        <script src = "https://cdn.jsdelivr.net/npm/sweetalert2@9"></script >
         {% block js %}
 
         {% endblock %}
