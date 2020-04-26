@@ -140,7 +140,7 @@ function render_location_details(address_data) {
    /*if user selects part of the map without location data ( sea , mountain range ...)
    * we will inform him to try again and add text-danger to bring his attention to it*/
     if (address_data === undefined) {
-        $('#location_n').val('Please try again!Could not get your location.').addClass('text-danger')
+        $('#location_n').text('Please try again!Could not get your location.').addClass('text-danger')
     } else {
         $('#country').val(address_data['country'])
 
@@ -153,7 +153,7 @@ function render_location_details(address_data) {
         $('#county').val(county)
         $('#country_code').val(address_data['country_code'])
 
-        $('#location_n').val(address_data['country'] + ' - ' +   county)
+        $('#location_n').text(address_data['country'] + ' - ' +   county)
             .removeClass('text-danger')
     }
 

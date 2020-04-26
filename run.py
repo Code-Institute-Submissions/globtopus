@@ -15,6 +15,7 @@ mongo = PyMongo(app)
 
 @app.route('/')
 def index():
+    # mongo.db.feels.remove({})
     num_of_people = []
     sum_of_feelings = []
     """GETTING FEELINGS FOR THE LAST 7 DAYS"""
@@ -27,20 +28,12 @@ def index():
 
     """SOME CALCULATIONS TO GET AVERAGE, DISPLAYING ROUNDED AND NOT ROUNDED VERSION OF FEELINGS"""
 
-    world_feel = 0 if sum(sum_of_feelings) == 0  else sum(sum_of_feelings) / sum(num_of_people)
+    world_feel = 0 if sum(sum_of_feelings) == 0 else sum(sum_of_feelings) / sum(num_of_people)
 
     return render_template('index.html', feels=feels, world_feel=round(world_feel), wf_full=world_feel)
 
 
-def new_person(increase):
-    return 0 if not increase else 1
-
-
-def new_feeling(user_feel,increase):
-    return (- int(session.get('user_feel')) + user_feel) if not increase else user_feel
-
-
-def update_world_feel( people, feeling):
+def update_world_feel(people, feeling):
     """INSERTING INTO WORLD FEEL FOR THE CURRENT DAY
       TO DO : IF LOGGED IN USER SUBMITS AGAIN JUST RECALCULATE FEELING
       WITHOUT ADDING EXTRA PERSON TO THE MIX
@@ -49,7 +42,6 @@ def update_world_feel( people, feeling):
     """if logged in user changing his feel, we will just recalculate his feel
      without adding new person to the mix, 
      if new user we will ad 1 person to the mix"""
-
 
     mongo.db.world_feel.update(
         {"day": datetime.datetime.now().strftime("%F")},
@@ -67,7 +59,6 @@ def update_country_feel(country_code, people, feeling):
     """if logged in user changing his feel, we will just recalculate his feel
      without adding new person to the mix, 
      if new user we will ad 1 person to the mix"""
-
 
     mongo.db.country_feel.update(
         {"country_code": country_code},
@@ -87,13 +78,14 @@ def today_f():
 def add_your_feel():
     """INSERTING INTO FEELS TABLE"""
     form_data = request.form.to_dict()
+    form_data['user_email'] = session.get('user_email')
     mongo.db.feels.insert_one(request.form.to_dict())
     """INSERTING INTO WORLD FEEL FOR THE CURRENT DAY
        TO DO : IF LOGGED IN USER SUBMITS AGAIN JUST RECALCULATE FEELING
        WITHOUT ADDING EXTRA PERSON TO THE MIX 
        - LAST FEELING + CURRENT FEELING"""
 
-    update_world_feel(0, int(form_data['user_feel']) - int(session.get('user_feel')) )
+    update_world_feel(0, int(form_data['user_feel']) - int(session.get('user_feel')))
     """updating user feel during the day, when he feels differently"""
     today = today_f()
     mongo.db.users.update(
@@ -101,10 +93,9 @@ def add_your_feel():
         {"$set": {'user_feel.' + today: form_data['user_feel']}})
 
     """updating country feel"""
-    update_country_feel(session.get("user_country_code"), 0, int(form_data['user_feel']) - int(session.get('user_feel')) )
+    update_country_feel(session.get("user_country_code"), 0,
+                        int(form_data['user_feel']) - int(session.get('user_feel')))
     session['user_feel'] = form_data["user_feel"]
-
-
 
     return redirect(url_for('index'))
 
@@ -152,12 +143,14 @@ def login():
 
         return redirect(url_for('sign_in'))
 
+
+
     """if we have user with those credentials we will log user """
     if check_password_hash(user_password, form_data['password']) and user_email == form_data['email']:
 
         mongo.db.users.update(
             {"email": user_email},
-            {"$set": {'last_login': datetime.datetime.now(),'user_feel.'+today_f() : form_data['user_feel']}})
+            {"$set": {'last_login': datetime.datetime.now(), 'user_feel.' + today_f(): form_data['user_feel']}})
 
         session.clear()
 
@@ -167,12 +160,11 @@ def login():
 
         session_user(form_data)
         """updating country feel"""
-        update_country_feel(country_code, 0, int(form_data['user_feel'] ) - int(user_feel[today_f()]))
+        update_country_feel(country_code, 0, int(form_data['user_feel']) - int(user_feel[today_f()]))
         """updating world feel"""
-        update_world_feel(0, int(form_data['user_feel'] ) - int(user_feel[today_f()]))
+        update_world_feel(0, int(form_data['user_feel']) - int(user_feel[today_f()]))
 
         session['user_feel'] = form_data['user_feel']
-
 
         return redirect(url_for('user'))
     else:
@@ -268,6 +260,13 @@ def register():
 
         flash('Please select how you feel!')
         return redirect(url_for('sign_up'))
+
+    if form_data['country_code'] == '':
+        sticky_form(form_data)
+
+        flash('Please select location on the map!')
+
+        return redirect(url_for('sign_up'))
     """if we have user with this email, we will not register user"""
     if list(mongo.db.users.find({"email": form_data['email']})):
 
@@ -284,7 +283,7 @@ def register():
         """INSERTING INTO FEELS TABLE"""
 
         """creating new user in country feel"""
-        update_country_feel(form_data["country_code"], 1,int(form_data['user_feel']) )
+        update_country_feel(form_data["country_code"], 1, int(form_data['user_feel']))
 
         """we will register user and set his id into session 
         redirect to user dashboard and change nav to logout instead of login | sign up"""
@@ -317,7 +316,7 @@ def sticky_form(form_data):
     session['form_country_code'] = form_data['country_code']
     session['form_country'] = form_data['country']
     session['form_county'] = form_data['county']
-    session['user_email'] = form_data['email']
+    session['form_email'] = form_data['email']
     session['form_name'] = form_data['name']
     session['form_location'] = form_data['country'] + '-' + form_data['county']
 

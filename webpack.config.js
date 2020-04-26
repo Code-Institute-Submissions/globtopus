@@ -17,6 +17,7 @@ var index = Object.assign ( {}, config, {
 	
 	entry  : [
 		'./static/src/js/index.js',
+		'./static/src/js/shared/form.js',
 
 	],
 	output : {
@@ -55,6 +56,7 @@ var sign_up = Object.assign ( {}, config, {
 	entry  : [
 		'./static/src/js/sign_up/get_location.js',
 		'./static/src/js/shared/feelometer.js',
+		'./static/src/js/shared/form.js',
 
 	],
 	output : {
@@ -69,6 +71,7 @@ var sign_up = Object.assign ( {}, config, {
 
 // Return Array of Configurations
 module.exports = [
+
 	index, user, admin, sign_up
 
 ];
