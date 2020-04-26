@@ -13,6 +13,7 @@
 
 {% block content %}
 <h4>Sign up</h4>
+
 <form action="{{url_for('register')}}" method="POST" id="user_feel">
 
     <div class="row">
@@ -25,12 +26,14 @@
                 <input type="text" class="form-control form-control-lg border_bottom_only bg-transparent"
                        id="location_n"
                        placeholder="Please select your state / county on the map"
-                       required
+                       required value="{{session['form_location']}}"
                 >
             </div>
         </div>
-        <input type="text" id="country" name="country" required class="d-none">
-        <input type="text" id="county" name="county" required class="d-none">
+        <input type="text" id="country" name="country" required class="d-none" value="{{session['form_country']}}">
+        <input type="text" id="county" name="county" required class="d-none" value="{{session['form_county']}}">
+
+
         <div class="col-lg-4 col-sm-12">
             <div class="col-auto">
                 <label class="sr-only" for="name">Name</label>
@@ -41,7 +44,7 @@
                     </div>
                     <input type="text" class="form-control form-control-lg border_bottom_only" id="name" name="name"
                            placeholder="Name"
-                           required>
+                           required value="{{session['form_name']}}">
                 </div>
             </div>
 
@@ -52,7 +55,7 @@
                         <div class="input-group-text bg-transparent border_bottom_only"><i class="fas fa-at"></i></div>
                     </div>
                     <input type="email" class="form-control form-control-lg border_bottom_only" id="email" name="email"
-                           placeholder="Email" required>
+                           placeholder="Email" required value="{{session['form_email']}}">
                 </div>
             </div>
 
@@ -69,44 +72,12 @@
                            placeholder="Password" name="password" required>
                 </div>
             </div>
-            <div class="form-group bg-light">
-                <div class="col-auto">
-                    <label class="sr-only" for="password">Password</label>
-                    <div class="input-group mb-2">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text bg-transparent border_bottom_only">
-                                <i class="fas fa-heart"></i>
-                            </div>
-                        </div>
 
-                        <input type="text" class="form-control  border_bottom_only bg-transparent sign_up"
-                               id="feeling_holder" name="user_feel"
-                               placeholder="How do you feel?" required>
-                    </div>
-                </div>
-
-
-                <div class="d-flex  justify-content-center align-items-center">
-                    <label class="sr-only" for="feeling">feeling</label>
-                    <div class="input-group mb-2">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text no_border bg-transparent">
-                                <img class="globi_icon" src="{{url_for('static', filename='images/sad.png')}}"/>
-                            </div>
-                        </div>
-                        <input type="range" min="1" max="100"
-                               class="custom-range" id="feeling">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text no_border bg-transparent">
-                                <img class="globi_icon" src="{{url_for('static', filename='images/happy.png')}}"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+            <!--feelometer-->
+              {{ feelometer() }}
             <div class="mt-5">
-                <button class="btn app_blue text-light pt-3 pb-3 pr-5 pl-5 float-right" title="Have a great day!">Sign
+                <button class="btn bg_blue text-light pt-3 pb-3 pr-5 pl-5 float-right smaller_h"
+                        title="Have a great day!">Sign
                     up!
                 </button>
             </div>
@@ -133,5 +104,10 @@
         integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
         src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
 ></script>
-<script src="{{url_for('static', filename='dist/js/sign_up.js')}}"></script>
+<!--<script src="{{url_for('static', filename='dist/js/sign_up.js')}}"></script>-->
+
+<script src="{{url_for('static', filename='src/js/sign_up/get_location.js')}}"></script>
+<script src="{{url_for('static', filename='src/js/shared/feelometer.js')}}"></script>
+
+
 {% endblock %}

@@ -69,9 +69,11 @@
             //             } );
 
 
-
 //				TO PREVENT PAGE FROM RELOADING AND CLEARING LOCATION DETAILS FROM THE FORM
 
+					/*ON MOBILE DEVICES USER WOULDN'T SEE ADDRESS DIV , WHERE HE NEEDS TO INPUT PROPERTY NAME
+					 * SO TO MAKE IT EASIER WE WILL SCROLL TO THAT DIV*/
+					$ ( '#location_n' ).get ( 0 ).scrollIntoView ();
             return false;
 
         });
@@ -81,7 +83,7 @@
 
 
     /*GETTING ADDRESS DETAILS FORM nominatim.openstreetmap.org/reverse API */
-    function getAddress(url, coordinates) {
+    function getAddress(url) {
 
 
         var xhr = new XMLHttpRequest();
@@ -99,7 +101,7 @@
 
                 var address_data = JSON.parse(this.responseText).address;
 
-                render_location_details(address_data, coordinates);
+                render_location_details(address_data);
 
                 /*CLOSING LOADER GIF ALERT*/
                 swal.close();
@@ -133,11 +135,25 @@
 
 /*APPENDING ADDRESS DETAILS TO THE FORM
  * WE MAKE COUNTRY, COUNTY OR STATE*/
-function render_location_details(address_data, coordinates, owner = false) {
+function render_location_details(address_data) {
 
-    $('#country').val(address_data['country'])
-    $('#county').val(address_data ['state'] || address_data['county'])
-    $('#location_n').val(address_data['country'] + ' - ' + address_data ['state'] || address_data['county'])
+   /*if user selects part of the map without location data ( sea , mountain range ...)
+   * we will inform him to try again and add text-danger to bring his attention to it*/
+    if (address_data === undefined) {
+        $('#location_n').val('Please try again!Could not get your location.').addClass('text-danger')
+    } else {
+        $('#country').val(address_data['country'])
+
+        /*in data coming in from nominatim there could be state or county missing, but always at least one
+        * of them so we need to check for it and display one of them in order : first state, then
+        * available county*/
+        var county = address_data ['state'] !== undefined ? address_data ['state'] :
+            address_data ['county'] !== undefined ?  address_data ['county'] : "";
+
+        $('#county').val(county)
+        $('#location_n').val(address_data['country'] + ' - ' +   county)
+            .removeClass('text-danger')
+    }
 
 
 }

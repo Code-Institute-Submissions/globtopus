@@ -30,20 +30,49 @@
     <body>
         <header>
             <div class="container">
+
                 <nav class="navbar navbar-expand-sm ">
                     <a class="navbar-brand" href="{{url_for('index')}}">
-                        <img src="{{url_for('static', filename='images/gloptopus_logo.gif')}}"/>
+                        <img class="globi_logo" src="{{url_for('static', filename='src/images/gloptopus_logo.gif')}}"/>
                     </a>
-                    <button class="navbar-toggler gl_toggler" type="button" data-toggle="collapse" data-target="#g_nav"
+                    <button class="navbar-toggler gl_toggler mr-auto" type="button" data-toggle="collapse"
+                            data-target="#g_nav"
                             aria-controls="g_nav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="smaller_h text-light gl_button ">m</span>
+                        <span class="smaller_h blue">menu</span>
                     </button>
 
                     <div class="collapse navbar-collapse" id="g_nav">
                         <ul class="navbar-nav mr-auto">
 
                         </ul>
-                        <ul class="navbar-nav form-inline my-2 my-md-0">
+                        <ul class="navbar-nav form-inline my-2 my-md-0 ">
+                            <!--nev nav-->
+
+
+                            {% if session.get('authorized_user') %}
+                            <a class=" dropdown-toggle caret-off " href="#"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <div id="initials"
+                                     data-cy="user_nav"
+                                     class="user_initials d-flex justify-content-center align-items-center"
+                                >
+                                    {{initials}}
+                                </div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" id="user_drop_down"
+                                 aria-labelledby="initials">
+                                <h6 class="dropdown-header blue" id="user_name">
+                                    <i class="fa fa-user "></i> &nbsp; {{session['user_name']}}</h6>
+                                <div class="dropdown-divider"></div>
+                                <a id="login_details" data-cy="logout"
+                                   class="dropdown-item ___ blue" href="{{url_for('logout')}}" data-title="Log out"
+                                   data-text="Log out" >Log out</a>
+                                 <div class="dropdown-divider"></div>
+                                 <div class="user_heart d-flex justify-content-center align-items-center">{{session['user_feel']}}</div>
+
+
+                            </div>
+                             {% else %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{{url_for('sign_in')}}">Sign in </a>
                             </li>
@@ -53,6 +82,10 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{url_for('sign_up')}}">Sign up </a>
                             </li>
+                            {% endif %}
+
+
+
                         </ul>
                     </div>
                 </nav>
@@ -61,11 +94,58 @@
 
         </header>
         <div class="container">
-            {% block title %}
-
+            {% block errors %}
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul class="list-group">
+                {% for message in messages %}
+                <li class="list-group-item list-group-item-danger">{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
             {% endblock %}
 
-            <!--TO DO : MAKE MACRO FOR FEELOMETER-->
+            {% macro feelometer() -%}
+                <!--feelometer-->
+                        <div class="form-group bg-light">
+                            <div class="col-auto">
+
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text bg-transparent border_bottom_only">
+                                            <i class="fas fa-heart"></i>
+                                        </div>
+                                    </div>
+
+                                    <input type="text" class="form-control  border_bottom_only bg-transparent  text-center"
+                                           id="feeling_holder" name="user_feel"
+                                           placeholder="?"  readonly required>
+                                </div>
+                            </div>
+
+
+                            <div class="d-flex  justify-content-center align-items-center">
+                                <label class="sr-only" for="feeling">feeling</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text no_border bg-transparent">
+                                            <img class="globi_icon" src="{{url_for('static', filename='src/images/sad.png')}}"/>
+                                        </div>
+                                    </div>
+                                    <input type="range" min="1" max="100"
+                                           class="custom-range" id="feeling">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text no_border bg-transparent">
+                                            <img class="globi_icon" src="{{url_for('static', filename='src/images/happy.png')}}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+            {%- endmacro %}
+
             {% block content %}
 
             {% endblock %}
@@ -86,7 +166,7 @@
                 src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         ></script>
         <!--SWEETALERT JS-->
-        <script src = "https://cdn.jsdelivr.net/npm/sweetalert2@9"></script >
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
         {% block js %}
 
         {% endblock %}

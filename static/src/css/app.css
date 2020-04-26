@@ -62,7 +62,7 @@ h2, h3, h4 {
     background-position: center center;
     background-size: 60%;
     background-repeat: no-repeat;
-    background-image: url("../../images/globe_2.png");
+    background-image: url("../images/globe_2.png");
 }
 
 .hearth {
@@ -87,10 +87,11 @@ h2, h3, h4 {
 }
 
 #feeling_holder {
-    font-size: 2em;
+    font-size: 1.6em;
     font-family: Oswald, sans-serif;
     text-transform: uppercase;
     letter-spacing: 4px;
+    padding-right: 55px;
 }
 #feeling_holder.sign_up {
      font-size: 1.25em;
@@ -128,15 +129,57 @@ h2, h3, h4 {
 }
 
 .gl_toggler {
-    margin-top: -30px;
+    margin-top: -20px;
+
+    width: 50px;
+
+}
+.navbar-toggler-icon{
+
 }
 #map_sign_up {
 	height: 400px;
 
 	}
-.app_blue{
+/*app specific color classes*/
+.bg_blue{
     background-color: #177199;
 }
+.blue{
+    color: #177199;
+}
+.border_blue{
+    border: 1px solid #177199;
+}
+.user_initials {
+	width: 2.8rem;
+	height: 2.8rem;
+	border-radius: 1.4rem;
+	background-color: transparent;
+    color: #177199;
+
+    border: solid 1px rgba(111, 227, 0, 1);
+	}
+.dropdown-item:hover {
+	background-color: rgba(23, 113, 153, 0.7);
+	text-decoration: none;
+    color: whitesmoke;
+	}
+.user_heart{
+    height: 50px;
+    background-position: center center;
+    background-size: 30%;
+    background-repeat: no-repeat;
+    background-image: url("../images/hearth.png");
+}
+/*REMOVING CARET FROM DROPDOWN UNDER USER ICON IN THE TOP RIGHT CORNER OF NAVIGATION*/
+.caret-off::before {
+	display: none;
+	}
+
+.caret-off::after {
+	display: none;
+	}
 /*CUSTOMIZING LEAFLET'S CSS FOR STYLING POPUPS*/
 .popup_class .leaflet-popup-tip, .popup_class .leaflet-popup-content-wrapper {
 	background-color: rgba(23, 113, 153, 0.8);

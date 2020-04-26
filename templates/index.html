@@ -44,31 +44,11 @@
                     <h4 class="smaller_h text-center">How do you feel?</h4>
                     <hr>
 
-                    <input type="text" id="feeling_holder" name="user_feel" required placeholder="?"
-                           readonly class="text-center form-control bg-transparent no_border ">
-                    <div class="form-group bg-light">
+                      {{ feelometer() }}
 
 
-                        <div class="d-flex  justify-content-center align-items-center">
-                            <label class="sr-only" for="feeling">feeling</label>
-                            <div class="input-group mb-2">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text no_border bg-transparent">
-                                        <img class="globi_icon" src="{{url_for('static', filename='images/sad.png')}}"/>
-                                    </div>
-                                </div>
-                                <input type="range"  min="1" max="100"
-                                       class="custom-range" id="feeling">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text no_border bg-transparent">
-                                        <img class="globi_icon" src="{{url_for('static', filename='images/happy.png')}}"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                    </div>
-                    <input type="text" class="form-control mb-1" form="user_feel" id="one" maxlength="100"
+                    <input type="text" class="form-control mb-1" form="user_feel" id="one"
                            name="i_feel" required
                            placeholder="I feel/ I feel like"
                            data-cy="description">

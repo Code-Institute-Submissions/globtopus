@@ -50,11 +50,25 @@ var admin = Object.assign ( {}, config, {
 	watch  : true
 } );
 
+var sign_up = Object.assign ( {}, config, {
+
+	entry  : [
+		'./static/src/js/sign_up/get_location.js',
+		'./static/src/js/shared/feelometer.js',
+
+	],
+	output : {
+		path     : path.resolve ( __dirname, 'static/dist/js' ),
+		filename : "sign_up.js"
+	},
+	watch  : true
+} );
+
 
 
 
 // Return Array of Configurations
 module.exports = [
-	index, user, admin
+	index, user, admin, sign_up
 
 ];
