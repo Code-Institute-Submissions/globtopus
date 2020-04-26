@@ -151,6 +151,8 @@ function render_location_details(address_data) {
             address_data ['county'] !== undefined ?  address_data ['county'] : "";
 
         $('#county').val(county)
+        $('#country_code').val(address_data['country_code'])
+
         $('#location_n').val(address_data['country'] + ' - ' +   county)
             .removeClass('text-danger')
     }
