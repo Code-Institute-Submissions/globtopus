@@ -120,7 +120,7 @@ def login():
         return redirect(url_for('user'))
     else:
         session['form_email'] = form_data['email']
-        flash('Please check your credentials')
+        flash('Please provide valid email and password')
         return redirect(url_for('sign_in'))
 
 
