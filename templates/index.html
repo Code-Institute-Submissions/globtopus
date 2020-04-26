@@ -101,8 +101,17 @@
 
                     ></textarea>
 
+                        {% if  session.get('authorized_user') %}
+                            <button class="gl_button float-right" type="submit" >submit</button>
+                        {% else %}
 
-                    <button class="gl_button float-right" type="submit">submit</button>
+                                <a class="" href="{{url_for('sign_in')}}">Sign in </a>
+
+                                or
+                                <a class="" href="{{url_for('sign_up')}}">Sign up </a>
+                                to  <span class="gl_button "  >submit</span>.
+
+                        {% endif %}
 
                 </div>
 

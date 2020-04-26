@@ -74,12 +74,39 @@ def today_f():
     return datetime.datetime.now().strftime("%F")
 
 
+def sanitize(string):
+    return string.replace(",", " ").replace(":", " ").replace(".", " ").replace(";", " ")
+
+
 @app.route('/add_your_feel', methods=['POST'])
 def add_your_feel():
     """INSERTING INTO FEELS TABLE"""
     form_data = request.form.to_dict()
+    if form_data['user_feel'] == '':
+
+
+        flash('Please select how you feel!')
+
+        return redirect(url_for('index'))
+
     form_data['user_email'] = session.get('user_email')
-    mongo.db.feels.insert_one(request.form.to_dict())
+    form_data['user_name'] = session.get('user_name')
+    form_data['i_feel'] = sanitize(form_data['i_feel']).split()
+    form_data['because'] = sanitize(form_data['because']).split()
+    teraz = datetime.datetime.now()
+    form_data['created_at'] = teraz
+
+    mongo.db.feels.insert_one(form_data)
+
+    mongo.db.feels.update(
+        {"user_name": session.get('user_name'),"created_at" : teraz},
+        {"$inc":
+             {"action_2_likes": 1,
+             }}
+        ,
+        upsert=True
+    )
+
     """INSERTING INTO WORLD FEEL FOR THE CURRENT DAY
        TO DO : IF LOGGED IN USER SUBMITS AGAIN JUST RECALCULATE FEELING
        WITHOUT ADDING EXTRA PERSON TO THE MIX 
@@ -97,6 +124,7 @@ def add_your_feel():
                         int(form_data['user_feel']) - int(session.get('user_feel')))
     session['user_feel'] = form_data["user_feel"]
 
+    flash('Thank you '+session.get('user_name') )
     return redirect(url_for('index'))
 
 
@@ -142,8 +170,6 @@ def login():
         flash('Please select how you feel!')
 
         return redirect(url_for('sign_in'))
-
-
 
     """if we have user with those credentials we will log user """
     if check_password_hash(user_password, form_data['password']) and user_email == form_data['email']:
