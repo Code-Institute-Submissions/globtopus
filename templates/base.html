@@ -29,29 +29,30 @@
     </head>
     <body>
         {% macro auth_user() -%}
-                <a class=" dropdown-toggle caret-off " href="#"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <div id="initials"
-                                     data-cy="user_nav"
-                                     class="user_initials d-flex justify-content-center align-items-center"
-                                >
-                                    {{initials}}
-                                </div>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right" id="user_drop_down"
-                                 aria-labelledby="initials">
-                                <h6 class="dropdown-header blue" id="user_name">
-                                    <i class="fa fa-user "></i> &nbsp; {{session['user_name']}}</h6>
-                                <div class="dropdown-divider"></div>
-                                <a id="login_details" data-cy="logout"
-                                   class="dropdown-item ___ blue" href="{{url_for('logout')}}" data-title="Log out"
-                                   data-text="Log out" >Log out</a>
-                                 <div class="dropdown-divider"></div>
-                                 <div class="user_heart d-flex justify-content-center align-items-center">{{session['user_feel']}}</div>
+        <a class=" dropdown-toggle caret-off " href="#"
+           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div id="initials"
+                 data-cy="user_nav"
+                 class="user_initials d-flex justify-content-center align-items-center dropdown-item"
+            >
+                {{session['initials']}}
+            </div>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" id="user_drop_down"
+             aria-labelledby="initials">
+            <a href="{{url_for('user')}}" class="dropdown-item blue">
+                <h6 class="" id="user_name">
+                    <i class="fa fa-user "></i> &nbsp; {{session['user_name']}}</h6></a>
+            <div class="dropdown-divider"></div>
+            <a id="login_details" data-cy="logout"
+               class="dropdown-item ___ blue" href="{{url_for('logout')}}" data-title="Log out"
+               data-text="Log out">Log out</a>
+            <div class="dropdown-divider"></div>
+            <div class="user_heart d-flex justify-content-center align-items-center">{{session['user_feel']}}</div>
 
 
-                            </div>
-            {%- endmacro %}
+        </div>
+        {%- endmacro %}
         <header>
             <div class="container">
 
@@ -69,10 +70,10 @@
                     </button>
                     {% else %}
                     <div class="d-block d-sm-none">
-                         {{auth_user()}}
+                        {{auth_user()}}
                     </div>
 
-                     {% endif %}
+                    {% endif %}
 
                     <div class="collapse navbar-collapse" id="g_nav">
                         <ul class="navbar-nav mr-auto">
@@ -83,17 +84,16 @@
 
 
                             {% if session.get('authorized_user') %}
-                                {{auth_user()}}
-                             {% else %}
+                            {{auth_user()}}
+                            {% else %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{{url_for('sign_in')}}">Sign in </a>
                             </li>
-                             |
+                            |
                             <li class="nav-item">
                                 <a class="nav-link" href="{{url_for('sign_up')}}">Sign up </a>
                             </li>
                             {% endif %}
-
 
 
                         </ul>
@@ -117,43 +117,43 @@
             {% endblock %}
 
             {% macro feelometer() -%}
-                <!--feelometer-->
-                        <div class="form-group bg-light">
-                            <div class="col-auto">
+            <!--feelometer-->
+            <div class="form-group bg-light">
+                <div class="col-auto">
 
-                                <div class="input-group mb-2">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text bg-transparent border_bottom_only">
-                                            <i class="fas fa-heart"></i>
-                                        </div>
-                                    </div>
-
-                                    <input type="text" class="form-control  border_bottom_only bg-transparent  text-center"
-                                           id="feeling_holder" name="user_feel"
-                                           placeholder="?"  readonly required>
-                                </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text bg-transparent border_bottom_only">
+                                <i class="fas fa-heart"></i>
                             </div>
-
-
-                            <div class="d-flex  justify-content-center align-items-center">
-                                <label class="sr-only" for="feeling">feeling</label>
-                                <div class="input-group mb-2">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text no_border bg-transparent">
-                                            <img class="globi_icon" src="{{url_for('static', filename='src/images/sad.png')}}"/>
-                                        </div>
-                                    </div>
-                                    <input type="range" min="1" max="100"
-                                           class="custom-range" id="feeling">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text no_border bg-transparent">
-                                            <img class="globi_icon" src="{{url_for('static', filename='src/images/happy.png')}}"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
+
+                        <input type="text" class="form-control  border_bottom_only bg-transparent  text-center"
+                               id="feeling_holder" name="user_feel"
+                               placeholder="?" readonly required>
+                    </div>
+                </div>
+
+
+                <div class="d-flex  justify-content-center align-items-center">
+                    <label class="sr-only" for="feeling">feeling</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text no_border bg-transparent">
+                                <img class="globi_icon" src="{{url_for('static', filename='src/images/sad.png')}}"/>
+                            </div>
+                        </div>
+                        <input type="range" min="1" max="100"
+                               class="custom-range" id="feeling">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text no_border bg-transparent">
+                                <img class="globi_icon" src="{{url_for('static', filename='src/images/happy.png')}}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
             {%- endmacro %}
 
             {% block content %}

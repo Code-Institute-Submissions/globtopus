@@ -151,6 +151,9 @@ h2, h3, h4 {
 .border_blue{
     border: 1px solid #177199;
 }
+a:hover{
+    text-decoration: none;
+}
 .user_initials {
 	width: 2.8rem;
 	height: 2.8rem;

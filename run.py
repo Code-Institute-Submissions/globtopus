@@ -271,9 +271,12 @@ def logout():
 def user():
     initials = ''
     user_initials = session.get('user_name').split(' ')
+
     for single in user_initials:
         initials += single[0]
-    return render_template('user.html', initials=initials)
+
+    session['initials'] =   initials
+    return render_template('user.html')
 
 
 if __name__ == '__main__':
