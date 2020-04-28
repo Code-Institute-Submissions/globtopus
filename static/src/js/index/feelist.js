@@ -24,7 +24,17 @@ $(function () {
             var results = $("#results").html('')
 
 
-            $.each(search_results, function (key, value) {
+            if(search_results.length == 0)
+            {
+                results.append(` 
+                <h4 class="smaller_h"> There are no actions for how you feeling now :
+                    <span class="blue">${$('input[name="search"]').val()}</span>  
+                    
+                    </h4>`)
+            }
+            else
+            {
+                 $.each(search_results, function (key, value) {
 
 
                 results.append(`
@@ -36,19 +46,19 @@ $(function () {
                           ${value.action_1 !== '' ?
                     `<span class="smaller_h">1.</span>`
                     + value.action_1
-                    + actions(value.action_1_likes, 1, value.id) : ''}
+                    + actions(value.action_1_likes,value.action_1_likes, 1, value.id) : ''}
                              
                             
                           
                           ${value.action_2 !== '' ?
                     `<span class="smaller_h">2.</span>`
                     + value.action_2
-                    + actions(value.action_2_likes, 2, value.id) : ''}
+                    + actions(value.action_2_likes,value.action_2_feelist, 2, value.id) : ''}
                               
                          ${value.action_3 !== '' ?
                     `<span class="smaller_h">3.</span>`
                     + value.action_3
-                    + actions(value.action_3_likes, 3, value.id) : ''}
+                    + actions(value.action_3_likes,value.action_3_likes, 3, value.id) : ''}
                          
                            
 
@@ -70,24 +80,42 @@ $(function () {
                 `)
 
             })
+            }
+
+
 
             $(function () {
                 $('.gl_action').on('click', function () {
+
                     var glob_id = $(this).attr('id')
                     var action_num = $(this).data('action_num')
+                    var action = $(this).data('action')
 
-                    $.getJSON('/_like_action', {
+
+                    $.getJSON('/_actions', {
                         glob_id: glob_id,
-                        action_num: action_num
+                        action_num: action_num,
+                        action: action
 
                     }, function (data) {
-                        var action = $('#like_' + data.result + '_' + action_num)
-                        /*user can only like the action once*/
-                        if (liked_actions.indexOf(data.result + '_' + action_num) === -1) {
+                        /*if user already likes the action we will
+                        * show feedback that he already liked it*/
 
-                            action.text(parseInt(action.text()) + 1).addClass('blue')
+                        if (data.result === 0) {
+                            swal.fire('you already ' + action + ' it')
+                        } else {
 
-                            liked_actions.push(data.result + '_' + action_num)
+                            var action_el = $('#'+action+'_' + data.result + '_' + action_num)
+
+
+                            /*user can only like the action once*/
+                            if (liked_actions.indexOf(action+'_'+ data.result + '_' + action_num) === -1) {
+                                /*update count of likes on the screen for user to see*/
+                                action_el.text(parseInt(action_el.text()) + 1).addClass('blue')
+
+                                liked_actions.push(action+'_' +data.result + '_' + action_num)
+                            }
+
 
                         }
 
@@ -101,16 +129,18 @@ $(function () {
         return false;
     });
 
-    function actions(likes, action_num, id) {
+    function actions(likes,feelist, action_num, id) {
 
         return `       
-                            <i  id="${id}" data-action_num="${action_num}"
+                            <i  id="${id}" data-action_num="${action_num}" data-action="likes"
                             class="fas fa-heart float-right ml-3 gl_action" title="like it!" >
-                            <span id="like_${id}_${action_num}" >&nbsp;${likes}</span> </i> 
+                            <span id="likes_${id}_${action_num}" >&nbsp;${likes}</span> </i> 
           
-                            <i   id="${id}"  data-action_num="${action_num}"
-                            class="fas fa-plus float-right ml-3 gl_action" title="add to your feelist!"></i>
-                            <i  id="${id}" data-action_num="${action_num}"
+                            <i   id="${id}"  data-action_num="${action_num}" data-action="feelist"
+                            class="fas fa-plus float-right ml-3 gl_action" title="add to your feelist!">
+                            <span id="feelist_${id}_${action_num}" >&nbsp;${feelist}</span>
+                            </i>
+                            <i  id="${id}" data-action_num="${action_num}" data-action="flag"
                             class="far fa-flag float-right ml-3 gl_action" title="report as inappropriate"></i>
                              <hr >
                            `

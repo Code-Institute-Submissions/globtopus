@@ -96,22 +96,18 @@ def add_your_feel():
     form_data['action_1_likes'] = 0
     form_data['action_2_likes'] = 0
     form_data['action_3_likes'] = 0
+    form_data['action_1_flagged'] = 0
+    form_data['action_2_flagged'] = 0
     form_data['action_3_flagged'] = 0
-    form_data['action_3_flagged'] = 0
-    form_data['action_3_flagged'] = 0
-    teraz = datetime.datetime.now()
-    form_data['created_at'] = teraz
+    form_data['action_1_feelist'] = 0
+    form_data['action_2_feelist'] = 0
+    form_data['action_3_feelist'] = 0
+    day = datetime.datetime.now()
+    form_data['created_at'] = day
 
     mongo.db.feels.insert_one(form_data)
 
-    mongo.db.feels.update(
-        {"user_name": session.get('user_name'), "created_at": teraz},
-        {"$inc":
-             {"action_2_likes": 1,
-              }}
-        ,
-        upsert=True
-    )
+
 
     """INSERTING INTO WORLD FEEL FOR THE CURRENT DAY
        TO DO : IF LOGGED IN USER SUBMITS AGAIN JUST RECALCULATE FEELING
@@ -366,40 +362,46 @@ def logout():
 def user():
     initials = ''
     user_initials = session.get('user_name').split(' ')
-    user = mongo.db.users.find_one({'email': session.get('user_email')})
+    authorized_user = mongo.db.users.find_one({'email': session.get('user_email')})
     today = datetime.datetime.now().strftime("%F")
     for single in user_initials:
         initials += single[0]
 
     session['initials'] = initials
-    return render_template('user.html', user=user, today=today)
+    return render_template('user.html', user=authorized_user, today=today)
 
 
-"""searching for feelists"""
+"""user likes action or adds action to his feelist"""
 
 
-@app.route('/search_results')
-def search_results():
-    q = request.args.get('q', 0, type=str)
-
-    feelists = mongo.db.feels.find(
-        {"i_feel": {"$in": ['sleep']}}
-
-    )
-    return render_template('search_results.html', feelists=feelists)
-
-
-"""user likes the action"""
-
-@app.route('/_like_action')
-def like_action():
+@app.route('/_actions')
+def actions():
     action_num = request.args.get('action_num', 0, type=str)
     glob_id = request.args.get('glob_id', 0, type=str)
+    action = request.args.get('action', 0, type=str)
 
+    """check if user already liked/added action to his feelist"""
+
+    alreday_added = mongo.db.users.find_one(
+        {"email": session.get('user_email'), action+"." + glob_id: {"$in": [action_num]}},
+
+    )
+    if alreday_added:
+        return jsonify(result=0)
+
+    """update user likes/feelist if it is new like"""
+    mongo.db.users.update(
+        {"email": session.get('user_email')},
+        {"$push": {action+'.' + glob_id: action_num}}
+        ,
+        upsert=True
+    )
+
+    """update feel likes/feelists if it is new like"""
     mongo.db.feels.update(
         {"_id": ObjectId(glob_id)},
         {"$inc":
-             {"action_" + action_num + "_likes": 1,
+             {"action_" + action_num + "_"+action: 1,
               }}
         ,
         upsert=True
@@ -441,6 +443,9 @@ def search():
                 'action_1_likes': str(feel['action_1_likes']),
                 'action_2_likes': str(feel['action_2_likes']),
                 'action_3_likes': str(feel['action_3_likes']),
+                'action_1_feelist': str(feel['action_1_feelist']) ,
+                'action_2_feelist': str(feel['action_2_feelist']) ,
+                'action_3_feelist': str(feel['action_3_feelist']) ,
 
             }
         )
