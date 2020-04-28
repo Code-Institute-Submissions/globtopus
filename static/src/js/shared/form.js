@@ -15,7 +15,6 @@
         if (placeholder_text !== '' &&  $("label[for='" + element_id + "']").text().length === 0) {
 
             sessionStorage.setItem(element_id,placeholder_text)
-            console.log('WE HAVE PLACEHOLDER : ' + placeholder_text)
             $(this).prop('placeholder', '')
             $('#' + div).before(` <label for=${element_id} ><small>${placeholder_text}</small></label>`)
         }

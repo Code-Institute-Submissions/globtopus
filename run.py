@@ -1,6 +1,8 @@
 import os
+import string
 
-from flask import Flask, render_template, redirect, url_for, request, flash, session, json
+from bson import ObjectId
+from flask import Flask, render_template, redirect, url_for, request, flash, session, json, jsonify
 from flask_pymongo import PyMongo
 import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -83,8 +85,6 @@ def add_your_feel():
     """INSERTING INTO FEELS TABLE"""
     form_data = request.form.to_dict()
     if form_data['user_feel'] == '':
-
-
         flash('Please select how you feel!')
 
         return redirect(url_for('index'))
@@ -93,16 +93,22 @@ def add_your_feel():
     form_data['user_name'] = session.get('user_name')
     form_data['i_feel'] = sanitize(form_data['i_feel']).split()
     form_data['because'] = sanitize(form_data['because']).split()
+    form_data['action_1_likes'] = 0
+    form_data['action_2_likes'] = 0
+    form_data['action_3_likes'] = 0
+    form_data['action_3_flagged'] = 0
+    form_data['action_3_flagged'] = 0
+    form_data['action_3_flagged'] = 0
     teraz = datetime.datetime.now()
     form_data['created_at'] = teraz
 
     mongo.db.feels.insert_one(form_data)
 
     mongo.db.feels.update(
-        {"user_name": session.get('user_name'),"created_at" : teraz},
+        {"user_name": session.get('user_name'), "created_at": teraz},
         {"$inc":
              {"action_2_likes": 1,
-             }}
+              }}
         ,
         upsert=True
     )
@@ -124,7 +130,7 @@ def add_your_feel():
                         int(form_data['user_feel']) - int(session.get('user_feel')))
     session['user_feel'] = form_data["user_feel"]
 
-    flash('Thank you '+session.get('user_name') )
+    flash('Thank you ' + session.get('user_name'))
     return redirect(url_for('index'))
 
 
@@ -360,12 +366,86 @@ def logout():
 def user():
     initials = ''
     user_initials = session.get('user_name').split(' ')
-
+    user = mongo.db.users.find_one({'email': session.get('user_email')})
+    today = datetime.datetime.now().strftime("%F")
     for single in user_initials:
         initials += single[0]
 
     session['initials'] = initials
-    return render_template('user.html')
+    return render_template('user.html', user=user, today=today)
+
+
+"""searching for feelists"""
+
+
+@app.route('/search_results')
+def search_results():
+    q = request.args.get('q', 0, type=str)
+
+    feelists = mongo.db.feels.find(
+        {"i_feel": {"$in": ['sleep']}}
+
+    )
+    return render_template('search_results.html', feelists=feelists)
+
+
+"""user likes the action"""
+
+@app.route('/_like_action')
+def like_action():
+    action_num = request.args.get('action_num', 0, type=str)
+    glob_id = request.args.get('glob_id', 0, type=str)
+
+    mongo.db.feels.update(
+        {"_id": ObjectId(glob_id)},
+        {"$inc":
+             {"action_" + action_num + "_likes": 1,
+              }}
+        ,
+        upsert=True
+    )
+
+    return jsonify(result=glob_id)
+
+
+@app.route('/_search')
+def search():
+    q = request.args.get('q', 0, type=str)
+
+    results = []
+
+    feelists = mongo.db.feels.find(
+
+        {"$or": [
+            {"i_feel": {"$in": [q]}},
+            {"because": {"$in": [q]}}
+        ]}
+    )
+    # obj_id = "5ea738942f3d6b576e209382"
+    # feelists = mongo.db.feels.find(
+    #
+    #     {"_id": ObjectId(obj_id)}
+    # )
+
+    for feel in feelists:
+        results.append(
+            {
+                'id': str(feel['_id']),
+                'user_name': str(feel['user_name']),
+                'user_feel': int(feel['user_feel']),
+                'feelings': feel['i_feel'],
+                'because': (' ').join(feel['because']),
+                'action_1': str(feel['action_1']),
+                'action_2': str(feel['action_2']),
+                'action_3': str(feel['action_3']),
+                'action_1_likes': str(feel['action_1_likes']),
+                'action_2_likes': str(feel['action_2_likes']),
+                'action_3_likes': str(feel['action_3_likes']),
+
+            }
+        )
+
+    return jsonify(result=results)
 
 
 if __name__ == '__main__':
