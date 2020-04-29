@@ -93,21 +93,20 @@ def add_your_feel():
     form_data['user_name'] = session.get('user_name')
     form_data['i_feel'] = sanitize(form_data['i_feel']).split()
     form_data['because'] = sanitize(form_data['because']).split()
-    form_data['action_1_likes'] = 0
-    form_data['action_2_likes'] = 0
-    form_data['action_3_likes'] = 0
-    form_data['action_1_flagged'] = 0
-    form_data['action_2_flagged'] = 0
-    form_data['action_3_flagged'] = 0
-    form_data['action_1_feelist'] = 0
-    form_data['action_2_feelist'] = 0
-    form_data['action_3_feelist'] = 0
+    form_data['actions'] = {'text': [form_data['action_1'], form_data['action_2'], form_data['action_3']]}
+    # form_data['action_1_likes'] = 0
+    # form_data['action_2_likes'] = 0
+    # form_data['action_3_likes'] = 0
+    # form_data['action_1_flag'] = 0
+    # form_data['action_2_flag'] = 0
+    # form_data['action_3_flag'] = 0
+    # form_data['action_1_feelist'] = 0
+    # form_data['action_2_feelist'] = 0
+    # form_data['action_3_feelist'] = 0
     day = datetime.datetime.now()
     form_data['created_at'] = day
 
     mongo.db.feels.insert_one(form_data)
-
-
 
     """INSERTING INTO WORLD FEEL FOR THE CURRENT DAY
        TO DO : IF LOGGED IN USER SUBMITS AGAIN JUST RECALCULATE FEELING
@@ -150,47 +149,53 @@ def sign_in():
 def login():
     form_data = request.form.to_dict()
 
-    form_data['last_login'] = datetime.datetime.now()
-
     user_to_check = mongo.db.users.find({"email": form_data['email']})
 
-    user_password = ''
-    user_name = ''
-    user_email = ''
-
-    for item in user_to_check:
-        user_password = item['password']
-        user_name = item['name']
-        user_email = item['email']
-        last_login = item['last_login']
-        country_code = item['country_code']
-        user_feel = item['user_feel']
-
     if form_data['user_feel'] == '':
+        """remembering user email and displaying it 
+        in the form or redirect, so that user doesn't have to type 
+        it again"""
         session['form_email'] = form_data['email']
 
         flash('Please select how you feel!')
 
         return redirect(url_for('sign_in'))
 
+    form_data['last_login'] = datetime.datetime.now()
+    user_password = ''
+    user_name = ''
+    user_email = ''
+
+    for field in user_to_check:
+        user_password = field['password']
+        user_name = field['name']
+        user_email = field['email']
+        last_login = field['last_login']
+        country_code = field['country_code']
+
+        user_feelist = field['feelist']
+        last_feel = field['last_feel']
     """if we have user with those credentials we will log user """
     if check_password_hash(user_password, form_data['password']) and user_email == form_data['email']:
 
         mongo.db.users.update(
             {"email": user_email},
-            {"$set": {'last_login': datetime.datetime.now(), 'user_feel.' + today_f(): form_data['user_feel']}})
+            {"$set": {'last_login': datetime.datetime.now(), 'user_feel.' + today_f(): form_data['user_feel']}},
+            upsert=True
+        )
 
         session.clear()
 
         session['user_name'] = user_name
         session['last_login'] = last_login
         session['user_country_code'] = country_code
+        session['user_feelist'] = user_feelist
 
         session_user(form_data)
         """updating country feel"""
-        update_country_feel(country_code, 0, int(form_data['user_feel']) - int(user_feel[today_f()]))
+        update_country_feel(country_code, 0, int(form_data['user_feel']) - int(last_feel))
         """updating world feel"""
-        update_world_feel(0, int(form_data['user_feel']) - int(user_feel[today_f()]))
+        update_world_feel(0, int(form_data['user_feel']) - int(last_feel))
 
         session['user_feel'] = form_data['user_feel']
 
@@ -320,24 +325,28 @@ def register():
         form_data['created_at'] = datetime.datetime.now()
         form_data['last_login'] = datetime.datetime.now()
         form_data['password'] = generate_password_hash('password')
+        form_data['feelist'] = {}
 
-        session_user(form_data)
+        session_user(form_data, True)
 
         form_data['user_feel'] = {datetime.datetime.now().strftime("%F"): form_data['user_feel']}
+        form_data['last_feel'] = form_data['user_feel']
 
         mongo.db.users.insert_one(form_data)
-
-        session['user_name'] = form_data['name']
-        session['last_login'] = form_data['last_login']
-        session['user_country_code'] = form_data['country_code']
 
         return redirect(url_for('user'))
 
 
-def session_user(form_data):
+def session_user(form_data, register=False):
     session['authorized_user'] = True
     session['user_email'] = form_data['email']
     session['user_feel'] = form_data['user_feel']
+
+    if register:
+        session['user_name'] = form_data['name']
+        session['last_login'] = form_data['last_login']
+        session['user_country_code'] = form_data['country_code']
+        session['user_feelist'] = form_data['feelist']
 
 
 def sticky_form(form_data):
@@ -354,6 +363,12 @@ def sticky_form(form_data):
 
 @app.route('/logout')
 def logout():
+    """recording users last feel before logout"""
+    mongo.db.users.update(
+        {"email": session.get('user_email')},
+        {"$set": {'last_feel': session.get('user_feel')}}
+
+    )
     session.clear()
     return redirect(url_for('index'))
 
@@ -368,6 +383,8 @@ def user():
         initials += single[0]
 
     session['initials'] = initials
+    session['user_feelist'] = authorized_user['feelist']
+
     return render_template('user.html', user=authorized_user, today=today)
 
 
@@ -379,20 +396,33 @@ def actions():
     action_num = request.args.get('action_num', 0, type=str)
     glob_id = request.args.get('glob_id', 0, type=str)
     action = request.args.get('action', 0, type=str)
+    feel_list = request.args.get('feel_list', 0, type=str)
+
+    if not session.get('authorized_user'):
+        return jsonify(result='not_authorized')
+
+    """if we have feelist we will update feelist object (it is one level deeper then likes
+    that's why ...)"""
+    if feel_list:
+        field_to_update = action + '.' + feel_list + '.' + glob_id
+
+        """if we do not have feelist we will update likes object"""
+    else:
+        field_to_update = action + '.' + glob_id
 
     """check if user already liked/added action to his feelist"""
 
     alreday_added = mongo.db.users.find_one(
-        {"email": session.get('user_email'), action+"." + glob_id: {"$in": [action_num]}},
+        {"email": session.get('user_email'), field_to_update: {"$in": [action_num]}},
 
     )
     if alreday_added:
-        return jsonify(result=0)
+        return jsonify(result='already_added')
 
     """update user likes/feelist if it is new like"""
     mongo.db.users.update(
         {"email": session.get('user_email')},
-        {"$push": {action+'.' + glob_id: action_num}}
+        {"$push": {field_to_update: action_num}}
         ,
         upsert=True
     )
@@ -401,7 +431,7 @@ def actions():
     mongo.db.feels.update(
         {"_id": ObjectId(glob_id)},
         {"$inc":
-             {"action_" + action_num + "_"+action: 1,
+             {"action_" + action_num + "_" + action: 1,
               }}
         ,
         upsert=True
@@ -443,14 +473,19 @@ def search():
                 'action_1_likes': str(feel['action_1_likes']),
                 'action_2_likes': str(feel['action_2_likes']),
                 'action_3_likes': str(feel['action_3_likes']),
-                'action_1_feelist': str(feel['action_1_feelist']) ,
-                'action_2_feelist': str(feel['action_2_feelist']) ,
-                'action_3_feelist': str(feel['action_3_feelist']) ,
+                'action_1_feelist': str(feel['action_1_feelist']),
+                'action_2_feelist': str(feel['action_2_feelist']),
+                'action_3_feelist': str(feel['action_3_feelist']),
+                'action_1_flag': str(feel['action_1_flag']),
+                'action_2_flag': str(feel['action_2_flag']),
+                'action_3_flag': str(feel['action_3_flag']),
 
             }
         )
 
-    return jsonify(result=results)
+    return jsonify(result=results,
+                   feelists=session.get('user_feelist') if session.get('user_feelist') else {},
+                   authorized_user=True if session.get('authorized_user') else False)
 
 
 if __name__ == '__main__':

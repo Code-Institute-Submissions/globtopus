@@ -11,10 +11,16 @@
                 {{day}} {{user.user_feel[day]}}
                 <br>
 
-                {% endfor %}
+             {% endfor %}
             </li>
             <li class="list-group-item no_border">My Actions</li>
-            <li class="list-group-item no_border">My Feelist</li>
+            <li class="list-group-item no_border list-group-item-primary">My Feelist
+                <hr>
+            {% for feelist in user.feelist %}
+                {{feelist}}
+                <br>
+            {% endfor %}
+            </li>
             <li class="list-group-item no_border">My Favourites</li>
             <li class="list-group-item no_border">My Progress</li>
             <li class="list-group-item no_border ">last login : <small> {{user.last_login}}</small></li>
