@@ -1,6 +1,6 @@
 /*FUNCTIONS TO SHOW DIV WITH SEARCH FIELD FOR FEELISTS*/
 
-(function () {
+$(function () {
     $('#feelist').on('click', function () {
         alert('hello')
 
@@ -10,7 +10,7 @@
     })
 
 
-})()
+})
 
 /*FUNCTION FOR INTERACTION WITH GLOBS ( USER POSTS ABOUT HOW THEY FEEL ...)
 *
