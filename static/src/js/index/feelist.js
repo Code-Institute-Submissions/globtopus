@@ -2,7 +2,6 @@
 
 $(function () {
     $('#feelist').on('click', function () {
-        alert('hello')
 
         /*AND FOR MOBILE DEVICES WE NEED TO SCROLL TO SEARCH RESULTS*/
         $('#feelist_search').toggleClass('d-none').get(0).scrollIntoView();
