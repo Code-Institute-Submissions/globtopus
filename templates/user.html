@@ -2,13 +2,28 @@
 <div class="row">
     <div class="col-md-4 border_blue">
         <ul class="list-group">
-            <li class="list-group-item no_border mb-1">{{session['user_name']}}</li>
-            <li class="list-group-item no_border">How I Feel</li>
+
+            <li class="list-group-item no_border mb-1">{{user.name}}</li>
+            <li class="list-group-item no_border">How I Feel today : {{user.user_feel[today]}}
+                <hr>
+            {% for day in user.user_feel %}
+
+                {{day}} {{user.user_feel[day]}}
+                <br>
+
+             {% endfor %}
+            </li>
             <li class="list-group-item no_border">My Actions</li>
-            <li class="list-group-item no_border">My Feelist</li>
+            <li class="list-group-item no_border list-group-item-primary">My Feelist
+                <hr>
+            {% for feelist in user.feelist %}
+                {{feelist}}
+                <br>
+            {% endfor %}
+            </li>
             <li class="list-group-item no_border">My Favourites</li>
             <li class="list-group-item no_border">My Progress</li>
-            <li class="list-group-item no_border ">last login : <small>{{session['last_login']}}</small></li>
+            <li class="list-group-item no_border ">last login : <small> {{user.last_login}}</small></li>
 
         </ul>
     </div>

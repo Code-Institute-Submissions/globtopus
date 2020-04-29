@@ -16,7 +16,8 @@ var config = {
 var index = Object.assign ( {}, config, {
 	
 	entry  : [
-		'./static/src/js/index.js',
+		'./static/src/js/index/index.js',
+		'./static/src/js/index/feelist.js',
 		'./static/src/js/shared/form.js',
 
 	],
