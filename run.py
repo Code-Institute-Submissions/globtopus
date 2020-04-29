@@ -6,6 +6,7 @@ from flask import Flask, render_template, redirect, url_for, request, flash, ses
 from flask_pymongo import PyMongo
 import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
+import re
 
 app = Flask(__name__)
 app.config['MONGO_DBNAME'] = os.getenv('MONGO_DBNAME')
@@ -77,7 +78,14 @@ def today_f():
 
 
 def sanitize(string):
-    return string.replace(",", " ").replace(":", " ").replace(".", " ").replace(";", " ")
+    """REMOVING ALL NON ALPHA-NUMERIC
+    https://stackoverflow.com/questions/1276764/stripping-everything-but-alphanumeric-chars-from-a-string-in-python
+    """
+    santized = []
+    for stringy in string.split():
+        santized.append(re.sub(r'\W+', '',stringy).lower())
+    return santized
+
 
 
 @app.route('/add_your_feel', methods=['POST'])
@@ -91,18 +99,18 @@ def add_your_feel():
 
     form_data['user_email'] = session.get('user_email')
     form_data['user_name'] = session.get('user_name')
-    form_data['i_feel'] = sanitize(form_data['i_feel']).split()
-    form_data['because'] = sanitize(form_data['because']).split()
+    form_data['i_feel'] = sanitize(form_data['i_feel'])
+    form_data['because'] = sanitize(form_data['because'])
     form_data['actions'] = {'text': [form_data['action_1'], form_data['action_2'], form_data['action_3']]}
-    # form_data['action_1_likes'] = 0
-    # form_data['action_2_likes'] = 0
-    # form_data['action_3_likes'] = 0
-    # form_data['action_1_flag'] = 0
-    # form_data['action_2_flag'] = 0
-    # form_data['action_3_flag'] = 0
-    # form_data['action_1_feelist'] = 0
-    # form_data['action_2_feelist'] = 0
-    # form_data['action_3_feelist'] = 0
+    form_data['action_1_likes'] = 0
+    form_data['action_2_likes'] = 0
+    form_data['action_3_likes'] = 0
+    form_data['action_1_flag'] = 0
+    form_data['action_2_flag'] = 0
+    form_data['action_3_flag'] = 0
+    form_data['action_1_feelist'] = 0
+    form_data['action_2_feelist'] = 0
+    form_data['action_3_feelist'] = 0
     day = datetime.datetime.now()
     form_data['created_at'] = day
 
@@ -442,15 +450,15 @@ def actions():
 
 @app.route('/_search')
 def search():
-    q = request.args.get('q', 0, type=str)
+    q =  sanitize(request.args.get('q', 0, type=str).lower()) #array
 
     results = []
 
     feelists = mongo.db.feels.find(
 
         {"$or": [
-            {"i_feel": {"$in": [q]}},
-            {"because": {"$in": [q]}}
+            {"i_feel": {"$in": q}}, # q is array
+            {"because": {"$in": q}}# q is array
         ]}
     )
     # obj_id = "5ea738942f3d6b576e209382"
