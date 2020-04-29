@@ -82,7 +82,7 @@ def sanitize(string):
     https://stackoverflow.com/questions/1276764/stripping-everything-but-alphanumeric-chars-from-a-string-in-python
     """
     santized = []
-    for stringy in string.split():
+    for stringy in string.replace(',',' ').split():
         santized.append(re.sub(r'\W+', '',stringy).lower())
     return santized
 
