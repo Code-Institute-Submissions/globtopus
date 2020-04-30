@@ -16,13 +16,13 @@ var config = {
 var index = Object.assign ( {}, config, {
 	
 	entry  : [
-		'./static/src/js/index/index.js',
-		'./static/src/js/index/feelist.js',
-		'./static/src/js/shared/form.js',
+		'./static_old/src/js/index/index.js',
+		'./static_old/src/js/index/feelist.js',
+		'./static_old/src/js/shared/form.js',
 
 	],
 	output : {
-		path     : path.resolve ( __dirname, 'static/dist/js' ),
+		path     : path.resolve ( __dirname, 'static_old/dist/js' ),
 		filename : "index.js"
 	},
 	watch  : true
@@ -30,10 +30,10 @@ var index = Object.assign ( {}, config, {
 var user = Object.assign ( {}, config, {
 	
 	entry  : [
-		'./static/src/js/user.js',
+		'./static_old/src/js/user.js',
 	],
 	output : {
-		path     : path.resolve ( __dirname, 'static/dist/js' ),
+		path     : path.resolve ( __dirname, 'static_old/dist/js' ),
 		filename : "user.js"
 	},
 	watch  : true
@@ -42,11 +42,11 @@ var user = Object.assign ( {}, config, {
 var admin = Object.assign ( {}, config, {
 	
 	entry  : [
-		'./static/src/js/user.js',
+		'./static_old/src/js/user.js',
 	
 	],
 	output : {
-		path     : path.resolve ( __dirname, 'static/dist/js' ),
+		path     : path.resolve ( __dirname, 'static_old/dist/js' ),
 		filename : "admin.js"
 	},
 	watch  : true
@@ -55,13 +55,13 @@ var admin = Object.assign ( {}, config, {
 var sign_up = Object.assign ( {}, config, {
 
 	entry  : [
-		'./static/src/js/sign_up/get_location.js',
-		'./static/src/js/shared/feelometer.js',
-		'./static/src/js/shared/form.js',
+		'./static_old/src/js/sign_up/get_location.js',
+		'./static_old/src/js/shared/feelometer.js',
+		'./static_old/src/js/shared/form.js',
 
 	],
 	output : {
-		path     : path.resolve ( __dirname, 'static/dist/js' ),
+		path     : path.resolve ( __dirname, 'static_old/dist/js' ),
 		filename : "sign_up.js"
 	},
 	watch  : true

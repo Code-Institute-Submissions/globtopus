@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+<!--CSS FOR SIGN UP PAGE-->
+{% block css %}
+<!--LEAFLET CSS-->
+<link
+        crossorigin=""
+        href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        rel="stylesheet"
+/>
+
+{% endblock %}
+
+{% block content %}
+<h4>Sign up</h4>
+
+<form action="{{url_for('auth_bp.register')}}" method="POST" id="user_feel">
+
+    <div class="row">
+        <div class="col-md-12">
+            <!--location input-->
+            <label class="sr-only" for="location_n">Location</label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text bg-transparent border_bottom_only"><i class="fas fa-globe"></i></div>
+                </div>
+                <span  class="form-control form-control-lg border_bottom_only bg-transparent form_label"
+                       id="location_n"
+
+
+                >{{session['form_location'] or 'Please select your state / county on the map'}}</span>
+            </div>
+        </div>
+        <input type="text" id="country_code" name="country_code"  class="d-none" value="{{session['form_country_code']}}">
+        <input type="text" id="country" name="country"  class="d-none" value="{{session['form_country']}}">
+        <input type="text" id="county" name="county"  class="d-none" value="{{session['form_county']}}">
+
+        <!--username input-->
+        <div class="col-lg-4 col-sm-12">
+            <div class="col-auto">
+
+                <div class="input-group mb-2 " id="name_label">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text bg-transparent border_bottom_only"><i class="fas fa-user"></i></i>
+                        </div>
+                    </div>
+                    <input type="text" data-label=1 class="form-control form-control-lg border_bottom_only form_label" id="name" name="name"
+                           placeholder="username"
+                           required value="{{session['form_name']}}">
+                </div>
+            </div>
+
+            <!--email input-->
+            <div class="col-auto">
+
+                <div class="input-group mb-2"  id="email_label">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text bg-transparent border_bottom_only"><i class="fas fa-at"></i></div>
+                    </div>
+                    <input type="email" data-label=1 class="form-control form-control-lg border_bottom_only form_label" id="email" name="email"
+                           placeholder="Email" required value="{{session['form_email']}}">
+                </div>
+            </div>
+
+            <!--password input-->
+            <div class="col-auto">
+
+                <div class="input-group mb-2" id="password_label">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text bg-transparent border_bottom_only">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                    </div>
+
+                    <input type="password" data-label=1 class="form-control form-control-lg border_bottom_only form_label" id="password"
+                           placeholder="Password" name="password" required>
+                </div>
+            </div>
+
+            <!--feelometer-->
+              {{ feelometer() }}
+            <div class="mt-5">
+                <button class="btn bg_blue text-light pt-3 pb-3 pr-5 pl-5 float-right smaller_h"
+                        title="Have a great day!">Sign
+                    up!
+                </button>
+            </div>
+
+        </div>
+        <div class="col-lg-8 col-md-12">
+            <!--MAP WILL RENDER INTO THIS DIV-->
+            <div id="map_sign_up"></div>
+        </div>
+
+
+    </div>
+
+</form>
+{% endblock %}
+
+<!--JAVASCRIPT FOR SIGNUP PAGE-->
+{% block js %}
+
+
+<!--LEAFLET JS-->
+<script
+        crossorigin=""
+        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+        src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+></script>
+<!--<script src="{{url_for('static', filename='dist/js/sign_up.js')}}"></script>-->
+<script src="{{url_for('shared_bp.static', filename='dist/js/sign_up.js')}}"></script>
+<!--<script src="{{url_for('static', filename='src/js/sign_up/get_location.js')}}"></script>-->
+<!--<script src="{{url_for('static', filename='src/js/shared/feelometer.js')}}"></script>-->
+
+
+{% endblock %}

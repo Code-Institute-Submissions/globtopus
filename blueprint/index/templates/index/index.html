@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+
+
+{% endblock %}
+
+
+{% block content %}
+<section id="user_input">
+    {% for feel in feels %}
+    {{feel.num_of_people}}
+    ---
+    {{feel.sum_of_feelings}}
+    <hr>
+    {% endfor %}
+
+
+    <form action="{{url_for('index_bp.add_your_feel')}}" method="POST" id="user_feel">
+        <div class="col-md-12 interaction-holder" data-cy="user_interaction">
+
+            <div class="row ">
+
+
+                <!--GLOBE WITH FEELING-->
+                <div class="col-md-4 int_steps_globe d-flex justify-content-center align-items-center parent m-2 int_steps"
+                     id="hearth">
+                    <h4 class="child_at_top smaller_h text-center">This is how we feel</h4>{{ db }}
+                    <div>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <h1 id="feel" class="feel_out"> {{world_feel}}</h1>
+                        </div>
+                    </div>
+
+                    <div class="child_at_bottom mb-1 ">
+                        <p class="text-center">{{wf_full}}</p>
+                        <span id="map" class="gl_button mb-2" title="see the map"><i
+                                class="fas fa-globe"></i>&nbsp;map</span>
+                        <span id="chart" class="gl_button mb-2" title="see the chart"><i class="far fa-chart-bar"></i>&nbsp;chart
+                        </span>
+                        <span id="feelist" class="gl_button mb-2" title="type how you feel and get feelist"><i
+                                class="far fa-heart"></i>&nbsp;feelist</span>
+                    </div>
+                </div>
+                <!--SLIDER WITH TEXT AREAS FOR INPUTING HOW DOES USER FEELS-->
+                <div class="col-md-4 int_steps p-2 parent m-2" id="how_do_you_feel">
+                    <h4 class="smaller_h text-center">How do you feel?</h4>
+                    <hr>
+
+
+                    <input type="text" class="form-control border_bottom_only mb-1 form_label" form="user_feel" id="one"
+                           name="i_feel" required
+                           placeholder="I feel/ I feel like"
+                           data-cy="description">
+
+                    <textarea class="form-control border_bottom_only form_label" form="user_feel" id="two"
+                              maxlength="200"
+                              name="because" required
+                              placeholder="Because..."
+                              data-cy="description"></textarea>
+
+                    {{ feelometer() }}
+
+
+                </div>
+                <!--STEPS TO FEEL THIS WAY OR BETTER-->
+                <div class="col int_steps p-2 parent  m-2" id="what_do_you_do">
+                    <h4 class="smaller_h text-center">What do you do</h4>
+                    <h4 id="better" class="smaller_h text-center ">to feel better?</h4>
+                    <h4 id="this_or_better" class="smaller_h text-center d-none">to feel this way or better ?</h4>
+                    <hr>
+                    <textarea form="user_feel"
+
+
+                              name="action_1"
+                              id="action_1"
+                              class="form-control ___ mb-2 border_bottom_only form_label"
+                              placeholder="action 1"
+                              required
+
+
+                    ></textarea>
+                    <textarea form="user_feel"
+
+                              data-title="EUR"
+
+                              name="action_2"
+                              id="action_2"
+                              class="form-control ___ mb-2 border_bottom_only form_label"
+                              placeholder="action 2"
+
+
+                    ></textarea>
+                    <textarea form="user_feel"
+
+
+                              name="action_3"
+                              id="action_3"
+                              class="form-control ___ mb-2 border_bottom_only form_label"
+                              placeholder="action 3"
+
+
+                    ></textarea>
+
+                    {% if session.get('authorized_user') %}
+                    <button class="gl_button float-right" type="submit">submit</button>
+                    {% else %}
+
+                    <a class="" href="{{url_for('auth_bp.sign_in')}}">Sign in </a>
+
+                    or
+                    <a class="" href="{{url_for('auth_bp.sign_up')}}">Sign up </a>
+                    to <span class="gl_button ">submit</span>.
+
+                    {% endif %}
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </form>
+</section>
+<section id="feelist_search" class="d-none">
+    <div class="container">
+
+        <div class="row int_steps">
+
+            <div class="col-md-8 offset-md-2 mt-2">
+                <span class="gl_button beta ">beta</span>
+                <h4 class="smaller_h text-center">Please type in how you feel and we will try to show you actions
+                    other
+                    globbers took when they felt the same way as you are feeling now.</h4>
+                <input type="text" name="search" placeholder="How do you feel ? "
+                       class="form-control form-control-lg form_label blue"
+                       id="search">
+
+                <p id='get_results' class="gl_button text-center p-3">get results</p>
+
+            </div>
+
+
+        </div>
+
+        <div id="search_results">
+
+            SEARCH RESULTS :
+            <hr>
+            <span id=results>
+
+            </span>
+
+
+        </div>
+    </div>
+</section>
+<section id="map_search">
+
+</section>
+<section id="chart_search">
+
+</section>
+
+
+{% endblock %}
+
+{% block js %}
+
+<script src="{{url_for('shared_bp.static', filename='dist/js/index.js')}}"></script>
+
+
+<!--<script src="{{url_for('static', filename='src/js/index/index.js')}}"></script>-->
+<!--<script src="{{url_for('static', filename='src/js/index/feelist.js')}}"></script>-->
+<!--<script src="{{url_for('static', filename='src/js/shared/form.js')}}"></script>-->
+
+{% endblock %}
