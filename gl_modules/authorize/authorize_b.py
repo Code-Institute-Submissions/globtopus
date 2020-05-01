@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash,
 import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from app import mongo
+
 from gl_modules.shared.today import today_f
 from gl_modules.shared.update_feel import update_country_feel, update_world_feel
 
@@ -97,7 +97,7 @@ def sign_in():
 @authorize_bp.route('/login', methods=['POST'])
 def login():
     form_data = request.form.to_dict()
-
+    from app import mongo
     user_to_check = mongo.db.users.find({"email": form_data['email']})
 
     if form_data['user_feel'] == '':
@@ -179,6 +179,7 @@ def register():
 
         return redirect(url_for('auth_bp.sign_up'))
     """if we have user with this email, we will not register user"""
+    from app import mongo
     if list(mongo.db.users.find({"email": form_data['email']})):
 
         flash(user_email + ' :  is already registered')
@@ -218,6 +219,7 @@ def register():
 @authorize_bp.route('/logout')
 def logout():
     """recording users last feel before logout"""
+    from app import mongo
     mongo.db.users.update(
         {"email": session.get('user_email')},
         {"$set": {'last_feel': session.get('user_feel')}}
