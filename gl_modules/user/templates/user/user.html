@@ -1,0 +1,48 @@
+{% extends 'base.html' %} {% block content %}
+<div class="row">
+    <div class="col-md-4 border_blue">
+        <ul class="list-group">
+
+            <li class="list-group-item no_border mb-1">{{user.name}}</li>
+            <li class="list-group-item no_border">How I Feel today : {{user.user_feel[today]}}
+                <hr>
+            {% for day in user.user_feel %}
+
+                {{day}} {{user.user_feel[day]}}
+                <br>
+
+             {% endfor %}
+            </li>
+            <li class="list-group-item no_border">My Actions</li>
+            <li class="list-group-item no_border list-group-item-primary">My Feelist
+                <hr>
+            {% for feelist in user.feelist %}
+                {{feelist}}
+                <br>
+            {% endfor %}
+            </li>
+            <li class="list-group-item no_border">My Favourites</li>
+            <li class="list-group-item no_border">My Progress</li>
+            <li class="list-group-item no_border ">last login : <small> {{user.last_login}}</small></li>
+
+        </ul>
+    </div>
+    <div class="col-md-8 border_blue">
+        <div class="row">
+            <div class="col-md-4 int_steps">
+                something 1
+            </div>
+            <div class="col-md-4 int_steps">
+                something 2
+            </div>
+
+            <div class="col-md-4 int_steps">
+                something 3
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}
