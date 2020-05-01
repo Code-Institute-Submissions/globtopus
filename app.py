@@ -20,3 +20,9 @@ app.register_blueprint(landing_m.landing_bp, url_prefix='/')
 app.register_blueprint(user_m.user_bp, url_prefix='/')
 app.register_blueprint(shared_m.shared_bp, url_prefix='/')
 app.register_blueprint(authorize_m.authorize_bp, url_prefix='/')
+
+if __name__ == '__main__':
+    app.run(
+        port=os.environ.get('PORT'),
+        host=os.environ.get('IP'),
+        debug=True)
