@@ -13,7 +13,7 @@
 
 <div class="row">
     <div class="col-md-5 mb-3">
-        <form action="{{url_for('auth_bp.login')}}" method="POST" id="user_feel">
+        <form action="{{url_for('authorize_bp.login')}}" method="POST" id="user_feel">
 
             <!--email input-->
             <div class="col-auto">
@@ -110,5 +110,5 @@
 
 {% block js %}
 
-<script src="{{url_for('auth_bp.static', filename='dist/js/sign_in.js')}}"></script>
+<script src="{{url_for('authorize_bp.static', filename='dist/js/sign_in.js')}}"></script>
 {% endblock %}

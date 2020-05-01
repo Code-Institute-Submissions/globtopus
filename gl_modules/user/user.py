@@ -6,7 +6,7 @@ from app import mongo
 
 user_bp = Blueprint('user_bp', __name__,
                     template_folder='templates',
-                    static_folder='static', static_url_path='assets')
+                    static_folder='static', static_url_path='assets/user')
 
 
 @user_bp.route('/user')

@@ -9,7 +9,7 @@ from gl_modules.shared.update_feel import update_world_feel, update_country_feel
 landing_bp = Blueprint('landing_bp', __name__,
                        template_folder='templates',
                        static_folder='static',
-                       static_url_path='assets')
+                       static_url_path='assets/landing')
 
 
 @landing_bp.route('/')
@@ -77,7 +77,7 @@ def add_your_feel():
     session['user_feel'] = form_data["user_feel"]
 
     flash('Thank you ' + session.get('user_name'))
-    return redirect(url_for('index'))
+    return redirect(url_for('landing_bp.index'))
 
 
 @landing_bp.route('/_search')

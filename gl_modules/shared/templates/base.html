@@ -45,7 +45,7 @@
                     <i class="fa fa-user "></i> &nbsp; {{session['user_name']}}</h6></a>
             <div class="dropdown-divider"></div>
             <a id="login_details" data-cy="logout"
-               class="dropdown-item ___ blue" href="{{url_for('auth_bp.logout')}}" data-title="Log out"
+               class="dropdown-item ___ blue" href="{{url_for('authorize_bp.logout')}}" data-title="Log out"
                data-text="Log out">Log out</a>
             <div class="dropdown-divider"></div>
             <div class="user_heart d-flex justify-content-center align-items-center">{{session['user_feel']}}</div>
@@ -87,11 +87,11 @@
                             {{auth_user()}}
                             {% else %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{{url_for('auth_bp.sign_in')}}">Sign in </a>
+                                <a class="nav-link" href="{{url_for('authorize_bp.sign_in')}}">Sign in </a>
                             </li>
                             |
                             <li class="nav-item">
-                                <a class="nav-link" href="{{url_for('auth_bp.sign_up')}}">Sign up </a>
+                                <a class="nav-link" href="{{url_for('authorize_bp.sign_up')}}">Sign up </a>
                             </li>
                             {% endif %}
 

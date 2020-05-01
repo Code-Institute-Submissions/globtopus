@@ -17,13 +17,13 @@ var index = Object.assign ( {}, config, {
 	
 	entry  : [
 
-		'./blueprint/index/static/src/js/feelist.js',
-		'./blueprint/shared/static/js/feelometer.js',
-		'./blueprint/shared/static/js/form.js',
+		'./gl_modules/index/static/src/js/feelist.js',
+		'./gl_modules/shared/static/js/feelometer.js',
+		'./gl_modules/shared/static/js/form.js',
 
 	],
 	output : {
-		path     : path.resolve ( __dirname, 'blueprint/landing/static/dist/js' ),
+		path     : path.resolve ( __dirname, 'gl_modules/landing/static/dist/js' ),
 		filename : "landing.js"
 	},
 	watch  : true
@@ -31,10 +31,10 @@ var index = Object.assign ( {}, config, {
 var user = Object.assign ( {}, config, {
 	
 	entry  : [
-		'./blueprint/user/static/src/js/user.js',
+		'./gl_modules/user/static/src/js/user.js',
 	],
 	output : {
-		path     : path.resolve ( __dirname, 'blueprint/user/static/dist/js' ),
+		path     : path.resolve ( __dirname, 'gl_modules/user/static/dist/js' ),
 		filename : "user.js"
 	},
 	watch  : true
@@ -58,13 +58,13 @@ var sign_up = Object.assign ( {}, config, {
 	entry  : [
 
 
-		'./blueprint/auth/static/src/js/get_location.js',
-		'./blueprint/shared/static/js/feelometer.js',
-		'./blueprint/shared/static/js/form.js',
+		'./gl_modules/authorize/static/src/js/get_location.js',
+		'./gl_modules/shared/static/js/feelometer.js',
+		'./gl_modules/shared/static/js/form.js',
 
 	],
 	output : {
-		path     : path.resolve ( __dirname, 'blueprint/auth/static/dist/js'  ),
+		path     : path.resolve ( __dirname, 'gl_modules/authorize/static/dist/js'  ),
 		filename : "sign_up.js"
 	},
 	watch  : true
@@ -75,12 +75,12 @@ var sign_in = Object.assign ( {}, config, {
 
 
 
-		'./blueprint/shared/static/js/feelometer.js',
-		'./blueprint/shared/static/js/form.js',
+		'./gl_modules/shared/static/js/feelometer.js',
+		'./gl_modules/shared/static/js/form.js',
 
 	],
 	output : {
-		path     : path.resolve ( __dirname, 'blueprint/auth/static/dist/js'  ),
+		path     : path.resolve ( __dirname, 'gl_modules/authorize/static/dist/js'  ),
 		filename : "sign_in.js"
 	},
 	watch  : true

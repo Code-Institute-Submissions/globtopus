@@ -1,4 +1,3 @@
-
 from flask import Blueprint, render_template, redirect, url_for, request, flash, session
 
 import datetime
@@ -8,15 +7,15 @@ from app import mongo
 from gl_modules.shared.today import today_f
 from gl_modules.shared.update_feel import update_country_feel, update_world_feel
 
-
-auth_bp = Blueprint('auth_bp', __name__,
-                    template_folder='templates',
-                    static_folder='static', static_url_path='assets')
+authorize_bp = Blueprint('authorize_bp', __name__,
+                         template_folder='templates',
+                         static_folder='static',
+                         static_url_path='assets/authorize')
 
 """"show register form"""
 
 
-@auth_bp.route('/sign_up')
+@authorize_bp.route('/sign_up')
 def sign_up():
     # mongo.db.world_feel.insert_many([
     #     {
@@ -81,22 +80,21 @@ def sign_up():
     # ]
     # )
 
-    return render_template('auth/sign_up.html')
+    return render_template('authorize/sign_up.html')
 
 
 """"show login form"""
 
 
-@auth_bp.route('/sign_in')
+@authorize_bp.route('/sign_in')
 def sign_in():
-
-    return render_template('auth/sign_in.html')
+    return render_template('authorize/sign_in.html')
 
 
 """log user into application"""
 
 
-@auth_bp.route('/login', methods=['POST'])
+@authorize_bp.route('/login', methods=['POST'])
 def login():
     form_data = request.form.to_dict()
 
@@ -110,7 +108,7 @@ def login():
 
         flash('Please select how you feel!')
 
-        return redirect(url_for('sign_in'))
+        return redirect(url_for('authorize_bp.sign_in'))
 
     form_data['last_login'] = datetime.datetime.now()
     user_password = ''
@@ -144,9 +142,9 @@ def login():
 
         session_user(form_data)
         """updating country feel"""
-        update_country_feel(mongo,country_code, 0, int(form_data['user_feel']) - int(last_feel))
+        update_country_feel(mongo, country_code, 0, int(form_data['user_feel']) - int(last_feel))
         """updating world feel"""
-        update_world_feel(mongo,0, int(form_data['user_feel']) - int(last_feel))
+        update_world_feel(mongo, 0, int(form_data['user_feel']) - int(last_feel))
 
         session['user_feel'] = form_data['user_feel']
 
@@ -154,13 +152,13 @@ def login():
     else:
         session['form_email'] = form_data['email']
         flash('Please provide valid email and password')
-        return redirect(url_for('auth_bp.sign_in'))
+        return redirect(url_for('authorize_bp.sign_in'))
 
 
 """register new user"""
 
 
-@auth_bp.route('/register', methods=['POST'])
+@authorize_bp.route('/register', methods=['POST'])
 def register():
     form_data = request.form.to_dict()
 
@@ -187,16 +185,16 @@ def register():
 
         sticky_form(form_data)
 
-        return redirect(url_for('auth_bp.sign_up'))
+        return redirect(url_for('authorize_bp.sign_up'))
 
 
     else:
         """UPDATING WORLD FEEL WITH NEW USER FEELINGS"""
-        update_world_feel(mongo,1, int(form_data['user_feel']))
+        update_world_feel(mongo, 1, int(form_data['user_feel']))
         """INSERTING INTO FEELS TABLE"""
 
         """creating new user in country feel"""
-        update_country_feel(mongo,form_data["country_code"], 1, int(form_data['user_feel']))
+        update_country_feel(mongo, form_data["country_code"], 1, int(form_data['user_feel']))
 
         """we will register user and set his id into session 
         redirect to user dashboard and change nav to logout instead of login | sign up"""
@@ -216,7 +214,8 @@ def register():
 
         return redirect(url_for('user_bp.user'))
 
-@auth_bp.route('/logout')
+
+@authorize_bp.route('/logout')
 def logout():
     """recording users last feel before logout"""
     mongo.db.users.update(
@@ -226,6 +225,7 @@ def logout():
     )
     session.clear()
     return redirect(url_for('landing_bp.index'))
+
 
 def session_user(form_data, register=False):
     session['authorized_user'] = True

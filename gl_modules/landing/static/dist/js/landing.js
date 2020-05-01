@@ -86,36 +86,36 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./blueprint/shared/static/js/feelometer.js":
-/*!**************************************************!*\
-  !*** ./blueprint/shared/static/js/feelometer.js ***!
-  \**************************************************/
+/***/ "./gl_modules/shared/static/js/feelometer.js":
+/*!***************************************************!*\
+  !*** ./gl_modules/shared/static/js/feelometer.js ***!
+  \***************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("/*FUNCTIONALITY TO SHOW USER FEELINGS ON SLIDE RANGE\r\n* AND TO CHANGE TEXT ABOVE ACTIONS PART OF THE FORM\r\n* IF FEELINGS < 51 OR >= 51*/\r\n\r\n(function () {\r\n\r\n\r\n\r\n    $('#feeling').on('change', function () {\r\n\r\n        var feelings = this.value;\r\n\r\n        $('#feeling_holder').val(feelings);\r\n\r\n        if(feelings > 51){\r\n            $('#this_or_better').removeClass('d-none');\r\n            $('#better').addClass('d-none');\r\n        }\r\n        else{\r\n             $('#this_or_better').addClass('d-none');\r\n             $('#better').removeClass('d-none');\r\n        }\r\n    });\r\n})();\r\n\r\n\n\n//# sourceURL=webpack:///./blueprint/shared/static/js/feelometer.js?");
+eval("/*FUNCTIONALITY TO SHOW USER FEELINGS ON SLIDE RANGE\r\n* AND TO CHANGE TEXT ABOVE ACTIONS PART OF THE FORM\r\n* IF FEELINGS < 51 OR >= 51*/\r\n\r\n(function () {\r\n\r\n\r\n\r\n    $('#feeling').on('change', function () {\r\n\r\n        var feelings = this.value;\r\n\r\n        $('#feeling_holder').val(feelings);\r\n\r\n        if(feelings > 51){\r\n            $('#this_or_better').removeClass('d-none');\r\n            $('#better').addClass('d-none');\r\n        }\r\n        else{\r\n             $('#this_or_better').addClass('d-none');\r\n             $('#better').removeClass('d-none');\r\n        }\r\n    });\r\n})();\r\n\r\n\n\n//# sourceURL=webpack:///./gl_modules/shared/static/js/feelometer.js?");
 
 /***/ }),
 
-/***/ "./blueprint/shared/static/js/form.js":
-/*!********************************************!*\
-  !*** ./blueprint/shared/static/js/form.js ***!
-  \********************************************/
+/***/ "./gl_modules/shared/static/js/form.js":
+/*!*********************************************!*\
+  !*** ./gl_modules/shared/static/js/form.js ***!
+  \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("(function () {\r\n    $('.form_label').on(('click','focus'), function () {\r\n\r\n        var element_id = $(this).attr('id')\r\n        var placeholder_text = $(this).prop('placeholder')\r\n        if($(this).data('label')) {\r\n            var div = element_id+'_label'\r\n        }\r\n        else\r\n        {\r\n            div = element_id\r\n        }\r\n\r\n\r\n        if (placeholder_text !== '' &&  $(\"label[for='\" + element_id + \"']\").text().length === 0) {\r\n\r\n            sessionStorage.setItem(element_id,placeholder_text)\r\n            $(this).prop('placeholder', '')\r\n            $('#' + div).before(` <label for=${element_id} ><small>${placeholder_text}</small></label>`)\r\n        }\r\n\r\n\r\n    }).on('input', function () {\r\n        var element_id = $(this).attr('id')\r\n\r\n        var input_field = $('#' + element_id)\r\n        var label = $(\"label[for='\" + element_id + \"']\")\r\n\r\n        if (input_field.val() === '') {\r\n            input_field.prop('placeholder', sessionStorage.getItem(element_id))\r\n            label.html('')\r\n        }\r\n        else if(input_field.val().length === 1)\r\n        {\r\n            label.html(`<small>${sessionStorage.getItem(element_id)}</small>`)\r\n        }\r\n\r\n\r\n    })\r\n})()\n\n//# sourceURL=webpack:///./blueprint/shared/static/js/form.js?");
+eval("(function () {\r\n    $('.form_label').on(('click','focus'), function () {\r\n\r\n        var element_id = $(this).attr('id')\r\n        var placeholder_text = $(this).prop('placeholder')\r\n        if($(this).data('label')) {\r\n            var div = element_id+'_label'\r\n        }\r\n        else\r\n        {\r\n            div = element_id\r\n        }\r\n\r\n\r\n        if (placeholder_text !== '' &&  $(\"label[for='\" + element_id + \"']\").text().length === 0) {\r\n\r\n            sessionStorage.setItem(element_id,placeholder_text)\r\n            $(this).prop('placeholder', '')\r\n            $('#' + div).before(` <label for=${element_id} ><small>${placeholder_text}</small></label>`)\r\n        }\r\n\r\n\r\n    }).on('input', function () {\r\n        var element_id = $(this).attr('id')\r\n\r\n        var input_field = $('#' + element_id)\r\n        var label = $(\"label[for='\" + element_id + \"']\")\r\n\r\n        if (input_field.val() === '') {\r\n            input_field.prop('placeholder', sessionStorage.getItem(element_id))\r\n            label.html('')\r\n        }\r\n        else if(input_field.val().length === 1)\r\n        {\r\n            label.html(`<small>${sessionStorage.getItem(element_id)}</small>`)\r\n        }\r\n\r\n\r\n    })\r\n})()\n\n//# sourceURL=webpack:///./gl_modules/shared/static/js/form.js?");
 
 /***/ }),
 
 /***/ 0:
-/*!****************************************************************************************************************************************!*\
-  !*** multi ./blueprint/index/static/src/js/feelist.js ./blueprint/shared/static/js/feelometer.js ./blueprint/shared/static/js/form.js ***!
-  \****************************************************************************************************************************************/
+/*!*******************************************************************************************************************************************!*\
+  !*** multi ./gl_modules/index/static/src/js/feelist.js ./gl_modules/shared/static/js/feelometer.js ./gl_modules/shared/static/js/form.js ***!
+  \*******************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("!(function webpackMissingModule() { var e = new Error(\"Cannot find module './blueprint/index/static/src/js/feelist.js'\"); e.code = 'MODULE_NOT_FOUND'; throw e; }());\n__webpack_require__(/*! ./blueprint/shared/static/js/feelometer.js */\"./blueprint/shared/static/js/feelometer.js\");\nmodule.exports = __webpack_require__(/*! ./blueprint/shared/static/js/form.js */\"./blueprint/shared/static/js/form.js\");\n\n\n//# sourceURL=webpack:///multi_./blueprint/index/static/src/js/feelist.js_./blueprint/shared/static/js/feelometer.js_./blueprint/shared/static/js/form.js?");
+eval("!(function webpackMissingModule() { var e = new Error(\"Cannot find module './gl_modules/index/static/src/js/feelist.js'\"); e.code = 'MODULE_NOT_FOUND'; throw e; }());\n__webpack_require__(/*! ./gl_modules/shared/static/js/feelometer.js */\"./gl_modules/shared/static/js/feelometer.js\");\nmodule.exports = __webpack_require__(/*! ./gl_modules/shared/static/js/form.js */\"./gl_modules/shared/static/js/form.js\");\n\n\n//# sourceURL=webpack:///multi_./gl_modules/index/static/src/js/feelist.js_./gl_modules/shared/static/js/feelometer.js_./gl_modules/shared/static/js/form.js?");
 
 /***/ })
 
