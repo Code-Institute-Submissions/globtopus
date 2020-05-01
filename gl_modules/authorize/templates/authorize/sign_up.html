@@ -24,16 +24,17 @@
                 <div class="input-group-prepend">
                     <div class="input-group-text bg-transparent border_bottom_only"><i class="fas fa-globe"></i></div>
                 </div>
-                <span  class="form-control form-control-lg border_bottom_only bg-transparent form_label"
-                       id="location_n"
+                <span class="form-control form-control-lg border_bottom_only bg-transparent form_label"
+                      id="location_n"
 
 
                 >{{session['form_location'] or 'Please select your state / county on the map'}}</span>
             </div>
         </div>
-        <input type="text" id="country_code" name="country_code"  class="d-none" value="{{session['form_country_code']}}">
-        <input type="text" id="country" name="country"  class="d-none" value="{{session['form_country']}}">
-        <input type="text" id="county" name="county"  class="d-none" value="{{session['form_county']}}">
+        <input type="text" id="country_code" name="country_code" class="d-none"
+               value="{{session['form_country_code']}}">
+        <input type="text" id="country" name="country" class="d-none" value="{{session['form_country']}}">
+        <input type="text" id="county" name="county" class="d-none" value="{{session['form_county']}}">
 
         <!--username input-->
         <div class="col-lg-4 col-sm-12">
@@ -44,7 +45,8 @@
                         <div class="input-group-text bg-transparent border_bottom_only"><i class="fas fa-user"></i></i>
                         </div>
                     </div>
-                    <input type="text" data-label=1 class="form-control form-control-lg border_bottom_only form_label" id="name" name="name"
+                    <input type="text" data-label=1 class="form-control form-control-lg border_bottom_only form_label"
+                           id="name" name="name"
                            placeholder="username"
                            required value="{{session['form_name']}}">
                 </div>
@@ -53,11 +55,12 @@
             <!--email input-->
             <div class="col-auto">
 
-                <div class="input-group mb-2"  id="email_label">
+                <div class="input-group mb-2" id="email_label">
                     <div class="input-group-prepend">
                         <div class="input-group-text bg-transparent border_bottom_only"><i class="fas fa-at"></i></div>
                     </div>
-                    <input type="email" data-label=1 class="form-control form-control-lg border_bottom_only form_label" id="email" name="email"
+                    <input type="email" data-label=1 class="form-control form-control-lg border_bottom_only form_label"
+                           id="email" name="email"
                            placeholder="Email" required value="{{session['form_email']}}">
                 </div>
             </div>
@@ -72,13 +75,14 @@
                         </div>
                     </div>
 
-                    <input type="password" data-label=1 class="form-control form-control-lg border_bottom_only form_label" id="password"
+                    <input type="password" data-label=1
+                           class="form-control form-control-lg border_bottom_only form_label" id="password"
                            placeholder="Password" name="password" required>
                 </div>
             </div>
 
             <!--feelometer-->
-              {{ feelometer() }}
+            {{ feelometer() }}
             <div class="mt-5">
                 <button class="btn bg_blue text-light pt-3 pb-3 pr-5 pl-5 float-right smaller_h"
                         title="Have a great day!">Sign
@@ -110,5 +114,5 @@
 ></script>
 
 
-<script src="{{url_for('authorize_bp.static', filename='dist/js/sign_up.js')}}"></script>
+<script src="{{url_for('assets_dist_bp.static', filename='js/sign_up.js')}}"></script>
 {% endblock %}

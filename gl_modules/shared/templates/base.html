@@ -22,7 +22,7 @@
                 integrity="sha256-46qynGAkLSFpVbEBog43gvNhfrOj+BmwXdxFgVK/Kvc="
                 rel="stylesheet"
         />
-        <link rel="stylesheet" href="{{url_for('shared_bp.static', filename='css/app.css')}}" type="text/css">
+        <link rel="stylesheet" href="{{url_for('assets_dist_bp.static', filename='css/app.css')}}" type="text/css">
         {% block css %}
 
         {% endblock %}
@@ -58,7 +58,7 @@
 
                 <nav class="navbar navbar-expand-sm ">
                     <a class="navbar-brand" href="{{url_for('landing_bp.index')}}">
-                        <img class="globi_logo" src="{{url_for('shared_bp.static', filename='images/gloptopus_logo.gif')}}"/>
+                        <img class="globi_logo" src="{{url_for('assets_dist_bp.static', filename='images/gloptopus_logo.gif')}}"/>
                     </a>
 
 
@@ -140,14 +140,14 @@
                     <div class="input-group mb-2">
                         <div class="input-group-prepend">
                             <div class="input-group-text no_border bg-transparent">
-                                <img class="globi_icon" src="{{url_for('shared_bp.static', filename='images/sad.png')}}"/>
+                                <img class="globi_icon" src="{{url_for('assets_dist_bp.static', filename='images/sad.png')}}"/>
                             </div>
                         </div>
                         <input type="range" min="1" max="100"
                                class="custom-range" id="feeling">
                         <div class="input-group-prepend">
                             <div class="input-group-text no_border bg-transparent">
-                                <img class="globi_icon" src="{{url_for('shared_bp.static', filename='images/happy.png')}}"/>
+                                <img class="globi_icon" src="{{url_for('assets_dist_bp.static', filename='images/happy.png')}}"/>
                             </div>
                         </div>
                     </div>

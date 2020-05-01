@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash,
 import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
 
-
+from gl_modules.shared.sanitize import sanitize
 from gl_modules.shared.today import today_f
 from gl_modules.shared.update_feel import update_country_feel, update_world_feel
 
@@ -170,17 +170,17 @@ def register():
         sticky_form(form_data)
 
         flash('Please select how you feel!')
-        return redirect(url_for('auth_bp.sign_up'))
+        return redirect(url_for('authorize_bp.sign_up'))
 
     if form_data['country_code'] == '':
         sticky_form(form_data)
 
         flash('Please select location on the map!')
 
-        return redirect(url_for('auth_bp.sign_up'))
+        return redirect(url_for('authorize_bp.sign_up'))
     """if we have user with this email, we will not register user"""
     from app import mongo
-    if list(mongo.db.users.find({"email": form_data['email']})):
+    if list(mongo.db.users.find({"email": user_email})):
 
         flash(user_email + ' :  is already registered')
 
@@ -205,6 +205,8 @@ def register():
         form_data['last_login'] = datetime.datetime.now()
         form_data['password'] = generate_password_hash('password')
         form_data['feelist'] = {}
+        form_data['name'] = sanitize(form_data['name'], 'string')
+
 
         session_user(form_data, True)
 

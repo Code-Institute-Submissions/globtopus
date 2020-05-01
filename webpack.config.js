@@ -13,17 +13,20 @@ var config = {
 	module : {}
 };
 
-var index = Object.assign ( {}, config, {
+var dist ='gl_modules/assets_dist/static/js'
+
+var landing = Object.assign ( {}, config, {
 	
 	entry  : [
 
-		'./gl_modules/index/static/src/js/feelist.js',
-		'./gl_modules/shared/static/js/feelometer.js',
-		'./gl_modules/shared/static/js/form.js',
+		'./gl_modules/landing/static/src/js/show_search.js',
+		'./gl_modules/shared/static/js/feel_meter.js',
+		'./gl_modules/shared/static/js/form_label.js',
+		'./gl_modules/globs/static/js/globs.js',
 
 	],
 	output : {
-		path     : path.resolve ( __dirname, 'gl_modules/landing/static/dist/js' ),
+		path     : path.resolve ( __dirname, dist ),
 		filename : "landing.js"
 	},
 	watch  : true
@@ -34,7 +37,7 @@ var user = Object.assign ( {}, config, {
 		'./gl_modules/user/static/src/js/user.js',
 	],
 	output : {
-		path     : path.resolve ( __dirname, 'gl_modules/user/static/dist/js' ),
+		path     : path.resolve ( __dirname, dist ),
 		filename : "user.js"
 	},
 	watch  : true
@@ -59,12 +62,12 @@ var sign_up = Object.assign ( {}, config, {
 
 
 		'./gl_modules/authorize/static/src/js/get_location.js',
-		'./gl_modules/shared/static/js/feelometer.js',
-		'./gl_modules/shared/static/js/form.js',
+		'./gl_modules/shared/static/js/feel_meter.js',
+		'./gl_modules/shared/static/js/form_label.js',
 
 	],
 	output : {
-		path     : path.resolve ( __dirname, 'gl_modules/authorize/static/dist/js'  ),
+		path     : path.resolve ( __dirname, dist  ),
 		filename : "sign_up.js"
 	},
 	watch  : true
@@ -75,12 +78,12 @@ var sign_in = Object.assign ( {}, config, {
 
 
 
-		'./gl_modules/shared/static/js/feelometer.js',
-		'./gl_modules/shared/static/js/form.js',
+		'./gl_modules/shared/static/js/feel_meter.js',
+		'./gl_modules/shared/static/js/form_label.js',
 
 	],
 	output : {
-		path     : path.resolve ( __dirname, 'gl_modules/authorize/static/dist/js'  ),
+		path     : path.resolve ( __dirname, dist  ),
 		filename : "sign_in.js"
 	},
 	watch  : true
@@ -92,6 +95,6 @@ var sign_in = Object.assign ( {}, config, {
 // Return Array of Configurations
 module.exports = [
 
-	index, user,  sign_in, sign_up
+	landing, user,  sign_in, sign_up
 
 ];

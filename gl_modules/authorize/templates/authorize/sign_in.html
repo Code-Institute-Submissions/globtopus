@@ -63,7 +63,7 @@
                 <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active" data-interval="8000">
-                            <img class="adds" src="{{url_for('shared_bp.static', filename='images/adds/add_1.jpg')}}"/>
+                            <img class="adds" src="{{url_for('assets_dist_bp.static', filename='images/adds/add_1.jpg')}}"/>
                             <div class="text-light text-center  bg_blue_light p-2">
                                 <h5>How do you do</h5>
                                 <p>Learn english easy and fast. <a target="_blank"  href="https://github.com/marcelkolarcik/how-do-you-do">
@@ -72,7 +72,7 @@
                         </div>
                         <div class="carousel-item " data-interval="8000">
                             <img class="adds"
-                                 src="{{url_for('shared_bp.static', filename='images/adds/add_3.jpg')}}"/>
+                                 src="{{url_for('assets_dist_bp.static', filename='images/adds/add_3.jpg')}}"/>
                             <div class="text-light text-center  bg_blue_light p-2">
                                 <h5>Wake up happy</h5>
                                 <p>Find a room with a view... <a target="_blank" href="https://marcelkolarcik.github.io/wake-up-happy/index.html">
@@ -81,7 +81,7 @@
                         </div>
                         <div class="carousel-item" data-interval="8000">
                             <img class="adds"
-                                 src="{{url_for('shared_bp.static', filename='images/adds/add_2.jpg')}}"/>
+                                 src="{{url_for('assets_dist_bp.static', filename='images/adds/add_2.jpg')}}"/>
                             <div class="text-light text-center  bg_blue_light p-2">
                                 <h5>simple-jQuery-translator</h5>
                                 <p>Translate any website with ease...<a target="_blank"  href="https://marcelkolarcik.github.io/simple-jQuery-translator/">
@@ -110,5 +110,5 @@
 
 {% block js %}
 
-<script src="{{url_for('authorize_bp.static', filename='dist/js/sign_in.js')}}"></script>
+<script src="{{url_for('assets_dist_bp.static', filename='js/sign_in.js')}}"></script>
 {% endblock %}
