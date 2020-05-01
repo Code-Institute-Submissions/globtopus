@@ -6,14 +6,14 @@ from app import mongo
 from blueprint.shared.today import sanitize, today_f
 from blueprint.shared.update_feel import update_world_feel, update_country_feel
 
-index_bp = Blueprint('index_bp', __name__,
-                    template_folder='templates',
-                    static_folder='static', static_url_path='assets')
+landing_bp = Blueprint('landing_bp', __name__,
+                       template_folder='templates',
+                       static_folder='static',
+                       static_url_path='assets')
 
 
-@index_bp.route('/')
+@landing_bp.route('/')
 def index():
-
     num_of_people = []
     sum_of_feelings = []
     """GETTING FEELINGS FOR THE LAST 7 DAYS"""
@@ -28,9 +28,10 @@ def index():
 
     world_feel = 0 if sum(sum_of_feelings) == 0 else sum(sum_of_feelings) / sum(num_of_people)
 
-    return render_template('index/index.html', feels=feels, world_feel=round(world_feel), wf_full=world_feel)
+    return render_template('landing/landing.html', feels=feels, world_feel=round(world_feel), wf_full=world_feel)
 
-@index_bp.route('/add_your_feel', methods=['POST'])
+
+@landing_bp.route('/add_your_feel', methods=['POST'])
 def add_your_feel():
     """INSERTING INTO FEELS TABLE"""
     form_data = request.form.to_dict()
@@ -63,7 +64,7 @@ def add_your_feel():
        WITHOUT ADDING EXTRA PERSON TO THE MIX 
        - LAST FEELING + CURRENT FEELING"""
 
-    update_world_feel(mongo,0, int(form_data['user_feel']) - int(session.get('user_feel')))
+    update_world_feel(mongo, 0, int(form_data['user_feel']) - int(session.get('user_feel')))
     """updating user feel during the day, when he feels differently"""
     today = today_f()
     mongo.db.users.update(
@@ -71,24 +72,25 @@ def add_your_feel():
         {"$set": {'user_feel.' + today: form_data['user_feel']}})
 
     """updating country feel"""
-    update_country_feel(mongo,session.get("user_country_code"), 0,
+    update_country_feel(mongo, session.get("user_country_code"), 0,
                         int(form_data['user_feel']) - int(session.get('user_feel')))
     session['user_feel'] = form_data["user_feel"]
 
     flash('Thank you ' + session.get('user_name'))
     return redirect(url_for('index'))
 
-@index_bp.route('/_search')
+
+@landing_bp.route('/_search')
 def search():
-    q =  sanitize(request.args.get('q', 0, type=str).lower()) #array
+    q = sanitize(request.args.get('q', 0, type=str).lower())  # array
 
     results = []
 
     feelists = mongo.db.feels.find(
 
         {"$or": [
-            {"i_feel": {"$in": q}}, # q is array
-            {"because": {"$in": q}}# q is array
+            {"i_feel": {"$in": q}},  # q is array
+            {"because": {"$in": q}}  # q is array
         ]}
     )
     # obj_id = "5ea738942f3d6b576e209382"
@@ -125,7 +127,8 @@ def search():
                    feelists=session.get('user_feelist') if session.get('user_feelist') else {},
                    authorized_user=True if session.get('authorized_user') else False)
 
-@index_bp.route('/_actions')
+
+@landing_bp.route('/_actions')
 def actions():
     action_num = request.args.get('action_num', 0, type=str)
     glob_id = request.args.get('glob_id', 0, type=str)
@@ -172,4 +175,3 @@ def actions():
     )
 
     return jsonify(result=glob_id)
-

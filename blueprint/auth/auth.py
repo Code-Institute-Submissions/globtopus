@@ -172,14 +172,14 @@ def register():
         sticky_form(form_data)
 
         flash('Please select how you feel!')
-        return redirect(url_for('sign_up'))
+        return redirect(url_for('auth_bp.sign_up'))
 
     if form_data['country_code'] == '':
         sticky_form(form_data)
 
         flash('Please select location on the map!')
 
-        return redirect(url_for('sign_up'))
+        return redirect(url_for('auth_bp.sign_up'))
     """if we have user with this email, we will not register user"""
     if list(mongo.db.users.find({"email": form_data['email']})):
 
@@ -187,16 +187,16 @@ def register():
 
         sticky_form(form_data)
 
-        return redirect(url_for('sign_up'))
+        return redirect(url_for('auth_bp.sign_up'))
 
 
     else:
         """UPDATING WORLD FEEL WITH NEW USER FEELINGS"""
-        update_world_feel(1, int(form_data['user_feel']))
+        update_world_feel(mongo,1, int(form_data['user_feel']))
         """INSERTING INTO FEELS TABLE"""
 
         """creating new user in country feel"""
-        update_country_feel(form_data["country_code"], 1, int(form_data['user_feel']))
+        update_country_feel(mongo,form_data["country_code"], 1, int(form_data['user_feel']))
 
         """we will register user and set his id into session 
         redirect to user dashboard and change nav to logout instead of login | sign up"""
@@ -214,7 +214,7 @@ def register():
 
         mongo.db.users.insert_one(form_data)
 
-        return redirect(url_for('user'))
+        return redirect(url_for('user_bp.user'))
 
 @auth_bp.route('/logout')
 def logout():
@@ -225,7 +225,7 @@ def logout():
 
     )
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for('landing_bp.index'))
 
 def session_user(form_data, register=False):
     session['authorized_user'] = True

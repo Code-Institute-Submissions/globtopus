@@ -16,53 +16,72 @@ var config = {
 var index = Object.assign ( {}, config, {
 	
 	entry  : [
-		'./static_old/src/js/index/index.js',
-		'./static_old/src/js/index/feelist.js',
-		'./static_old/src/js/shared/form.js',
+
+		'./blueprint/index/static/src/js/feelist.js',
+		'./blueprint/shared/static/js/feelometer.js',
+		'./blueprint/shared/static/js/form.js',
 
 	],
 	output : {
-		path     : path.resolve ( __dirname, 'static_old/dist/js' ),
-		filename : "index.js"
+		path     : path.resolve ( __dirname, 'blueprint/landing/static/dist/js' ),
+		filename : "landing.js"
 	},
 	watch  : true
 } );
 var user = Object.assign ( {}, config, {
 	
 	entry  : [
-		'./static_old/src/js/user.js',
+		'./blueprint/user/static/src/js/user.js',
 	],
 	output : {
-		path     : path.resolve ( __dirname, 'static_old/dist/js' ),
+		path     : path.resolve ( __dirname, 'blueprint/user/static/dist/js' ),
 		filename : "user.js"
 	},
 	watch  : true
 } );
 
-var admin = Object.assign ( {}, config, {
-	
-	entry  : [
-		'./static_old/src/js/user.js',
-	
-	],
-	output : {
-		path     : path.resolve ( __dirname, 'static_old/dist/js' ),
-		filename : "admin.js"
-	},
-	watch  : true
-} );
+// var admin = Object.assign ( {}, config, {
+//
+// 	entry  : [
+// 		'./static_old/src/js/user.js',
+//
+// 	],
+// 	output : {
+// 		path     : path.resolve ( __dirname, 'static_old/dist/js' ),
+// 		filename : "admin.js"
+// 	},
+// 	watch  : true
+// } );
 
 var sign_up = Object.assign ( {}, config, {
 
 	entry  : [
-		'./static_old/src/js/sign_up/get_location.js',
-		'./static_old/src/js/shared/feelometer.js',
-		'./static_old/src/js/shared/form.js',
+
+
+		'./blueprint/auth/static/src/js/get_location.js',
+		'./blueprint/shared/static/js/feelometer.js',
+		'./blueprint/shared/static/js/form.js',
 
 	],
 	output : {
-		path     : path.resolve ( __dirname, 'static_old/dist/js' ),
+		path     : path.resolve ( __dirname, 'blueprint/auth/static/dist/js'  ),
 		filename : "sign_up.js"
+	},
+	watch  : true
+} );
+var sign_in = Object.assign ( {}, config, {
+
+	entry  : [
+
+
+
+		'./blueprint/shared/static/js/feelometer.js',
+		'./blueprint/shared/static/js/form.js',
+
+	],
+	output : {
+		path     : path.resolve ( __dirname, 'blueprint/auth/static/dist/js'  ),
+		filename : "sign_in.js"
 	},
 	watch  : true
 } );
@@ -73,6 +92,6 @@ var sign_up = Object.assign ( {}, config, {
 // Return Array of Configurations
 module.exports = [
 
-	index, user, admin, sign_up
+	index, user,  sign_in, sign_up
 
 ];

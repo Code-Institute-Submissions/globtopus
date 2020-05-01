@@ -17,7 +17,7 @@
     {% endfor %}
 
 
-    <form action="{{url_for('index_bp.add_your_feel')}}" method="POST" id="user_feel">
+    <form action="{{url_for('landing_bp.add_your_feel')}}" method="POST" id="user_feel">
         <div class="col-md-12 interaction-holder" data-cy="user_interaction">
 
             <div class="row ">
@@ -168,11 +168,8 @@
 
 {% block js %}
 
+
 <script src="{{url_for('shared_bp.static', filename='dist/js/index.js')}}"></script>
 
-
-<!--<script src="{{url_for('static', filename='src/js/index/index.js')}}"></script>-->
-<!--<script src="{{url_for('static', filename='src/js/index/feelist.js')}}"></script>-->
-<!--<script src="{{url_for('static', filename='src/js/shared/form.js')}}"></script>-->
 
 {% endblock %}
