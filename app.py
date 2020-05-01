@@ -11,18 +11,18 @@ app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 mongo = PyMongo(app)
 
-
-from blueprint.landing.landing import landing_bp
-from blueprint.user.user import user_bp
-from blueprint.shared.shared import shared_bp
-from blueprint.auth.auth import auth_bp
-
+import blueprint.auth.auth
+import blueprint.landing.landing
+import blueprint.user.user
+import blueprint.shared.shared
 
 
 
 
 
-app.register_blueprint(landing_bp, url_prefix='/')
-app.register_blueprint(user_bp, url_prefix='/')
-app.register_blueprint(shared_bp, url_prefix='/')
-app.register_blueprint(auth_bp, url_prefix='/')
+
+
+app.register_blueprint(blueprint.landing.landing.landing_bp, url_prefix='/')
+app.register_blueprint(blueprint.user.user.user_bp, url_prefix='/')
+app.register_blueprint(blueprint.shared.shared.shared_bp, url_prefix='/')
+app.register_blueprint(blueprint.auth.auth.auth_bp, url_prefix='/')
