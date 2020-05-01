@@ -2,7 +2,7 @@ from bson import ObjectId
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session, jsonify
 import datetime
 
-from app import mongo
+
 from gl_modules.shared.today import sanitize, today_f
 from gl_modules.shared.update_feel import update_world_feel, update_country_feel
 
@@ -17,6 +17,7 @@ def index():
     num_of_people = []
     sum_of_feelings = []
     """GETTING FEELINGS FOR THE LAST 7 DAYS"""
+    from app import mongo
     feels = mongo.db.world_feel.find(
         {"day": {"$gte": (datetime.datetime.now() - datetime.timedelta(days=6)).strftime("%F")}})
 
@@ -57,6 +58,7 @@ def add_your_feel():
     day = datetime.datetime.now()
     form_data['created_at'] = day
 
+    from app import mongo
     mongo.db.feels.insert_one(form_data)
 
     """INSERTING INTO WORLD FEEL FOR THE CURRENT DAY
@@ -85,7 +87,7 @@ def search():
     q = sanitize(request.args.get('q', 0, type=str).lower())  # array
 
     results = []
-
+    from app import mongo
     feelists = mongo.db.feels.find(
 
         {"$or": [
@@ -148,7 +150,7 @@ def actions():
         field_to_update = action + '.' + glob_id
 
     """check if user already liked/added action to his feelist"""
-
+    from app import mongo
     alreday_added = mongo.db.users.find_one(
         {"email": session.get('user_email'), field_to_update: {"$in": [action_num]}},
 

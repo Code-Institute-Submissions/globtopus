@@ -2,7 +2,7 @@ import datetime
 
 from flask import Blueprint, render_template, session
 
-from app import mongo
+
 
 user_bp = Blueprint('user_bp', __name__,
                     template_folder='templates',
@@ -11,6 +11,7 @@ user_bp = Blueprint('user_bp', __name__,
 
 @user_bp.route('/user')
 def user():
+    from app import mongo
     initials = ''
     user_initials = session.get('user_name').split(' ')
     authorized_user = mongo.db.users.find_one({'email': session.get('user_email')})
