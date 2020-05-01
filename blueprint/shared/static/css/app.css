@@ -124,9 +124,10 @@ h2, h3, h4 {
     font-family: "Lato", sans-serif;
 
     padding: 2px 10px 2px 10px;
-    margin: 20px 10px 10px 10px;
+    margin: 20px 10px 60px 10px;
     cursor: pointer;
     border: 1px solid  #177199;
+    white-space:nowrap;
 }
 .gl_button:hover{
     background-color: whitesmoke;
