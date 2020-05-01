@@ -38,7 +38,7 @@ def add_your_feel():
     if form_data['user_feel'] == '':
         flash('Please select how you feel!')
 
-        return redirect(url_for('index'))
+        return redirect(url_for('landing_bp.index'))
 
     form_data['user_email'] = session.get('user_email')
     form_data['user_name'] = session.get('user_name')

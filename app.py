@@ -11,10 +11,10 @@ app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 mongo = PyMongo(app)
 
-import gl_modules.authorize.authorize as authorize
-import gl_modules.landing.landing as landing
-import gl_modules.user.user as user
-import gl_modules.shared.shared as shared
+import gl_modules.authorize.authorize_b as authorize
+import gl_modules.landing.landing_b as landing
+import gl_modules.user.user_b as user
+import gl_modules.shared.shared_b as shared
 
 app.register_blueprint(landing.landing_bp, url_prefix='/')
 app.register_blueprint(user.user_bp, url_prefix='/')
