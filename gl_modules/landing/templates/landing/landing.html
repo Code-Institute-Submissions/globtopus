@@ -37,7 +37,8 @@
                         <p class="text-center">{{wf_full}}</p>
                         <span id="map" class="gl_button " title="see the map"><i
                                 class="fas fa-globe"></i>&nbsp;map</span>
-                        <span id="charts" class="gl_button " title="see the chart"><i class="far fa-chart-bar"></i>&nbsp;chart
+                        <span id="charts" data-num_of_days=10 class="gl_button " title="see the chart"><i
+                                class="far fa-chart-bar"></i>&nbsp;chart
                         </span>
                         <span id="globs" class="gl_button " title="type how you feel and get feelist"><i
                                 class="far fa-heart"></i>&nbsp;globs</span>
@@ -160,27 +161,62 @@
 
 </section>
 <section id="chart_search" class="landing_interaction d-none">
-    <h4>charts will display here</h4>
+
     <div class="row">
-        <div class="col-md-3">
-            <ul class="list-group">
-                <li class="list-group-item border_bottom_only">
-                    top 10
-                </li>
-                <li class="list-group-item border_bottom_only">
-                    all countries
-                </li>
-                <li class="list-group-item border_bottom_only">
-                    something
-                </li>
-            </ul>
+
+        <div class="col-md-9" id="chart_holder">
+
+            <canvas id="chart" width="800" height="450"></canvas>
+             <div id="bottom_of_chart">bottom</div>
         </div>
-        <div class="col-md-9">
-            <canvas id="bar-chart" width="800" height="450"></canvas>
+        <div class="col-md-3">
+            <div class="row mb-2">
+                <div class="col-md-6">
+                    <span class="smaller_h gl_button chart_type chart" data-type="world" data-num_of_days="10" data-chart_type="world">world</span>
+                </div>
+                <div class="col-md-6">
+                    <span class="smaller_h gl_button opaque chart_type" data-type="countries" data-chart_type="countries">countries</span>
+                </div>
+
+            </div>
+            <div id="lists">
+                <ul class="list-group lists" id="world">
+
+                    <li class="list-group-item border_bottom_only chart" data-type="world"  data-num_of_days="30">
+                        past 30 days
+                    </li>
+                    <li class="list-group-item border_bottom_only chart"  data-type="world"  data-num_of_days="90">
+                        past 90 days
+                    </li>
+                    <li class="list-group-item border_bottom_only chart"  data-type="world"  data-num_of_days="180">
+                        past 180 days
+                    </li>
+                    <li class="list-group-item border_bottom_only chart"  data-type="world"  data-num_of_days="360">
+                        past 360 days
+                    </li>
+                </ul>
+                <ul class="list-group d-none lists" id="countries">
+
+                    <li class="list-group-item border_bottom_only chart" data-type="countries" data-num_of_countries="10">
+                        top 10
+                    </li>
+                    <li class="list-group-item border_bottom_only chart"  data-type="countries" data-num_of_countries="30">
+                        top 30
+                    </li>
+
+                    <li class="list-group-item border_bottom_only chart" data-type="countries"  data-num_of_countries="249">
+                        list all
+                    </li>
+                </ul>
+                <ul class="list-group d-none lists" id="country_list">
+
+                </ul>
+            </div>
+
         </div>
 
     </div>
-    <span id="bottom_of_chart">bottom</span>
+
 </section>
 
 

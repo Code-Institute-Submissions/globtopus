@@ -1,7 +1,6 @@
 import random
 
-from bson import BSON
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, session
 import datetime
 
 factory_bp = Blueprint('factory_bp', __name__,
@@ -21,8 +20,8 @@ def world_data():
     for key, value in countryListAlpha2.items():
 
         for i in range(1, 365):
-            num_of_people = random.randint(1, 1001)
-            feelings = random.randint(20, 99)
+            num_of_people = random.randint(1, 10001)
+            feelings = random.randint(1, 100)
             day = str((datetime.datetime.now() - datetime.timedelta(days=365 - i)).strftime("%F"))
 
             world_people += num_of_people
@@ -45,24 +44,95 @@ def countries_data():
     from app import mongo
     country = {}
     world = {}
-
+    current_people = 0
+    current_feelings = 0
     counter = 0
     for key, value in countryListAlpha2.items():
 
         country_code = key.lower()
         for i in range(1, 365):
-            num_of_people = random.randint(1, 1001)
-            feelings = random.randint(20, 99)
+            num_of_people = random.randint(1, 10001)
+            feelings = random.randint(1, 100)
             day = str((datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%F"))
 
             country[day] = {'num_of_people': num_of_people,
                             'sum_of_feelings': num_of_people * feelings}
+            if (i > 357):
+                current_people += num_of_people
+                current_feelings += num_of_people * feelings
 
-        world[counter] = {"country_code": country_code, 'feels': country}
-        mongo.db.country_feel.insert({"country_code": country_code, 'feels': country})
+        world[counter] = {"country_code": country_code, 'feels': country, 'current_people': current_people,
+                          'current_feelings': current_feelings}
+        mongo.db.country_feel.insert({"country_code": country_code, 'feels': country, 'current_people': current_people,
+                                      'current_feelings': current_feelings})
         counter += 1
 
     return jsonify(world)
+
+
+@factory_bp.route('/get_countries')
+def get_countries():
+    from app import mongo
+    c_feels = []
+
+    country_feel = mongo.db.country_feel.aggregate(
+        [
+            {"$project": {"country_code": 1, "current": {"$divide": ["$current_feelings", "$current_people"]}}},
+            {"$sort": {"current": -1}},
+            {"$limit": 10}
+        ]
+    )
+    for feel in country_feel:
+        c_feels.append({'cc': feel['country_code'], "current": feel['current']})
+
+    return jsonify(c_feels)
+
+
+# @factory_bp.route('/insert_country_dict')
+# def insert_country_dict():
+#     c_dict = []
+#     from app import mongo
+#     for code, name in countryListAlpha2.items():
+#
+#         mongo.db.countries.insert({'cc' : code.lower(), 'name': name})
+#     return  'insert_country_dict done'
+
+@factory_bp.route('/get_country_progress')
+def country_progress():
+    from app import mongo
+    results = []
+
+    feels = mongo.db.country_feel.find_one(
+        {'country_code': 'af'},
+
+        {'feels': 1, '_id': 0})
+
+    for feel in feels['feels']:
+        if feel <= datetime.datetime.now().strftime("%F") and feel >= (
+                (datetime.datetime.now() - datetime.timedelta(days=10)).strftime("%F")):
+            results.append(
+                {'day': feel, 'feel': feels['feels'][feel]['sum_of_feelings'] / feels['feels'][feel]['num_of_people']})
+
+    return jsonify(results)
+
+
+@factory_bp.route('/get_country_name')
+def get_country_name(c_code):
+
+    """GOING TO DB ONLY ONCE PER SESSION AS THIS DATA IS NEVER CHANGING... TO DO : CHECK CACHE"""
+    if not session.get('countries'):
+        countries = {}
+        from app import mongo
+
+        all_countries = mongo.db.countries.find()
+        for country in all_countries:
+            countries[country['cc']] = country['name']
+
+        session['countries'] = countries
+    else:
+        countries = session.get('countries')
+
+    return countries[c_code]
 
 
 countryListAlpha2 = {
