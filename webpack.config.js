@@ -23,6 +23,7 @@ var landing = Object.assign ( {}, config, {
 		'./gl_modules/shared/static/js/feel_meter.js',
 		'./gl_modules/shared/static/js/form_label.js',
 		'./gl_modules/globs/static/js/globs.js',
+		'./gl_modules/charts/static/js/charts.js',
 
 	],
 	output : {

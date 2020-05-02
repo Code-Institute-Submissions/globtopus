@@ -11,6 +11,7 @@ globs_bp = Blueprint('globs_bp', __name__,
 
 @globs_bp.route('/_search')
 def search():
+    """sanitizing input and returning array of words"""
     q = sanitize(request.args.get('q', 0, type=str).lower(), 'array')  # array
 
     results = []

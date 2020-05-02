@@ -86,6 +86,17 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./gl_modules/charts/static/js/charts.js":
+/*!***********************************************!*\
+  !*** ./gl_modules/charts/static/js/charts.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("/*FUNCTIONS FOR INTERACTIONS WITH CHARTS\r\n* DISPLAYING HOW DO WORLD COUNTRIES FEEL */\r\n\r\n(function () {\r\n    $('#charts').on('click', function () {\r\n        $('.landing_interaction').addClass('d-none')\r\n        $('#chart_search').removeClass('d-none')\r\n        $('#bottom_of_chart').get(0).scrollIntoView()\r\n                var days = []\r\n                var day_feels =[]\r\n                var B_colors =[]\r\n                var num_of_days = 50\r\n        /*AJAX REQUEST TO GET RESULTS*/\r\n        $.getJSON('/_world_feel', {\r\n                num_of_days: num_of_days,\r\n\r\n            },\r\n\r\n            function (data) {\r\n\r\n                 days = data.days\r\n                 day_feels = data.day_feels\r\n                 B_colors = data.B_colors\r\n                console.log(B_colors)\r\n                 // Bar chart\r\n                new Chart(document.getElementById(\"bar-chart\"), {\r\n                    type: 'bar',\r\n                    data: {\r\n                        labels: days,\r\n                        datasets: [\r\n                            {\r\n                                label: \"World feel\",\r\n                                backgroundColor: B_colors,\r\n                                data: day_feels,\r\n                                 fill: false,\r\n                               borderColor: \"#e8c3b9\",\r\n                            }\r\n                        ]\r\n                    },\r\n                    options: {\r\n                        legend: {display: false},\r\n                        title: {\r\n                            display: true,\r\n                            text: `World feel past ${num_of_days} days`\r\n                        }\r\n                    }\r\n                });\r\n\r\n            });\r\n\r\n\r\n\r\n\r\n\r\n    })\r\n})()\n\n//# sourceURL=webpack:///./gl_modules/charts/static/js/charts.js?");
+
+/***/ }),
+
 /***/ "./gl_modules/globs/static/js/globs.js":
 /*!*********************************************!*\
   !*** ./gl_modules/globs/static/js/globs.js ***!
@@ -104,7 +115,7 @@ eval("/*FUNCTIONS FOR SEARCH AND INTERACTION WITH GLOBS ( USER POSTS ABOUT HOW T
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("/*FUNCTIONS TO SHOW DIV WITH SEARCH FIELD FOR FEELISTS*/\r\n\r\n$(function () {\r\n    $('#feelist').on('click', function () {\r\n\r\n        /*AND FOR MOBILE DEVICES WE NEED TO SCROLL TO SEARCH RESULTS*/\r\n        $('#feelist_search').toggleClass('d-none').get(0).scrollIntoView();\r\n\r\n    })\r\n\r\n\r\n})\r\n\r\n\r\n\r\n\n\n//# sourceURL=webpack:///./gl_modules/landing/static/src/js/show_search.js?");
+eval("/*FUNCTIONS TO SHOW DIV WITH SEARCH FIELD FOR FEELISTS*/\r\n\r\n$(function () {\r\n    $('#globs').on('click', function () {\r\n\r\n        /*AND FOR MOBILE DEVICES WE NEED TO SCROLL TO SEARCH RESULTS*/\r\n        $('#glob_search').toggleClass('d-none').get(0).scrollIntoView();\r\n\r\n    })\r\n\r\n\r\n})\r\n\r\n\r\n\r\n\n\n//# sourceURL=webpack:///./gl_modules/landing/static/src/js/show_search.js?");
 
 /***/ }),
 
@@ -131,13 +142,13 @@ eval("(function () {\r\n    $('.form_label').on(('click','focus'), function () {
 /***/ }),
 
 /***/ 0:
-/*!*********************************************************************************************************************************************************************************************!*\
-  !*** multi ./gl_modules/landing/static/src/js/show_search.js ./gl_modules/shared/static/js/feel_meter.js ./gl_modules/shared/static/js/form_label.js ./gl_modules/globs/static/js/globs.js ***!
-  \*********************************************************************************************************************************************************************************************/
+/*!*************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./gl_modules/landing/static/src/js/show_search.js ./gl_modules/shared/static/js/feel_meter.js ./gl_modules/shared/static/js/form_label.js ./gl_modules/globs/static/js/globs.js ./gl_modules/charts/static/js/charts.js ***!
+  \*************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("__webpack_require__(/*! ./gl_modules/landing/static/src/js/show_search.js */\"./gl_modules/landing/static/src/js/show_search.js\");\n__webpack_require__(/*! ./gl_modules/shared/static/js/feel_meter.js */\"./gl_modules/shared/static/js/feel_meter.js\");\n__webpack_require__(/*! ./gl_modules/shared/static/js/form_label.js */\"./gl_modules/shared/static/js/form_label.js\");\nmodule.exports = __webpack_require__(/*! ./gl_modules/globs/static/js/globs.js */\"./gl_modules/globs/static/js/globs.js\");\n\n\n//# sourceURL=webpack:///multi_./gl_modules/landing/static/src/js/show_search.js_./gl_modules/shared/static/js/feel_meter.js_./gl_modules/shared/static/js/form_label.js_./gl_modules/globs/static/js/globs.js?");
+eval("__webpack_require__(/*! ./gl_modules/landing/static/src/js/show_search.js */\"./gl_modules/landing/static/src/js/show_search.js\");\n__webpack_require__(/*! ./gl_modules/shared/static/js/feel_meter.js */\"./gl_modules/shared/static/js/feel_meter.js\");\n__webpack_require__(/*! ./gl_modules/shared/static/js/form_label.js */\"./gl_modules/shared/static/js/form_label.js\");\n__webpack_require__(/*! ./gl_modules/globs/static/js/globs.js */\"./gl_modules/globs/static/js/globs.js\");\nmodule.exports = __webpack_require__(/*! ./gl_modules/charts/static/js/charts.js */\"./gl_modules/charts/static/js/charts.js\");\n\n\n//# sourceURL=webpack:///multi_./gl_modules/landing/static/src/js/show_search.js_./gl_modules/shared/static/js/feel_meter.js_./gl_modules/shared/static/js/form_label.js_./gl_modules/globs/static/js/globs.js_./gl_modules/charts/static/js/charts.js?");
 
 /***/ })
 

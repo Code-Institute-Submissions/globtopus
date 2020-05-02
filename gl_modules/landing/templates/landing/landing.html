@@ -37,10 +37,10 @@
                         <p class="text-center">{{wf_full}}</p>
                         <span id="map" class="gl_button " title="see the map"><i
                                 class="fas fa-globe"></i>&nbsp;map</span>
-                        <span id="chart" class="gl_button " title="see the chart"><i class="far fa-chart-bar"></i>&nbsp;chart
+                        <span id="charts" class="gl_button " title="see the chart"><i class="far fa-chart-bar"></i>&nbsp;chart
                         </span>
-                        <span id="feelist" class="gl_button " title="type how you feel and get feelist"><i
-                                class="far fa-heart"></i>&nbsp;feelist</span>
+                        <span id="globs" class="gl_button " title="type how you feel and get feelist"><i
+                                class="far fa-heart"></i>&nbsp;globs</span>
                     </div>
                 </div>
                 <!--SLIDER WITH TEXT AREAS FOR INPUTING HOW DOES USER FEELS-->
@@ -123,7 +123,7 @@
         </div>
     </form>
 </section>
-<section id="feelist_search" class="d-none">
+<section id="glob_search" class="landing_interaction d-none">
     <div class="container">
 
         <div class="row int_steps">
@@ -156,18 +156,40 @@
         </div>
     </div>
 </section>
-<section id="map_search">
+<section id="map_search" class="landing_interaction d-none">
 
 </section>
-<section id="chart_search">
+<section id="chart_search" class="landing_interaction d-none">
+    <h4>charts will display here</h4>
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="list-group">
+                <li class="list-group-item border_bottom_only">
+                    top 10
+                </li>
+                <li class="list-group-item border_bottom_only">
+                    all countries
+                </li>
+                <li class="list-group-item border_bottom_only">
+                    something
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            <canvas id="bar-chart" width="800" height="450"></canvas>
+        </div>
 
+    </div>
+    <span id="bottom_of_chart">bottom</span>
 </section>
 
 
 {% endblock %}
 
 {% block js %}
-
+<!--CHARTS charts.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+        integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
 
 <script src="{{url_for('assets_dist_bp.static', filename='js/landing.js')}}"></script>
 
