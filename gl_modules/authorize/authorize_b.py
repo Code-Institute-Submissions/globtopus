@@ -125,6 +125,7 @@ def login():
 
         user_feelist = field['feelist']
         last_feel = field['last_feel']
+        user_id = str(field['_id'])
     """if we have user with those credentials we will log user """
     if check_password_hash(user_password, form_data['password']) and user_email == form_data['email']:
 
@@ -142,10 +143,28 @@ def login():
         session['user_feelist'] = user_feelist
 
         session_user(form_data)
+
+
+        """IF CURRENTLY LOGGED IN USER ALREADY SET HIS FEELING FOR THE DAY WE WILL NOT INCREASE 
+        NUMBER OF PEOPLE IN world_feel and country_feel COLECTIONS , 
+        WE WILL ONLY RECALCULATE FEELINGS 
+        
+        OTHERWISE IF IT IS FIRST LOGIN IN NEW DAY WE WILL INCREASE NUM OF PEOPLE 
+        WHO EXPRESSED THEIR FEELINGS IN THAT DAY AND WILL ADD THEIR FEELINGS TO THE MIX"""
+        if( mongo.db.todays_users.find_one({"day": datetime.datetime.now().strftime("%F")},{"users": user_id}) ):
+            increase_people = 0
+        else:
+
+            mongo.db.todays_users.update(
+                {"day": datetime.datetime.now().strftime("%F")},
+                {"$addToSet": {'users': user_id}},
+                upsert=True
+            )
+            increase_people = 1
         """updating country feel"""
-        update_country_feel(mongo, country_code, 0, int(form_data['user_feel']) - int(last_feel))
+        update_country_feel(mongo, country_code, increase_people, int(form_data['user_feel']) - int(last_feel))
         """updating world feel"""
-        update_world_feel(mongo, 0, int(form_data['user_feel']) - int(last_feel))
+        update_world_feel(mongo, increase_people, int(form_data['user_feel']) - int(last_feel))
 
         session['user_feel'] = form_data['user_feel']
 
