@@ -115,7 +115,7 @@ eval("/*FUNCTIONS FOR SEARCH AND INTERACTION WITH GLOBS ( USER POSTS ABOUT HOW T
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("/*FUNCTIONS TO SHOW DIV WITH SEARCH FIELD FOR FEELISTS*/\r\n\r\n$(function () {\r\n    $('#globs').on('click', function () {\r\n\r\n        /*AND FOR MOBILE DEVICES WE NEED TO SCROLL TO SEARCH RESULTS*/\r\n        $('#glob_search').toggleClass('d-none').get(0).scrollIntoView();\r\n\r\n    })\r\n\r\n\r\n})\r\n\r\n\r\n\r\n\n\n//# sourceURL=webpack:///./gl_modules/landing/static/src/js/show_search.js?");
+eval("/*FUNCTIONS TO SHOW DIV WITH SEARCH FIELD FOR FEELISTS*/\r\n\r\n$(function () {\r\n    $('#globs').on('click', function () {\r\n        /*HIDE ANY PREVIOUSLY OPEN DIVS ( CHARTS, MAPS)*/\r\n        $('.landing_interaction').addClass('d-none')\r\n        /*AND FOR MOBILE DEVICES WE NEED TO SCROLL TO SEARCH RESULTS*/\r\n        $('#glob_search').toggleClass('d-none').get(0).scrollIntoView();\r\n\r\n\r\n    })\r\n\r\n\r\n})\r\n\r\n\r\n\r\n\n\n//# sourceURL=webpack:///./gl_modules/landing/static/src/js/show_search.js?");
 
 /***/ }),
 

@@ -4,9 +4,15 @@ from flask import Blueprint, request, jsonify, session
 from gl_modules.shared.sanitize import sanitize
 
 globs_bp = Blueprint('globs_bp', __name__,
-                       template_folder='templates',
-                       static_folder='static',
-                       static_url_path='assets/globs')
+                     template_folder='templates',
+                     static_folder='static',
+                     static_url_path='assets/globs')
+
+"""USER CAN SEARCH FOR GLOBS, THAT OTHER GLOBBERS POSTED
+MATCHED BY THE WAY HE FEELS AT THE MOMENT AND HE CAN SEE ACTIONS 
+OTHER GLOBBERS TOOK WHEN THEY FELT THE SAME WAY
+
+TO DO : ADD OPTION OF SELECTING COUNTRY FROM WHICH USER GETS GLOBS"""
 
 
 @globs_bp.route('/_search')
@@ -16,6 +22,15 @@ def search():
 
     results = []
     from app import mongo
+
+    """SEARCHING DB FOR WORDS USER TYPES IN SEARCH BOX IN 
+        1. i_feel FIELD
+            ( HOW OTHER GLOBBERS FELT WHEN THEY WERE POSTING GLOB),
+        2. because FIELD ( REASON WHY THEY FELT THAT WAY ) 
+    
+    AND WE WILL DISPLAY i_feel and because VALUES ALONG 
+    ACTIONS GLOBBERS TOOK TO FEEL THAT WAY OR BETTER"""
+
     feelists = mongo.db.feels.find(
 
         {"$or": [
@@ -53,13 +68,24 @@ def search():
             }
         )
 
+    """RETURNING SEARCH RESULTS TO USER, IF HE IS LOGGED IN HE CAN INTERACT WITH THEM"""
+
     return jsonify(result=results,
                    feelists=session.get('user_feelist') if session.get('user_feelist') else {},
                    authorized_user=True if session.get('authorized_user') else False)
 
 
+"""INTERACTIONS WITH ACTIONS"""
+"""USER CAN INTERACT WITH ACTIONS :
+       1.  LIKE IT
+       2.  ADD IT TO HIS FEELIST
+       3.  FLAG IT AS INAPPROPRIATE"""
 
-
+"""@action_num => WHICH OF THE ACTIONS IS USER INTERACTING WITH
+                    BECAUSE 1 GLOB CAN HAVE UP TO 3 ACTIONS
+                    SO IF USER LIKES,ADDS,FLAGS
+                    ACTIONS WE WILL STORE IT WITH  @action_num AND
+    @glob_id SO THAT WE KNOW EXACTLY WHICH ACTION FROM THE GLOB IT IS"""
 @globs_bp.route('/_actions')
 def actions():
     action_num = request.args.get('action_num', 0, type=str)
@@ -67,6 +93,7 @@ def actions():
     action = request.args.get('action', 0, type=str)
     feel_list = request.args.get('feel_list', 0, type=str)
 
+    """USER MUST BE AUTHORIZED TO BE ABLE TO INTERACT WITH ACTIONS"""
     if not session.get('authorized_user'):
         return jsonify(result='not_authorized')
 

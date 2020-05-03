@@ -10,13 +10,23 @@ charts_bp = Blueprint('charts_bp', __name__,
 
 
 @charts_bp.route('/_chart_data')
-def world_feel():
+def charts_data():
     from app import mongo
+
+    """required data to display charts from AJAX REQUEST"""
     num_of_days = request.args.get('num_of_days', 0, type=int)
     num_of_countries = request.args.get('num_of_countries', 0, type=int)
     chart_type = request.args.get('type', 0, type=str)
     country_code = request.args.get('country_code', 0, type=str)
 
+    """IF TYPE OF CHART IS world => WE WILL INITIALLY CALCULATE LAST 7 DAYS AND DISPLAY LINE CHART
+        USER HAS OPTION OF SELECTING LONGER DURATIONS 30-9-180-360 DAYS
+        
+        IF TYPE IS countries    =>    WE WILL INITIALLY DISPLAY 10 TOP FEELING COUNTRIES
+        USER CAN SELECT TOP 30 OR ALL
+        
+        IF TYPE IS country =>   WE WILL INITIALLY DISPLAY 7 DAY PROGRESS OF SELECTED COUNTRY
+        USER HAS OPTIONS OF 30-90-180-360 DAYS"""
     if chart_type == 'world':
 
         day_feels = []
@@ -62,14 +72,17 @@ def world_feel():
             {'feels': 1, '_id': 0})
 
         for day in feels['feels']:
-            if day <= datetime.datetime.now().strftime("%F") and day >= (
+            if datetime.datetime.now().strftime("%F") >= day >= (
                     (datetime.datetime.now() - datetime.timedelta(days=num_of_days)).strftime("%F")):
                 day_feels.append(feels['feels'][day]['sum_of_feelings'] / feels['feels'][day]['num_of_people'])
                 days.append(day)
         """day_feels[::-1] reversing array to display dates from oldest to newest"""
-        return jsonify(feels= day_feels[::-1], labels= days[::-1], B_colors=get_colors(num_of_days),country_name=get_country_name(country_code))
+        return jsonify(feels=day_feels[::-1], labels=days[::-1], B_colors=get_colors(num_of_days),
+                       country_name=get_country_name(country_code))
 
-
+"""COLORS FOR THE CHARTS IN charts.js AS EVERY COUNTRY NEED ONE COLOR
+TO BE DISPLAYED NICELY, I AM GENERATING RANDOM NUMBERS FROM RANGE OF
+NUMBERS AND APPENDING HASH TO IT"""
 def get_colors(number):
     colors = []
     for i in range(0, number):
