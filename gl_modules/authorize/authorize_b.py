@@ -17,6 +17,7 @@ authorize_bp = Blueprint('authorize_bp', __name__,
 
 @authorize_bp.route('/sign_up')
 def sign_up():
+    # from app import mongo
     # mongo.db.world_feel.insert_many([
     #     {
     #

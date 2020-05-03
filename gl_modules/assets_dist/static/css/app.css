@@ -110,6 +110,13 @@ h2, h3, h4 {
     bottom: 0;
     margin: 10px 0 0 10px;
 }
+.chart{
+    cursor: pointer;
+}
+.chart:hover{
+    background-color: rgba(23, 113, 153, 0.7);
+    color: whitesmoke;
+}
 
 .child_at_top {
 
@@ -124,7 +131,7 @@ h2, h3, h4 {
     font-family: "Lato", sans-serif;
 
     padding: 2px 10px 2px 10px;
-    margin: 20px 10px 60px 10px;
+    margin: 20px 10px 20px 10px;
     cursor: pointer;
     border: 1px solid  #177199;
     white-space:nowrap;
@@ -135,12 +142,43 @@ h2, h3, h4 {
     border: 1px solid  #177199;
 
 }
+.gl_button.opaque{
+    background-color: whitesmoke;
+    color: #177199;
+    border: 1px solid  #177199;
+}
+.gl_button.opaque:hover{
+    background-color: #177199;
+    color: whitesmoke;
+    border: 1px solid  #177199;
+}
+.gl_selected{
+    background-color: rgba(23, 113, 153, 0.7);
+    color: whitesmoke;
+}
+.gl_btn_round {
+    background-color: #177199;
+    color: whitesmoke;
+    font-family: "Lato", sans-serif;
+    border-radius: 50%;
+    padding: 2px 10px 2px 10px;
+    margin: 3px;
+    cursor: pointer;
+    border: 1px solid  #177199;
+    white-space:nowrap;
+}
+.gl_btn_round:hover {
+    background-color: whitesmoke;
+    color:#177199;
+
+}
 .gl_button.beta{
      background-color: #990099;
      color: whitesmoke;
      border: none;
 
 }
+
 .gl_button.beta:hover{
      background-color: #990099;
      color: whitesmoke;

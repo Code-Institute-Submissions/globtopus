@@ -17,6 +17,8 @@ import gl_modules.user.user_b as user_m
 import gl_modules.shared.shared_b as shared_m
 import gl_modules.assets_dist.assets_dist_b as assets_dist_m
 import gl_modules.globs.globs_b as globs_m
+import gl_modules.charts.charts_b as charts_m
+import gl_modules.factory.factory_b as factory_m
 
 app.register_blueprint(landing_m.landing_bp, url_prefix='/')
 app.register_blueprint(user_m.user_bp, url_prefix='/')
@@ -24,6 +26,8 @@ app.register_blueprint(shared_m.shared_bp, url_prefix='/')
 app.register_blueprint(authorize_m.authorize_bp, url_prefix='/')
 app.register_blueprint(assets_dist_m.assets_dist_bp, url_prefix='/')
 app.register_blueprint(globs_m.globs_bp, url_prefix='/')
+app.register_blueprint(charts_m.charts_bp, url_prefix='/')
+app.register_blueprint(factory_m.factory_bp, url_prefix='/')
 
 if __name__ == '__main__':
     app.run(
