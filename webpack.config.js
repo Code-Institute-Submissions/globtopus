@@ -25,6 +25,8 @@ var landing = Object.assign ( {}, config, {
 		'./gl_modules/globs/static/js/globs.js',
 		'./gl_modules/charts/static/js/charts.js',
 
+
+
 	],
 	output : {
 		path     : path.resolve ( __dirname, dist ),
