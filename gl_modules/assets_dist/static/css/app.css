@@ -184,6 +184,18 @@ h2, h3, h4 {
      color: whitesmoke;
 
 }
+.gl_button.green{
+     background-color: rgba(111, 227, 0, 1);
+     color: #0e4963;
+     border: none;
+
+}
+
+.gl_button.green:hover{
+     background-color: #990099;
+     color: whitesmoke;
+
+}
 .gl_action:hover{
      color: #177199;
 }
@@ -254,6 +266,9 @@ a:hover{
     background-size: 30%;
     background-repeat: no-repeat;
     background-image: url("../images/hearth.png");
+}
+.user_heart.country{
+     height: 100px;
 }
 /*REMOVING CARET FROM DROPDOWN UNDER USER ICON IN THE TOP RIGHT CORNER OF NAVIGATION*/
 .caret-off::before {
