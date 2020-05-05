@@ -43,16 +43,31 @@
         else if (_this.data('cn')) return _this.data("cn")
     }
 
+var MapControl  = new SVGPanZoom(document.getElementById('world'), {
+                 eventMagnet: null,
+      // zoom options
+    zoom: {
+      factor: 0.25,
+      minZoom: 1,
+      maxZoom: 20,
+      events: {
+          mouseWheel: true,
+          doubleClick: true,
+          pinch: true
+      },
+      callback: function callback(multiplier) {}
+    },
+            });
     $('.map_controls').on('click', function () {
 
         var action = $(this).data('action')
-        if(action === 'zoomIn') svgPanZoom.zoomIn()
-        if(action === 'zoomOut') svgPanZoom.zoomOut()
-         if(action === 'panLeft') svgPanZoom.panLeft()
-         if(action === 'panRight') svgPanZoom.panRight()
-         if(action === 'panUp') svgPanZoom.panUp()
-         if(action === 'panDown') svgPanZoom.panDown()
-         if(action === 'reset') svgPanZoom.reset()
+        if(action === 'zoomIn') MapControl.zoomIn()
+        if(action === 'zoomOut') MapControl.zoomOut()
+         if(action === 'panLeft') MapControl.panLeft()
+         if(action === 'panRight') MapControl.panRight()
+         if(action === 'panUp') MapControl.panUp()
+         if(action === 'panDown') MapControl.panDown()
+         if(action === 'reset') MapControl.reset()
         /*to do redo for mobile*/
         /*moving the map according to user needs. action on the button is in data-action attribute*/
         //window["svgPanZoom"][$(this).data('action')]();

@@ -107,51 +107,44 @@
     </div>
 </section>
 <section id="map_search" class="landing_interaction d-none">
-
-        <div class="row">
-            <div class="col-md-12 text-center border_green border_bottom_only" >
-                <span id="current"></span>
-
-                </div>
-            <div class="col  text-center pt-4 d-none d-md-block">
+    <div class="row">
+        <div class="col-md-12 text-center border_green border_bottom_only">
+            <span id="current"></span>
+        </div>
+        <div class="col  text-center pt-4 d-none d-md-block">
                 <span class="map_controls" title="zoom in" data-action="zoomIn">
                     <i class="fas fa-search-plus"></i>
                 </span><br>
-                <span class="map_controls" title="zoom out" data-action="zoomOut">
+            <span class="map_controls" title="zoom out" data-action="zoomOut">
                     <i class="fas fa-search-minus"></i>
                 </span><br>
-                <hr class="bg_blue">
-                 <span class="map_controls" title="move up" data-action="panDown"><i class="far fa-arrow-alt-circle-up"></i></span><br>
-                 <span class="map_controls" title="move right" data-action="panLeft"><i class="far fa-arrow-alt-circle-right"></i></i></span><br>
-                 <span class="map_controls" title="move left" data-action="panRight"><i class="far fa-arrow-alt-circle-left"></i></span><br>
-                <span class="map_controls" title="move down" data-action="panUp"><i class="far fa-arrow-alt-circle-down"></i></span><br>
-                 <hr class="bg_blue">
-                 <span class="map_controls" title="reset" data-action="reset"><i class="fas fa-redo"></i></i></span><br>
-
-
-            </div>
-             <div class="col  text-center pt-4 d-md-none">
+            <hr class="bg_blue">
+            <span class="map_controls" title="move up" data-action="panDown"><i class="far fa-arrow-alt-circle-up"></i></span><br>
+            <span class="map_controls" title="move right" data-action="panLeft"><i class="far fa-arrow-alt-circle-right"></i></i></span><br>
+            <span class="map_controls" title="move left" data-action="panRight"><i class="far fa-arrow-alt-circle-left"></i></span><br>
+            <span class="map_controls" title="move down" data-action="panUp"><i class="far fa-arrow-alt-circle-down"></i></span><br>
+            <hr class="bg_blue">
+            <span class="map_controls" title="reset" data-action="reset"><i class="fas fa-redo"></i></i></span><br>
+        </div>
+        <div class="col  text-center pt-4 d-md-none">
                 <span class="map_controls mobile" title="zoom in" data-action="
 ">
                     <i class="fas fa-search-plus"></i>
                 </span>
-                <span class="map_controls mobile" title="zoom out" data-action="zoomOut">
+            <span class="map_controls mobile" title="zoom out" data-action="zoomOut">
                     <i class="fas fa-search-minus"></i>
                 </span>
-                <span class="blue mb-1 pl-1 pr-1 ">|</span>
-                 <span class="map_controls mobile" title="move up" data-action="panDown"><i class="far fa-arrow-alt-circle-up"></i></span>
-                 <span class="map_controls mobile" title="move right" data-action="panLeft"><i class="far fa-arrow-alt-circle-right"></i></i></span>
-                 <span class="map_controls mobile" title="move left" data-action="panRight"><i class="far fa-arrow-alt-circle-left"></i></span>
-                <span class="map_controls mobile" title="move down" data-action="panUp"><i class="far fa-arrow-alt-circle-down"></i></span>
-                <span class="blue  pl-1 pr-1">|</span>
-                 <span class="map_controls mobile" title="reset" data-action="reset"><i class="fas fa-redo"></i></i></span>
-
-
-            </div>
-            <div class="col-md-8  border_blue">
-
-
-                <svg baseProfile="tiny" id="World_countries" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 -100 1600 840" xml:space="preserve">
+            <span class="blue mb-1 pl-1 pr-1 ">|</span>
+            <span class="map_controls mobile" title="move up" data-action="panDown"><i class="far fa-arrow-alt-circle-up"></i></span>
+            <span class="map_controls mobile" title="move right" data-action="panLeft"><i class="far fa-arrow-alt-circle-right"></i></i></span>
+            <span class="map_controls mobile" title="move left" data-action="panRight"><i class="far fa-arrow-alt-circle-left"></i></span>
+            <span class="map_controls mobile" title="move down" data-action="panUp"><i class="far fa-arrow-alt-circle-down"></i></span>
+            <span class="blue  pl-1 pr-1">|</span>
+            <span class="map_controls mobile" title="reset" data-action="reset"><i class="fas fa-redo"></i></i></span>
+        </div>
+        <div class="col-md-8  border_blue">
+            <div id="SVGContainer">
+                <svg baseProfile="tiny" id="world" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 -100 1600 840" xml:space="preserve">
 
                       <path id="bf" data-cn="Burkina Faso"
                             fill="#99FF00"
@@ -1556,15 +1549,14 @@
 
                     </svg>
             </div>
-            <div class="col-md-3  border_blue">
-                 <div id="current_info" class="text-center">
-                     <p class=""> Double click to zoom <br>
+        </div>
+        <div class="col-md-3  border_blue">
+            <div id="current_info" class="text-center">
+                <p class=""> Double click to zoom <br>
                     Scroll in or out</p>
-                 </div>
-
             </div>
         </div>
-
+    </div>
 </section>
 <section id="chart_search" class="landing_interaction d-none">
     <div class="row">
@@ -1621,7 +1613,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
         integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
 <script src="{{url_for('assets_dist_bp.static', filename='js/landing.js')}}"></script>
-<script src="{{url_for('map_bp.static', filename='src/js/compiled/jquery.svg.pan.zoom.js')}}"></script>
+<script src="{{url_for('map_bp.static', filename='src/js/SVGPanZoom.js')}}"></script>
 <script src="{{url_for('map_bp.static', filename='src/js/map_interactions.js')}}"></script>
 <script src="{{url_for('map_bp.static', filename='src/js/map_loader.js')}}"></script>
 {% endblock %}

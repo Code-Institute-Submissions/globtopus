@@ -41,35 +41,19 @@
 })()
 
 
-var svgPanZoom=$("svg").svgPanZoom({
-    events: {
-
-        // enables mouse wheel zooming events
-        mouseWheel: true,
-
-        // enables double-click to zoom-in events
-        doubleClick: true,
-
-        // enables drag and drop to move the SVG events
-        drag: true,
-
-        // cursor to use while dragging the SVG
-        dragCursor: "move"
+var MapControl = new SVGPanZoom(document.getElementById('world'), {
+                 eventMagnet: null,
+      // zoom options
+    zoom: {
+      factor: 0.25,
+      minZoom: 1,
+      maxZoom: 20,
+      events: {
+          mouseWheel: true,
+          doubleClick: true,
+          pinch: true
+      },
+      callback: function callback(multiplier) {}
     },
-
-// time in milliseconds to use as default for animations.
-// Set 0 to remove the animation
-    animationTime: 300,
-
-// how much to zoom-in or zoom-out
-    zoomFactor: 0.25,
-
-// maximum zoom in, must be a number bigger than 1
-    maxZoom: 3,
-
-// how much to move the viewBox when calling .panDirection() methods
-    panFactor: 30,
-
-});
-
+            });
 
