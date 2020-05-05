@@ -45,8 +45,16 @@
 
     $('.map_controls').on('click', function () {
 
-
+        var action = $(this).data('action')
+        if(action === 'zoomIn') svgPanZoom.zoomIn()
+        if(action === 'zoomOut') svgPanZoom.zoomOut()
+         if(action === 'panLeft') svgPanZoom.panLeft()
+         if(action === 'panRight') svgPanZoom.panRight()
+         if(action === 'panUp') svgPanZoom.panUp()
+         if(action === 'panDown') svgPanZoom.panDown()
+         if(action === 'reset') svgPanZoom.reset()
+        /*to do redo for mobile*/
         /*moving the map according to user needs. action on the button is in data-action attribute*/
-        window["svgPanZoom"][$(this).data('action')]();
+        //window["svgPanZoom"][$(this).data('action')]();
     })
 })()
