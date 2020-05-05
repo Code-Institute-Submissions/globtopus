@@ -11,7 +11,7 @@
         success: function (response) {
             country_feels = response.feels
             people = response.current_people
-
+            console.log(people)
 
             $.each(paths, function (key, value) {
 
@@ -41,7 +41,7 @@
 })()
 
 
-$("svg").svgPanZoom({
+var svgPanZoom=$("svg").svgPanZoom({
     events: {
 
         // enables mouse wheel zooming events
@@ -68,7 +68,7 @@ $("svg").svgPanZoom({
     maxZoom: 3,
 
 // how much to move the viewBox when calling .panDirection() methods
-    panFactor: 10,
+    panFactor: 30,
 
 });
 

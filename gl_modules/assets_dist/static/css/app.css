@@ -235,6 +235,27 @@ h2, h3, h4 {
 .border_purple{
      border: solid 1px #990099;
 }
+.map_controls{
+    color:#177199;
+    font-size: 1.5em;
+
+}
+.map_controls.mobile{
+      font-size: 1.2em;
+    margin-left: 3px;
+    margin-right: 3px;
+     padding: 3px;
+}
+.map_controls:hover{
+    background-color:#177199;
+    color:whitesmoke;
+    padding: 3px;
+}
+.map_controls.mobile:hover{
+       background-color:#177199;
+    color:whitesmoke;
+    padding: 3px;
+}
 a:hover{
     text-decoration: none;
 }
