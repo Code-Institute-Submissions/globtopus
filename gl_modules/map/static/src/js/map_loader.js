@@ -18,15 +18,18 @@
                 $(this).data('people', people[$(this).attr('id')]);
                 var feel = country_feels[$(this).attr('id')]
                 $(this).data('feel', feel)
-                if (feel < 49) $(this).attr('fill', "red")
-                else if (feel < 50) $(this).attr('fill', 'green')
-                else if (feel < 51) $(this).attr('fill', 'blue')
-                else if (feel < 52) $(this).attr('fill', 'cyan')
-                else if (feel < 53) $(this).attr('fill', 'salmon')
-                else if (feel < 54) $(this).attr('fill', 'grey')
-                else if (feel < 55) $(this).attr('fill', 'magenta')
-                else if (feel < 56) $(this).attr('fill', 'yellow')
-                else if (feel < 57) $(this).attr('fill', 'purple')
+
+                if (feel < 20) $(this).attr('fill', "#006400")
+                // else if (feel < 20) $(this).attr('fill', '#387400')
+                // else if (feel < 30) $(this).attr('fill', '#419000')
+                else if (feel < 40) $(this).attr('fill', '#20B2AA')
+                     // else if (feel < 50) $(this).attr('fill', '#4FB900')
+                     else if (feel < 60) $(this).attr('fill', '#66FF00')
+                     // else if (feel < 70) $(this).attr('fill', '#58D500')
+                     else if (feel < 80) $(this).attr('fill', '#32CD32')
+                     // else if (feel < 90) $(this).attr('fill', '#61F100')
+                else if (feel <= 100) $(this).attr('fill', 'salmon')
+
                 else $(this).attr('fill', 'black')
                     ;
             });

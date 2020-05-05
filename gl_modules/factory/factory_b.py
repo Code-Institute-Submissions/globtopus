@@ -13,12 +13,12 @@ factory_bp = Blueprint('factory_bp', __name__,
 def world_data():
     from app import mongo
 
-    world_people = 0
-    world_feelings = 0
+
     world_data = {}
 
     for key, value in countryListAlpha2.items():
-
+        world_people = 0
+        world_feelings = 0
         for i in range(1, 365):
             num_of_people = random.randint(1, 10001)
             feelings = random.randint(1, 100)
@@ -30,8 +30,7 @@ def world_data():
             world_data[day] = {day: {'num_of_people': world_people
                 , 'sum_of_feelings': world_feelings, 'day': day}}
 
-        world_people = 0
-        world_feelings = 0
+
 
     for item in world_data:
         mongo.db.world_feel.insert(world_data[item][item])
@@ -44,30 +43,54 @@ def countries_data():
     from app import mongo
     country = {}
     world = {}
-    current_people = 0
-    current_feelings = 0
+    world_data={}
+    world_people = 0
+    world_feelings = 0
     counter = 0
     for key, value in countryListAlpha2.items():
 
         country_code = key.lower()
+        current_people = 0
+        current_feelings = 0
         for i in range(1, 365):
             num_of_people = random.randint(1, 10001)
             feelings = random.randint(1, 100)
+
+            world_people += num_of_people
+            world_feelings += num_of_people * feelings
+
             day = str((datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%F"))
 
             country[day] = {'num_of_people': num_of_people,
                             'sum_of_feelings': num_of_people * feelings}
+
+            world_data[day] = {day: {'num_of_people': world_people
+                , 'sum_of_feelings': world_feelings, 'day': day}}
+
             if (i > 357):
                 current_people += num_of_people
                 current_feelings += num_of_people * feelings
 
+        world_people = 0
+        world_feelings = 0
+
+
         world[counter] = {"country_code": country_code, 'feels': country, 'current_people': current_people,
                           'current_feelings': current_feelings}
-        mongo.db.country_feel.insert({"country_code": country_code, 'feels': country, 'current_people': current_people,
-                                      'current_feelings': current_feelings})
+
+
+
+
+
+        mongo.db.country_feel.insert({"country_code": country_code, 'feels': country, 'current_people': current_people,'current_feelings': current_feelings})
+
+
         counter += 1
 
-    return jsonify(world)
+    for item in world_data:
+        mongo.db.world_feel.insert(world_data[item][item])
+
+    return jsonify(world_data)
 
 
 @factory_bp.route('/get_countries')

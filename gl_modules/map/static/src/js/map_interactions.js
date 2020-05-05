@@ -8,14 +8,17 @@
         $('#map_search').get(0).scrollIntoView()
     })
 
+    var current_fill
     $('path').on('mouseenter',
         function () {
 
-
-            $('#current').html(country_name($(this)))
+            current_fill = $(this).attr('fill')
+            $(this).attr('fill',"rgba(111, 227, 0, 0.3)")
+            $('#current').html(country_name($(this)) )
         })
         .on('mouseleave',
             function () {
+            $(this).attr('fill',current_fill)
 
 
             }
@@ -24,6 +27,7 @@
             $('#current_info').html(`
                    
                    <span > country :</span> <br><span class="smaller_h text-wrap"> ${country_name($(this))} </span><br>
+                   <span>${$(this).attr('id')}</span><br>
                     <span > number of people : </span> <span class="smaller_h"> 
                       ${new Intl.NumberFormat(navigator.language).format($(this).data('people'))} 
                      </span>

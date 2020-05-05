@@ -1566,14 +1566,17 @@
         <div class="col  m-2 border_green">
             <div class="row mb-2">
                 <div class="col">
-                    <span class="smaller_h gl_button chart_type chart" data-type="world" data-num_of_days="10" data-chart_type="world">world</span>
+                    <span class="smaller_h gl_button chart_type chart" data-type="world" data-num_of_days="10" data-chart_type="world_controls">world</span>
                 </div>
                 <div class="col">
-                    <span class="smaller_h gl_button opaque chart_type" data-type="countries" data-chart_type="countries">countries</span>
+                    <span class="smaller_h gl_button opaque chart_type" data-type="countries" data-chart_type="countries_controls">countries</span>
                 </div>
             </div>
             <div id="lists">
-                <ul class="list-group lists" id="world">
+                <ul class="list-group lists" id="world_controls">
+                     <li class="list-group-item border_bottom_only chart gl_selected" data-type="world" data-num_of_days="10">
+                        past 10 days
+                    </li>
                     <li class="list-group-item border_bottom_only chart" data-type="world" data-num_of_days="30">
                         past 30 days
                     </li>
@@ -1587,7 +1590,7 @@
                         past 360 days
                     </li>
                 </ul>
-                <ul class="list-group d-none lists" id="countries">
+                <ul class="list-group d-none lists" id="countries_controls">
                     <li class="list-group-item border_bottom_only chart" data-type="countries" data-num_of_countries="10">
                         top 10
                     </li>
