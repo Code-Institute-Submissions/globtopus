@@ -29,6 +29,7 @@ def index():
     feels = mongo.db.world_feel.find(
         {"day": {"$gte": (datetime.datetime.now() - datetime.timedelta(days=6)).strftime("%F")}})
 
+
     for feel in feels:
         num_of_people.append(int(feel['num_of_people']))
         sum_of_feelings.append(int(feel['sum_of_feelings']))

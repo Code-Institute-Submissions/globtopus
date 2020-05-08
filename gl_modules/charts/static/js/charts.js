@@ -65,6 +65,7 @@
 
             function (data) {
 
+                c_feel = data.c_feels
 
                 c_labels = data.labels
                 feels = data.feels
@@ -226,16 +227,18 @@
     $('.chart_type').on('click', function () {
 
 
-        var oposite_charts = {world: 'countries', countries: 'world'}
+        var oposite_charts = {world_controls: 'countries_controls', countries_controls: 'world_controls'}
         var current = $(this).data('chart_type')
         country_list.html('')
 
         /*CHANGING APPEARANCE OF BUTTONS*/
         $(`[data-chart_type=${oposite_charts[current]}]`).addClass('opaque');
         $(`[data-chart_type=${current}]`).removeClass('opaque');
-
+        console.log(oposite_charts[current])
+        console.log(current)
         /*DISPLAYING, HIDING CHARTS CONTROLS*/
+
+        $('#' + current).removeClass('d-none')
         $('#' + oposite_charts[current]).addClass('d-none')
-        $('#' + current).toggleClass('d-none')
     })
 })()

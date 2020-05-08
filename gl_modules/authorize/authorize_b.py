@@ -125,12 +125,16 @@ def login():
 
         user_feelist = field['feelist']
         last_feel = field['last_feel']
+        user_id = str(field['_id'])
     """if we have user with those credentials we will log user """
     if check_password_hash(user_password, form_data['password']) and user_email == form_data['email']:
 
         mongo.db.users.update(
             {"email": user_email},
-            {"$set": {'last_login': datetime.datetime.now(), 'user_feel.' + today_f(): form_data['user_feel']}},
+            {"$set": {
+                'last_login': datetime.datetime.now(),
+                'last_feel': form_data['user_feel'],
+                'user_feel.' + today_f(): form_data['user_feel']}},
             upsert=True
         )
 
@@ -142,10 +146,35 @@ def login():
         session['user_feelist'] = user_feelist
 
         session_user(form_data)
+
+
+        """IF CURRENTLY LOGGED IN USER ALREADY SET HIS FEELING FOR THE DAY WE WILL NOT INCREASE 
+        NUMBER OF PEOPLE IN world_feel and country_feel COLECTIONS , 
+        WE WILL ONLY RECALCULATE FEELINGS 
+        
+        OTHERWISE IF IT IS FIRST LOGIN IN NEW DAY WE WILL INCREASE NUM OF PEOPLE 
+        WHO EXPRESSED THEIR FEELINGS IN THAT DAY AND WILL ADD THEIR FEELINGS TO THE MIX"""
+
+        if (mongo.db.todays_users.find_one({
+            "day": datetime.datetime.now().strftime("%F"),
+            "users": {"$in": [user_id]},
+
+        })):
+
+            increase_people = 0
+        else:
+            mongo.db.todays_users.update(
+                {"day": datetime.datetime.now().strftime("%F")},
+                {"$push": {'users': user_id}},
+                upsert=True
+            )
+
+            increase_people = 1
+
         """updating country feel"""
-        update_country_feel(mongo, country_code, 0, int(form_data['user_feel']) - int(last_feel))
+        update_country_feel(mongo, country_code, increase_people, int(form_data['user_feel']) - int(last_feel ))
         """updating world feel"""
-        update_world_feel(mongo, 0, int(form_data['user_feel']) - int(last_feel))
+        update_world_feel(mongo, increase_people, int(form_data['user_feel']) - int(last_feel ) )
 
         session['user_feel'] = form_data['user_feel']
 
@@ -167,11 +196,11 @@ def register():
     """IF USER DIDN'T SELECT HOW HE FEELS WE WILL FLASH MESSAGE
     TO SELECT HIS FEELINGS WITH FORM DATA RETURNED BACK TO HIM
     SO THAT HE DOESN'T NEED TO TYPE IT AGAIN"""
-    if form_data['user_feel'] == '':
-        sticky_form(form_data)
-
-        flash('Please select how you feel!')
-        return redirect(url_for('authorize_bp.sign_up'))
+    # if form_data['user_feel'] == '':
+    #     sticky_form(form_data)
+    #
+    #     flash('Please select how you feel!')
+    #     return redirect(url_for('authorize_bp.sign_up'))
 
     if form_data['country_code'] == '':
         sticky_form(form_data)
@@ -191,12 +220,12 @@ def register():
 
 
     else:
-        """UPDATING WORLD FEEL WITH NEW USER FEELINGS"""
-        update_world_feel(mongo, 1, int(form_data['user_feel']))
-        """INSERTING INTO FEELS TABLE"""
-
-        """creating new user in country feel"""
-        update_country_feel(mongo, form_data["country_code"], 1, int(form_data['user_feel']))
+        # """UPDATING WORLD FEEL WITH NEW USER FEELINGS"""
+        # update_world_feel(mongo, 1, int(form_data['user_feel']))
+        # """INSERTING INTO FEELS TABLE"""
+        #
+        # """creating new user in country feel"""
+        # update_country_feel(mongo, form_data["country_code"], 1, int(form_data['user_feel']))
 
         """we will register user and set his id into session 
         redirect to user dashboard and change nav to logout instead of login | sign up"""
@@ -209,14 +238,14 @@ def register():
         form_data['name'] = sanitize(form_data['name'], 'string')
 
 
-        session_user(form_data, True)
+        #session_user(form_data, True)
+        form_data['last_feel'] = 0
+        form_data['user_feel'] = {datetime.datetime.now().strftime("%F"): 0}
 
-        form_data['user_feel'] = {datetime.datetime.now().strftime("%F"): form_data['user_feel']}
-        form_data['last_feel'] = form_data['user_feel']
 
         mongo.db.users.insert_one(form_data)
-
-        return redirect(url_for('user_bp.user'))
+        flash('Thank you for signing up '+ form_data['name']+'. You can log in now !')
+        return redirect(url_for('authorize_bp.sign_in'))
 
 
 @authorize_bp.route('/logout')

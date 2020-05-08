@@ -109,7 +109,8 @@
             {% if messages %}
             <ul class="list-group">
                 {% for message in messages %}
-                <li class="list-group-item text-warning bg_blue no_border">{{ message }}</li>
+
+                <li class="list-group-item border_purple purple no_border mb-1 text-center">{{ message }}</li>
                 {% endfor %}
             </ul>
             {% endif %}
@@ -124,13 +125,13 @@
                     <div class="input-group mb-2">
                         <div class="input-group-prepend">
                             <div class="input-group-text bg-transparent border_bottom_only">
-                                <i class="fas fa-heart"></i>
+                                <i class="fas fa-heart text-danger"></i>
                             </div>
                         </div>
 
                         <input type="text" class="form-control  border_bottom_only bg-transparent  text-center"
                                id="feeling_holder" name="user_feel"
-                               placeholder="?" readonly required>
+                               placeholder="how do you feel ?" readonly required>
                     </div>
                 </div>
 
