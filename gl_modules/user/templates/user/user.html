@@ -1,48 +1,56 @@
 {% extends 'base.html' %} {% block content %}
 <div class="row">
+    <!--USER DASHBOARD NAV-->
     <div class="col-md-4 border_blue">
         <ul class="list-group">
-
-            <li class="list-group-item no_border mb-1">{{user.name}}</li>
-            <li class="list-group-item no_border">How I Feel today : {{user.user_feel[today]}}
-                <hr>
-            {% for day in user.user_feel %}
-
-                {{day}} {{user.user_feel[day]}}
-                <br>
-
-             {% endfor %}
+            <li class="list-group-item no_border mb-1">
+                <span class="user_page user_heart d-flex justify-content-center align-items-center">{{session['user_feel']}}</span>
             </li>
-            <li class="list-group-item no_border">My Actions</li>
-            <li class="list-group-item no_border list-group-item-primary">My Feelist
-                <hr>
-            {% for feelist in user.feelist %}
-                {{feelist}}
-                <br>
-            {% endfor %}
-            </li>
-            <li class="list-group-item no_border">My Favourites</li>
-            <li class="list-group-item no_border">My Progress</li>
+
+            <a  href="{{url_for('user_bp.user')}}" class="list-group-item no_border user_nav" data-nav="my_progress">My Progress</a>
+            <li class="list-group-item no_border user_nav" data-nav="my_glob">My Glob</li>
+            <li class="list-group-item no_border user_nav" data-nav="my_feelist">My Feelists</li>
+            <li class="list-group-item no_border user_nav" data-nav="my_fav">My Favourites</li>
+            <li class="list-group-item no_border user_nav" data-nav="my_posts">My Posts</li>
             <li class="list-group-item no_border ">last login : <small> {{user.last_login}}</small></li>
-
         </ul>
     </div>
+     <!--USER ACTION WINDOW-->
     <div class="col-md-8 border_blue">
         <div class="row">
-            <div class="col-md-4 int_steps">
-                something 1
-            </div>
-            <div class="col-md-4 int_steps">
-                something 2
+            <!--USER'S PROGRESS CHART-->
+            <div class="col-md-12" id="chart_holder">
+                <canvas id="user_chart" width="800" height="450"></canvas>
+                <span id="days" data-days={{ days }}></span>
+                <span id="feelings" data-feelings={{ feelings }}></span>
             </div>
 
-            <div class="col-md-4 int_steps">
-                something 3
+             <!--USER'S GLOB-->
+            <div class="col-md-12 d-none" id="glob">
+
+            </div>
+
+             <!--USER'S FEELISTS-->
+            <div class="col-md-12  d-none" id="feelists">
+
+            </div>
+
+             <!--USER'S FAVOURITES-->
+            <div class="col-md-12  d-none" id="favourites">
+
+            </div>
+
+             <!--USER'S POSTS-->
+            <div class="col-md-12  d-none" id="posts">
+
             </div>
         </div>
     </div>
-
 </div>
-
-
+{% endblock %}
+{% block js %}
+<!--CHARTS charts.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+        integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+<script src="{{url_for('assets_dist_bp.static', filename='js/user.js')}}"></script>
 {% endblock %}

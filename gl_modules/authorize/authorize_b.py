@@ -235,7 +235,15 @@ def register():
         form_data['last_login'] = datetime.datetime.now()
         form_data['password'] = generate_password_hash('password')
         form_data['feelist'] = {}
-        form_data['name'] = sanitize(form_data['name'], 'string')
+        user_name_split = form_data['name'].split(' ')
+        user_name=''
+        counter = 0
+        for name in user_name_split:
+            sanitize(name,'string')
+            user_name +=  sanitize(name,'string') if counter == 0 else ' '+ sanitize(name,'string')
+            counter += 1
+
+        form_data['name'] = user_name
 
 
         #session_user(form_data, True)

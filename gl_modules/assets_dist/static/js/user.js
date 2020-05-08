@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("\n\n//# sourceURL=webpack:///./gl_modules/user/static/src/js/user.js?");
+eval("(function () {\r\n    /*removing last _*/\r\n    var days = $('#days').data('days').slice(0, -1).split('_');\r\n    var feelings = $('#feelings').data('feelings').slice(0, -1).split('_');\r\n    //rendering users progress\r\n    new Chart(document.getElementById(\"user_chart\"), {\r\n        type: 'line',\r\n        data: {\r\n            labels: days,\r\n            datasets: [{\r\n                data: feelings,\r\n\r\n                borderColor: \"#3e95cd\",\r\n                fill: false\r\n            }\r\n            ]\r\n        },\r\n        options: {\r\n            legend: {display: false},\r\n            title: {\r\n                display: true,\r\n                text: 'Your progress'\r\n            }\r\n        }\r\n    });\r\n\r\n    $('.user_nav').on('click', function () {\r\n        var action = $(this).data('nav')\r\n\r\n\r\n        if (action === 'my_feelist') {\r\n            $.ajax({\r\n                url: '/_my_feelist',\r\n                type: 'POST',\r\n\r\n                success: function (response) {\r\n                    feelists = response.list\r\n\r\n                    $.each(feelists, function (key,name) {\r\n                        console.log('list_name '+name)\r\n                    })\r\n                },\r\n                error: function (error) {\r\n                    console.log(error)\r\n                }\r\n            });\r\n        }\r\n    })\r\n})()\r\n\r\n\r\n\r\n\n\n//# sourceURL=webpack:///./gl_modules/user/static/src/js/user.js?");
 
 /***/ }),
 

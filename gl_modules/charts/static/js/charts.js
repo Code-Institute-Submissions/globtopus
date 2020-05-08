@@ -181,7 +181,7 @@
     })
 
     function render_chart(chart_canvas, type, c_labels, B_colors, num_of_countries, num_of_days, country_name) {
-        // Bar chart
+
 
         var chart = new Chart(chart_canvas, {
             type: type === 'countries' ? 'bar' : 'line',
