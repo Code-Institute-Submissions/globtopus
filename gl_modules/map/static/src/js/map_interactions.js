@@ -100,8 +100,8 @@ $('.map_color_legend').on('click', function () {
 
 
                 $('#range_countries').append(`
-                 <td class="mr-1 p-1">   
-                      <strong >${c_data[0]}</strong>&nbsp;  ${c_data[1]} 
+                 <td class="mr-1 p-1 ">   
+                      <strong >${c_data[0]}</strong>&nbsp;<span class="text-wrap"> ${c_data[1]} </span> 
                  </td>`)
 
             if(counter % 4 === 0 )$('#range_countries').append(` <tr></tr> `)
