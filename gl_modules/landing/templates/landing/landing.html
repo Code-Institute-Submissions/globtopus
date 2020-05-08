@@ -13,7 +13,7 @@
         <div class=" interaction-holder" data-cy="user_interaction">
             <div class="row ">
                 <!--GLOBE WITH FEELING-->
-                <div class="col-md-4 int_steps_globe d-flex justify-content-center align-items-center parent m-2 int_steps"
+                <div class="col-md-4 int_steps_globe d-flex justify-content-center align-items-center parent mr-2  int_steps"
                      id="hearth">
                     <h4 class="child_at_top smaller_h text-center">This is how we feel</h4>{{ db }}
                     <div>
@@ -33,48 +33,62 @@
                     </div>
                 </div>
                 <!--SLIDER WITH TEXT AREAS FOR INPUTING HOW DOES USER FEELS-->
-                <div class="col-md-4 int_steps p-2 parent m-2" id="how_do_you_feel">
-                    <h4 class="smaller_h text-center">How do you feel?</h4>
-                    <hr>
-                    <input type="text" class="form-control border_bottom_only mb-1 form_label" form="user_feel" id="one"
-                           name="i_feel" required
-                           placeholder="I feel/ I feel like"
-                           data-cy="description">
+                <div class="col-md-4 int_steps  parent mr-2 d-flex align-content-around flex-wrap" id="how_do_you_feel">
+                    <div class="col-md-12"><h4 class="smaller_h text-center">How do you feel?</h4></div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control border_bottom_only mb-1 form_label" form="user_feel" id="one"
+                               name="i_feel" required
+                               placeholder="I feel/ I feel like"
+                               data-cy="description">
+                    </div>
+                    <div class="col-md-12">
                     <textarea class="form-control border_bottom_only form_label" form="user_feel" id="two"
                               maxlength="200"
                               name="because" required
                               placeholder="Because..."
                               data-cy="description"></textarea>
+                    </div>
                     {{ feelometer() }}
                 </div>
                 <!--STEPS TO FEEL THIS WAY OR BETTER-->
-                <div class="col int_steps p-2 parent  m-2" id="what_do_you_do">
-                    <h4 class="smaller_h text-center">What do you do</h4>
-                    <h4 id="better" class="smaller_h text-center ">to feel better?</h4>
-                    <h4 id="this_or_better" class="smaller_h text-center d-none">to feel this way or better ?</h4>
+                <div class="col int_steps p-2 parent   d-flex align-content-around flex-wrap" id="what_do_you_do">
+                    <div class="col-md-12">
+                        <h4 class="smaller_h text-center">What do you do</h4>
+                        <h4 id="better" class="smaller_h text-center ">to feel better?</h4>
+                        <h4 id="this_or_better" class="smaller_h text-center d-none">to feel this way or better ?</h4>
+                    </div>
                     <hr>
+                    <div class="col-md-12">
                     <textarea form="user_feel"
+                              rows="1"
                               name="action_1"
                               id="action_1"
                               class="form-control ___ mb-2 border_bottom_only form_label"
                               placeholder="action 1"
                               required
                     ></textarea>
+                    </div>
+                    <div class="col-md-12">
                     <textarea form="user_feel"
+                              rows="1"
                               data-title="EUR"
                               name="action_2"
                               id="action_2"
                               class="form-control ___ mb-2 border_bottom_only form_label"
                               placeholder="action 2"
                     ></textarea>
+                    </div>
+                    <div class="col-md-12">
                     <textarea form="user_feel"
+                              rows="1"
                               name="action_3"
                               id="action_3"
                               class="form-control ___ mb-2 border_bottom_only form_label"
                               placeholder="action 3"
                     ></textarea>
+                    </div>
                     {% if session.get('authorized_user') %}
-                    <button class="gl_button float-right" type="submit">submit</button>
+                    <button class="gl_button col-md-12 p-2" type="submit">submit</button>
                     {% else %}
                     <a class="" href="{{url_for('authorize_bp.sign_in')}}">Sign in </a>
                     or
@@ -86,6 +100,7 @@
         </div>
     </form>
 </section>
+<span class="test_glob">test me</span>
 <section id="glob_search" class="landing_interaction d-none">
     <div class="">
         <div class="row  ">
@@ -108,9 +123,6 @@
 </section>
 <section id="map_search" class="landing_interaction d-none">
     <div class="row">
-        <div class="col-md-12 text-center border_green border_bottom_only">
-            <span id="current"></span>
-        </div>
         <div class="col  text-center pt-4 d-none d-md-block">
                 <span class="map_controls" title="zoom in" data-action="zoomIn">
                     <i class="fas fa-search-plus"></i>
@@ -141,7 +153,7 @@
             <span class="blue  pl-1 pr-1">|</span>
             <span class="map_controls mobile" title="reset" data-action="reset"><i class="fas fa-redo"></i></i></span>
         </div>
-        <div class="col-md-8  border_blue">
+        <div class="col-md-8 p-0 border_blue">
             <div id="SVGContainer">
                 <svg baseProfile="tiny" id="world" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 -100 1600 840" xml:space="preserve">
 
@@ -1548,13 +1560,35 @@
 
                     </svg>
             </div>
+            <div class="row no-gutters">
+                <div class="col-md-6  text-center border_green border_bottom_only p-2">
+                    <span id="current">Hover over map to see country name here</span>
+                </div>
+                <div class="col-md-6  text-center border_green border_bottom_only d-flex justify-content-around">
+                    <span class="map_color_legend map_20" data-range="0-20"><20 </span>
+                    <span class="map_color_legend map_40" data-range="20-40"><40 </span>
+                    <span class="map_color_legend map_60" data-range="40-60"><60 </span>
+                    <span class="map_color_legend map_80" data-range="60-80"><80 </span>
+                    <span class="map_color_legend map_100" data-range="80-100">≤100 </span>
+                </div>
+            </div>
         </div>
         <div class="col-md-3  border_blue">
             <div id="current_info" class="text-center">
-                <p class=""> Double click to zoom <br>
-                    Scroll in or out</p>
+
+                 <p class="smaller_h"> Click on the country on the map to get more info ! </p>
+                <hr class="bg_green">
+                 <p class="smaller_h"> Click on color legend to get list of countries in that range ! </p>
+
+
+
             </div>
         </div>
+    </div>
+    <div class="mt-2 p-2" id="table_holder">
+        <div id="country_range" class="text-center"></div>
+        <table class="table" id="range_countries">
+        </table>
     </div>
 </section>
 <section id="chart_search" class="landing_interaction d-none">
@@ -1574,7 +1608,7 @@
             </div>
             <div id="lists">
                 <ul class="list-group lists" id="world_controls">
-                     <li class="list-group-item border_bottom_only chart gl_selected" data-type="world" data-num_of_days="10">
+                    <li class="list-group-item border_bottom_only chart gl_selected" data-type="world" data-num_of_days="10">
                         past 10 days
                     </li>
                     <li class="list-group-item border_bottom_only chart" data-type="world" data-num_of_days="30">

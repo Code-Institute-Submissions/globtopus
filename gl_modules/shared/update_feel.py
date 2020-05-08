@@ -16,8 +16,9 @@ def update_world_feel(mongo, people, feeling):
     mongo.db.world_feel.update(
         {"day": datetime.datetime.now().strftime("%F")},
         {"$inc":
-             {"num_of_people": people,
-              "sum_of_feelings": feeling}}
+            {
+                "num_of_people": people,
+                "sum_of_feelings": feeling}}
         ,
         upsert=True
     )
@@ -35,8 +36,13 @@ def update_country_feel(mongo, country_code, people, feeling):
     mongo.db.country_feel.update(
         {"country_code": country_code},
         {"$inc":
-             {"feels." + today + ".num_of_people": people,
-              "feels." + today + ".sum_of_feelings": feeling}}
+            {
+                "feels." + today + ".num_of_people": people,
+                "feels." + today + ".sum_of_feelings": feeling,
+                "total_people": people,
+                "total_feelings": feeling
+            },
+        }
         ,
         upsert=True
     )

@@ -13,12 +13,12 @@ factory_bp = Blueprint('factory_bp', __name__,
 def world_data():
     from app import mongo
 
-
+    world_people = 0
+    world_feelings = 0
     world_data = {}
 
     for key, value in countryListAlpha2.items():
-        world_people = 0
-        world_feelings = 0
+
         for i in range(1, 365):
             num_of_people = random.randint(1, 10001)
             feelings = random.randint(1, 100)
@@ -30,39 +30,75 @@ def world_data():
             world_data[day] = {day: {'num_of_people': world_people
                 , 'sum_of_feelings': world_feelings, 'day': day}}
 
-
+        world_people = 0
+        world_feelings = 0
 
     for item in world_data:
         mongo.db.world_feel.insert(world_data[item][item])
 
     return 'world_data'
+# get countries where feeling is between range
+@factory_bp.route('/20_country')
+def twenty_country():
+    from app import mongo
 
 
+
+    country_feel = mongo.db.country_feel.find(
+        {"$and" : [ {"$expr": { "$lt": [ {"$divide": ["$total_feelings", "$total_people"]},60]}},
+                    {"$expr": { "$gt": [ {"$divide": ["$total_feelings", "$total_people"]},40]}} ]},
+
+
+
+
+
+        { '_id': 0})
+    data = {}
+    for feel in country_feel:
+        data[ get_country_name(feel["country_code"] ) ]= round(feel['total_feelings']/feel['total_people'],2)
+
+    return jsonify(data)
 @factory_bp.route('/create_countries_data')
 def countries_data():
     from app import mongo
-    country = {}
+    feels = {}
     world = {}
-    world_data={}
+    current_people = 0
+    current_feelings = 0
+    total_people = 0
+    total_feelings = 0
+    counter = 0
+
     world_people = 0
     world_feelings = 0
-    counter = 0
+    world_data = {}
+
     for key, value in countryListAlpha2.items():
 
         country_code = key.lower()
-        current_people = 0
-        current_feelings = 0
-        for i in range(1, 365):
+        for i in range(1, 366):
             num_of_people = random.randint(1, 10001)
-            feelings = random.randint(1, 100)
+            if (counter < 30):
+
+                feelings = random.randint(1, 20)
+            elif (counter < 70):
+                feelings = random.randint(20, 40)
+            elif (counter < 130):
+                feelings = random.randint(40, 60)
+            elif (counter < 200):
+                feelings = random.randint(60, 80)
+            elif (counter < 247):
+                feelings = random.randint(80, 100)
+
+            day = str((datetime.datetime.now() - datetime.timedelta(days=366 - i)).strftime("%F"))
+
+            feels[day] = {'num_of_people': num_of_people,
+                          'sum_of_feelings': num_of_people * feelings}
+            total_people += num_of_people
+            total_feelings += num_of_people * feelings
 
             world_people += num_of_people
             world_feelings += num_of_people * feelings
-
-            day = str((datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%F"))
-
-            country[day] = {'num_of_people': num_of_people,
-                            'sum_of_feelings': num_of_people * feelings}
 
             world_data[day] = {day: {'num_of_people': world_people
                 , 'sum_of_feelings': world_feelings, 'day': day}}
@@ -71,26 +107,36 @@ def countries_data():
                 current_people += num_of_people
                 current_feelings += num_of_people * feelings
 
-        world_people = 0
-        world_feelings = 0
+        world[counter] = {"country_code": country_code, 'feels': feels, 'total_people': total_people,
+                          'total_feelings': total_feelings}
 
-
-        world[counter] = {"country_code": country_code, 'feels': country, 'current_people': current_people,
-                          'current_feelings': current_feelings}
-
-
-
-
-
-        mongo.db.country_feel.insert({"country_code": country_code, 'feels': country, 'current_people': current_people,'current_feelings': current_feelings})
-
-
+        mongo.db.country_feel.insert({"country_code": country_code, 'feels': feels, 'total_people': total_people,
+                                      'total_feelings': total_feelings})
         counter += 1
+        total_people = 0
+        total_feelings = 0
+        current_people = 0
+        current_feelings = 0
 
     for item in world_data:
         mongo.db.world_feel.insert(world_data[item][item])
 
-    return jsonify(world_data)
+    return jsonify(world)
+
+
+@factory_bp.route('/check_user')
+def check_user():
+    from app import mongo
+    if (mongo.db.todays_users.find_one({
+        "day": datetime.datetime.now().strftime("%F"),
+        "users": {"$in": ['5eb3e568qf95642e8068f7']},
+
+    })):
+
+        user = 0
+    else:
+        user = 1
+    return jsonify(user)
 
 
 @factory_bp.route('/get_countries')
@@ -141,7 +187,6 @@ def country_progress():
 
 @factory_bp.route('/get_country_name')
 def get_country_name(c_code):
-
     """GOING TO DB ONLY ONCE PER SESSION AS THIS DATA IS NEVER CHANGING... TO DO : CHECK CACHE"""
     if not session.get('countries'):
         countries = {}

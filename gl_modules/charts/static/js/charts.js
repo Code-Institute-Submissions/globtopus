@@ -65,6 +65,7 @@
 
             function (data) {
 
+                c_feel = data.c_feels
 
                 c_labels = data.labels
                 feels = data.feels

@@ -35,12 +35,17 @@ h2, h3, h4 {
 
 }
 
+.form_label {
+    font-size: 1.2em;
+
+}
+
 .int_steps_globe {
     min-height: 300px;
 }
 
 .int_steps {
-
+    min-height: 475px;
     border: solid 1px rgba(111, 227, 0, 1);
 }
 
@@ -87,18 +92,20 @@ h2, h3, h4 {
 }
 
 #feeling_holder {
-    font-size: 1.6em;
+    font-size: 0.9em;
     font-family: Oswald, sans-serif;
     text-transform: uppercase;
     letter-spacing: 4px;
     padding-right: 55px;
 }
+
 #feeling_holder.sign_up {
-     font-size: 1.25em;
+    font-size: 1.25em;
     font-family: Lato, sans-serif;
     text-transform: none;
     letter-spacing: 0px;
 }
+
 /* COUPLE OF DIVS TO ALIGN CHILD DIV TO THE BOTTOM OF A PARENT DIV*/
 .parent {
     position: relative;
@@ -110,10 +117,12 @@ h2, h3, h4 {
     bottom: 0;
     margin: 10px 0 0 10px;
 }
-.chart{
+
+.chart {
     cursor: pointer;
 }
-.chart:hover{
+
+.chart:hover {
     background-color: rgba(23, 113, 153, 0.7);
     color: whitesmoke;
 }
@@ -133,29 +142,34 @@ h2, h3, h4 {
     padding: 2px 10px 2px 10px;
     margin: 20px 2px 20px 2px;
     cursor: pointer;
-    border: 1px solid  #177199;
-    white-space:nowrap;
+    border: 1px solid #177199;
+    white-space: nowrap;
 }
-.gl_button:hover{
+
+.gl_button:hover {
     background-color: whitesmoke;
     color: #177199;
-    border: 1px solid  #177199;
+    border: 1px solid #177199;
 
 }
-.gl_button.opaque{
+
+.gl_button.opaque {
     background-color: whitesmoke;
     color: #177199;
-    border: 1px solid  #177199;
+    border: 1px solid #177199;
 }
-.gl_button.opaque:hover{
+
+.gl_button.opaque:hover {
     background-color: #177199;
     color: whitesmoke;
-    border: 1px solid  #177199;
+    border: 1px solid #177199;
 }
-.gl_selected{
+
+.gl_selected {
     background-color: rgba(23, 113, 153, 0.7);
     color: whitesmoke;
 }
+
 .gl_btn_round {
     background-color: #177199;
     color: whitesmoke;
@@ -164,41 +178,46 @@ h2, h3, h4 {
     padding: 2px 10px 2px 10px;
     margin: 3px;
     cursor: pointer;
-    border: 1px solid  #177199;
-    white-space:nowrap;
+    border: 1px solid #177199;
+    white-space: nowrap;
 }
+
 .gl_btn_round:hover {
     background-color: whitesmoke;
-    color:#177199;
-
-}
-.gl_button.beta{
-     background-color: #990099;
-     color: whitesmoke;
-     border: none;
+    color: #177199;
 
 }
 
-.gl_button.beta:hover{
-     background-color: #990099;
-     color: whitesmoke;
-
-}
-.gl_button.green{
-     background-color: rgba(111, 227, 0, 1);
-     color: #0e4963;
-     border: none;
+.gl_button.beta {
+    background-color: #990099;
+    color: whitesmoke;
+    border: none;
 
 }
 
-.gl_button.green:hover{
-     background-color: #990099;
-     color: whitesmoke;
+.gl_button.beta:hover {
+    background-color: #990099;
+    color: whitesmoke;
 
 }
-.gl_action:hover{
-     color: #177199;
+
+.gl_button.green {
+    background-color: rgba(111, 227, 0, 1);
+
+    border: none;
+
 }
+
+.gl_button.green:hover {
+
+    border: solid 1px #990099;
+
+}
+
+.gl_action:hover {
+    color: #177199;
+}
+
 .gl_toggler {
     margin-top: -20px;
 
@@ -207,143 +226,221 @@ h2, h3, h4 {
 }
 
 #map_sign_up {
-	height: 400px;
+    height: 400px;
 
-	}
+}
+
+.map_0 {
+    background-color: #EEEEEE;
+
+}
+
+.map_color_legend {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    padding: 7px 0 0px 0;
+
+
+}
+
+.map_color_legend:hover {
+    background-color: #EEEEEE;
+    color: #006400;
+    border: 1px dashed #006400;
+    font-weight: bold;
+}
+
+.dashed_border {
+    border: 1px dashed #006400;
+    background-color: #EEEEEE;
+}
+
+.map_20 {
+    background-color: #006400;
+    color: #fafafa;
+}
+
+.map_40 {
+    background-color: #20B2AA;
+    color: #fafafa;
+}
+
+.map_60 {
+    background-color: #66FF00;
+    color: #0e4963;
+}
+
+.map_80 {
+    background-color: #40E0D0;
+    color: #0e4963;
+}
+
+.map_100 {
+    background-color: #FFFF00;
+    color: #0e4963;
+}
+
 /*app specific color classes*/
-.bg_blue{
+.bg_blue {
     background-color: #177199;
 }
-.bg_blue_light{
+
+.bg_blue_light {
     background-color: rgba(23, 113, 153, 0.8);
 }
-.blue{
+
+.blue {
     color: #177199;
 }
-.border_blue{
+
+.border_blue {
     border: 1px solid #177199;
 }
-.border_green{
-     border: solid 1px rgba(111, 227, 0, 1);
+
+.border_green {
+    border: solid 1px rgba(111, 227, 0, 1);
 }
-.bg_green{
-    background-color:  rgba(111, 227, 0, 1);
+
+.bg_green {
+    background-color: rgba(111, 227, 0, 1);
 }
-.bg_purple{
+
+.bg_purple {
     background-color: #990099;
 }
-.border_purple{
-     border: solid 1px #990099;
+
+.border_purple {
+    border: solid 1px #990099;
 }
-.map_controls{
-    color:#177199;
+
+.purple {
+    color: #990099;;
+}
+
+.map_controls {
+    color: #177199;
     font-size: 1.5em;
 
 }
-.map_controls.mobile{
-      font-size: 1.2em;
+
+.map_controls.mobile {
+    font-size: 1.2em;
     margin-left: 3px;
     margin-right: 3px;
-     padding: 3px;
-}
-.map_controls:hover{
-    background-color:#177199;
-    color:whitesmoke;
     padding: 3px;
 }
-.map_controls.mobile:hover{
-       background-color:#177199;
-    color:whitesmoke;
+
+.map_controls:hover {
+    background-color: #177199;
+    color: whitesmoke;
     padding: 3px;
 }
-a:hover{
+
+.map_controls.mobile:hover {
+    background-color: #177199;
+    color: whitesmoke;
+    padding: 3px;
+}
+
+a:hover {
     text-decoration: none;
 }
+
 .user_initials {
-	width: 2.8rem;
-	height: 2.8rem;
-	border-radius: 1.4rem;
-	background-color: transparent;
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 1.4rem;
+    background-color: transparent;
     color: #177199;
 
     border: solid 1px rgba(111, 227, 0, 1);
-	}
+}
+
 .dropdown-item:hover {
-	background-color: rgba(23, 113, 153, 0.7);
-	text-decoration: none;
+    background-color: rgba(23, 113, 153, 0.7);
+    text-decoration: none;
     color: whitesmoke;
-	}
-.form-control{
+}
+
+.form-control {
     border-radius: 0;
 }
-.adds{
+
+.adds {
     width: 100%;
     height: 100%;
 }
 
-.user_heart{
+.user_heart {
     height: 50px;
     background-position: center center;
     background-size: 30%;
     background-repeat: no-repeat;
     background-image: url("../images/hearth.png");
 }
-.user_heart.country{
-     height: 100px;
+
+.user_heart.country {
+    height: 100px;
 }
+
 /*REMOVING CARET FROM DROPDOWN UNDER USER ICON IN THE TOP RIGHT CORNER OF NAVIGATION*/
 .caret-off::before {
-	display: none;
-	}
+    display: none;
+}
 
 .caret-off::after {
-	display: none;
-	}
+    display: none;
+}
+
 /*CUSTOMIZING LEAFLET'S CSS FOR STYLING POPUPS*/
 .popup_class .leaflet-popup-tip, .popup_class .leaflet-popup-content-wrapper {
-	background-color: rgba(23, 113, 153, 0.8);
-	color: #fafafa;
-	font-size: 1.2em;
-	}
+    background-color: rgba(23, 113, 153, 0.8);
+    color: #fafafa;
+    font-size: 1.2em;
+}
 
 .leaflet-container a.leaflet-popup-close-button {
-	top: 0;
-	right: 0;
-	padding: 4px 4px 0 0;
-	border: none;
-	text-align: center;
-	font: 16px/14px Tahoma, Verdana, sans-serif;
-	color: red;
-	text-decoration: none;
-	font-weight: bold;
-	background: transparent;
-	}
+    top: 0;
+    right: 0;
+    padding: 4px 4px 0 0;
+    border: none;
+    text-align: center;
+    font: 16px/14px Tahoma, Verdana, sans-serif;
+    color: red;
+    text-decoration: none;
+    font-weight: bold;
+    background: transparent;
+}
 
 .leaflet-container a.leaflet-popup-close-button:hover {
-	color: red;
-	}
+    color: red;
+}
 
 .leaflet-popup-tip {
-	width: 17px;
-	height: 17px;
-	padding: 1px;
-	margin: -10px auto 0;
-	-webkit-transform: rotate(45deg);
-	-moz-transform: rotate(45deg);
-	-ms-transform: rotate(45deg);
-	transform: rotate(45deg);
-	}
+    width: 17px;
+    height: 17px;
+    padding: 1px;
+    margin: -10px auto 0;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
 
 .leaflet-popup-tip-container {
-	position: absolute;
-	left: 50%;
-	margin-left: -20px;
-	overflow: hidden;
-	pointer-events: none;
-	}
-#footer{
+    position: absolute;
+    left: 50%;
+    margin-left: -20px;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+#footer {
     min-height: 500px;
 }
+
 @media screen and ( max-width: 1200px ) {
 }
 
@@ -366,6 +463,7 @@ a:hover{
         margin-top: 30px;
 
     }
+
 }
 
 /*SMALLER SIZES FOR PROGRESS STEPS */
@@ -373,6 +471,15 @@ a:hover{
     .custom-range {
         width: 60%;
         margin-top: 20px;
+    }
+
+    .svg_legend {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        padding: 5px 0 0px 0;
+        font-size: 0.7em;
+
     }
 
 }
