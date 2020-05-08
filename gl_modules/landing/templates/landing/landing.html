@@ -100,7 +100,6 @@
         </div>
     </form>
 </section>
-
 <section id="glob_search" class="landing_interaction d-none">
     <div class="">
         <div class="row  ">
@@ -1573,20 +1572,18 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3  border_blue">
+        <div class="col-md-3  border_blue d-flex align-content-around flex-wrap" id="map_info">
             <div id="current_info" class="text-center">
-
-                 <p class="smaller_h"> Click on the country on the map to get more info ! </p>
+                <p class="smaller_h"> Hover over the country to see the name ! </p>
                 <hr class="bg_green">
-                 <p class="smaller_h"> Click on color legend to get list of countries in that range ! </p>
-
-
-
+                <p class="smaller_h"> Click on the country to get more info ! </p>
+                <hr class="bg_green">
+                <p class="smaller_h"> Click on color legend to get list of countries in that range ! </p>
             </div>
         </div>
     </div>
-    <div class="mt-2 p-2" id="table_holder">
-        <div id="country_range" class="text-center"></div>
+    <div class="row mt-2" id="table_holder">
+        <div id="country_range" class="text-center  col-md-12"></div>
         <table class="table table-responsive" id="range_countries">
         </table>
     </div>

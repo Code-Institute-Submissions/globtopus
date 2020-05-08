@@ -25,6 +25,7 @@
             }
         ).on('click',
         function () {
+            $('#map_info').removeClass('d-flex align-content-around flex-wrap')
             $('#current_info').html(`
                    
                    <span class="blue">country :</span> <br><span class="smaller_h text-wrap"> ${country_name($(this))} </span><br>
@@ -89,6 +90,8 @@ $('.map_color_legend').on('click', function () {
 
         function (data) {
 
+
+            if(screen.width <768) $('#range_countries').get(0).scrollIntoView(1,'slow')
             countries = data.countries
             size = data.size
             var counter = 1
@@ -106,7 +109,7 @@ $('.map_color_legend').on('click', function () {
 
             if(counter % 4 === 0 )$('#range_countries').append(` <tr></tr> `)
 
-                 console.log(counter % 4,counter)
+
                 counter++
             })
             $('#range_countries').append(`</tr></table>`)
