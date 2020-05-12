@@ -6,43 +6,49 @@
             <li class="list-group-item no_border mb-1">
                 <span class="user_page user_heart d-flex justify-content-center align-items-center">{{session['user_feel']}}</span>
             </li>
-
-            <a  href="{{url_for('user_bp.user')}}" class="list-group-item no_border user_nav" data-nav="my_progress">My Progress</a>
+            <a href="{{url_for('user_bp.user')}}" class="list-group-item no_border user_nav" data-nav="my_progress">My
+                Progress</a>
             <li class="list-group-item no_border user_nav" data-nav="my_glob">My Glob</li>
-            <li class="list-group-item no_border user_nav" data-nav="my_feelist">My Feelists</li>
+            <a class="list-group-item no_border user_nav" data-nav="my_feelist"
+               data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">My
+                Feelists
+            </a>
+            <ul class="list-group collapse" id="collapseExample">
+                {% for item in session.get('my_feelists')%}
+                <li class="list-group-item no_border feelist " data-f_name="{{ item }}">{{ item }}</li>
+                {% endfor %}
+            </ul>
             <li class="list-group-item no_border user_nav" data-nav="my_fav">My Favourites</li>
             <li class="list-group-item no_border user_nav" data-nav="my_posts">My Posts</li>
+            <li class="list-group-item no_border user_nav" data-nav="my_posts">Add New Posts</li>
             <li class="list-group-item no_border ">last login : <small> {{user.last_login}}</small></li>
         </ul>
     </div>
-     <!--USER ACTION WINDOW-->
+    <!--USER ACTION WINDOW-->
     <div class="col-md-8 border_blue">
         <div class="row">
             <!--USER'S PROGRESS CHART-->
-            <div class="col-md-12" id="chart_holder">
+            <div class="user_interaction col-md-12" id="chart_holder">
                 <canvas id="user_chart" width="800" height="450"></canvas>
                 <span id="days" data-days={{ days }}></span>
                 <span id="feelings" data-feelings={{ feelings }}></span>
             </div>
+            <!--USER'S GLOB-->
+            <div class="d-none user_interaction" id="glob">
+            </div>
+            <!--USER'S FEELISTS-->
+            <div class="d-none user_interaction h_aligned" id="feelists">
 
-             <!--USER'S GLOB-->
-            <div class="col-md-12 d-none" id="glob">
+
+
+
 
             </div>
-
-             <!--USER'S FEELISTS-->
-            <div class="col-md-12  d-none" id="feelists">
-
+            <!--USER'S FAVOURITES-->
+            <div class="d-none user_interaction" id="favourites">
             </div>
-
-             <!--USER'S FAVOURITES-->
-            <div class="col-md-12  d-none" id="favourites">
-
-            </div>
-
-             <!--USER'S POSTS-->
-            <div class="col-md-12  d-none" id="posts">
-
+            <!--USER'S POSTS-->
+            <div class=" d-none user_interaction" id="posts">
             </div>
         </div>
     </div>

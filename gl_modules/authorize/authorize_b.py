@@ -6,6 +6,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from gl_modules.shared.sanitize import sanitize
 from gl_modules.shared.today import today_f
 from gl_modules.shared.update_feel import update_country_feel, update_world_feel
+from gl_modules.user.user_b import feelists
 
 authorize_bp = Blueprint('authorize_bp', __name__,
                          template_folder='templates',
@@ -17,69 +18,7 @@ authorize_bp = Blueprint('authorize_bp', __name__,
 
 @authorize_bp.route('/sign_up')
 def sign_up():
-    # from app import mongo
-    # mongo.db.world_feel.insert_many([
-    #     {
-    #
-    #         "day": (datetime.datetime.now() - datetime.timedelta(days=3)).strftime("%F"),
-    #         "num_of_people": 456,
-    #         "sum_of_feelings": 45657
-    #     },
-    #     {
-    #
-    #         "day": (datetime.datetime.now() - datetime.timedelta(days=4)).strftime("%F"),
-    #         "num_of_people": 3443,
-    #         "sum_of_feelings": 34566
-    #     },
-    #     {
-    #
-    #         "day": (datetime.datetime.now() - datetime.timedelta(days=5)).strftime("%F"),
-    #         "num_of_people": 432,
-    #         "sum_of_feelings": 54455
-    #     },
-    #     {
-    #
-    #         "day": (datetime.datetime.now() - datetime.timedelta(days=6)).strftime("%F"),
-    #         "num_of_people": 1234,
-    #         "sum_of_feelings": 87654
-    #     },
-    #     {
-    #
-    #         "day": (datetime.datetime.now() - datetime.timedelta(days=7)).strftime("%F"),
-    #         "num_of_people": 222,
-    #         "sum_of_feelings": 66645
-    #     },
-    #     {
-    #
-    #         "day": (datetime.datetime.now() - datetime.timedelta(days=8)).strftime("%F"),
-    #         "num_of_people": 123,
-    #         "sum_of_feelings": 45656
-    #     },
-    #     {
-    #
-    #         "day": (datetime.datetime.now() - datetime.timedelta(days=9)).strftime("%F"),
-    #         "num_of_people": 233,
-    #         "sum_of_feelings": 34343
-    #     },
-    #     {
-    #
-    #         "day": (datetime.datetime.now() - datetime.timedelta(days=10)).strftime("%F"),
-    #         "num_of_people": 2344,
-    #         "sum_of_feelings": 53221
-    #     },
-    #     {
-    #
-    #         "day": (datetime.datetime.now() - datetime.timedelta(days=11)).strftime("%F"),
-    #         "num_of_people": 345,
-    #         "sum_of_feelings": 54332
-    #     }, {
-    #
-    #         "day": (datetime.datetime.now() - datetime.timedelta(days=2)).strftime("%F"),
-    #         "num_of_people": 456,
-    #         "sum_of_feelings": 45657
-    #     }
-    # ]
-    # )
+
 
     return render_template('authorize/sign_up.html')
 
@@ -97,44 +36,48 @@ def sign_in():
 
 @authorize_bp.route('/login', methods=['POST'])
 def login():
-    form_data = request.form.to_dict()
+    from bson.json_util import dumps
+    user = request.form.to_dict()
     from app import mongo
-    user_to_check = mongo.db.users.find({"email": form_data['email']})
+    user_to_check = mongo.db.users.find_one({"email": user['email']})
 
-    if form_data['user_feel'] == '':
+    db_feelists = user_to_check['my_feelists'] if 'my_feelists' in user_to_check else []
+
+    user_feelists = feelists(db_feelists)
+    # if db_feelists != []:
+    #     for feelist in db_feelists:
+    #
+    #         user_feelists[feelist['name']] = feelist['post_ids']
+
+    #return dumps(user_feelists)
+    if user['user_feel'] == '':
         """remembering user email and displaying it 
         in the form or redirect, so that user doesn't have to type 
         it again"""
-        session['form_email'] = form_data['email']
+        session['form_email'] = user['email']
 
         flash('Please select how you feel!')
 
         return redirect(url_for('authorize_bp.sign_in'))
 
-    form_data['last_login'] = datetime.datetime.now()
-    user_password = ''
-    user_name = ''
-    user_email = ''
+    user['last_login'] = datetime.datetime.now()
+    user_password = user_to_check['password']
+    user_name = user_to_check['name']
+    user_email = user_to_check['email']
+    last_login = user_to_check['last_login']
+    country_code = user_to_check['country_code']
+    last_feel = user_to_check['last_feel']
+    user_id = str(user_to_check['_id'])
 
-    for field in user_to_check:
-        user_password = field['password']
-        user_name = field['name']
-        user_email = field['email']
-        last_login = field['last_login']
-        country_code = field['country_code']
-
-        user_feelist = field['feelist']
-        last_feel = field['last_feel']
-        user_id = str(field['_id'])
     """if we have user with those credentials we will log user """
-    if check_password_hash(user_password, form_data['password']) and user_email == form_data['email']:
+    if check_password_hash(user_password, user['password']) and user_email == user['email']:
 
         mongo.db.users.update(
             {"email": user_email},
             {"$set": {
                 'last_login': datetime.datetime.now(),
-                'last_feel': form_data['user_feel'],
-                'user_feel.' + today_f(): form_data['user_feel']}},
+                'last_feel': user['user_feel'],
+                'user_feel.' + today_f(): user['user_feel']}},
             upsert=True
         )
 
@@ -143,9 +86,10 @@ def login():
         session['user_name'] = user_name
         session['last_login'] = last_login
         session['user_country_code'] = country_code
-        session['user_feelist'] = user_feelist
+        session['my_feelists'] = user_feelists
+        session['user_id'] = user_id
 
-        session_user(form_data)
+        session_user(user)
 
 
         """IF CURRENTLY LOGGED IN USER ALREADY SET HIS FEELING FOR THE DAY WE WILL NOT INCREASE 
@@ -172,15 +116,15 @@ def login():
             increase_people = 1
 
         """updating country feel"""
-        update_country_feel(mongo, country_code, increase_people, int(form_data['user_feel']) - int(last_feel ))
+        update_country_feel(mongo, country_code, increase_people, int(user['user_feel']) - int(last_feel ))
         """updating world feel"""
-        update_world_feel(mongo, increase_people, int(form_data['user_feel']) - int(last_feel ) )
+        update_world_feel(mongo, increase_people, int(user['user_feel']) - int(last_feel ) )
 
-        session['user_feel'] = form_data['user_feel']
+        session['user_feel'] = user['user_feel']
 
         return redirect(url_for('user_bp.user'))
     else:
-        session['form_email'] = form_data['email']
+        session['form_email'] = user['email']
         flash('Please provide valid email and password')
         return redirect(url_for('authorize_bp.sign_in'))
 
@@ -190,9 +134,9 @@ def login():
 
 @authorize_bp.route('/register', methods=['POST'])
 def register():
-    form_data = request.form.to_dict()
+    new_user = request.form.to_dict()
 
-    user_email = form_data['email']
+    user_email = new_user['email']
     """IF USER DIDN'T SELECT HOW HE FEELS WE WILL FLASH MESSAGE
     TO SELECT HIS FEELINGS WITH FORM DATA RETURNED BACK TO HIM
     SO THAT HE DOESN'T NEED TO TYPE IT AGAIN"""
@@ -202,8 +146,8 @@ def register():
     #     flash('Please select how you feel!')
     #     return redirect(url_for('authorize_bp.sign_up'))
 
-    if form_data['country_code'] == '':
-        sticky_form(form_data)
+    if new_user['country_code'] == '':
+        sticky_form(new_user)
 
         flash('Please select location on the map!')
 
@@ -214,45 +158,39 @@ def register():
 
         flash(user_email + ' :  is already registered')
 
-        sticky_form(form_data)
+        sticky_form(new_user)
 
         return redirect(url_for('authorize_bp.sign_up'))
 
 
     else:
-        # """UPDATING WORLD FEEL WITH NEW USER FEELINGS"""
-        # update_world_feel(mongo, 1, int(form_data['user_feel']))
-        # """INSERTING INTO FEELS TABLE"""
-        #
-        # """creating new user in country feel"""
-        # update_country_feel(mongo, form_data["country_code"], 1, int(form_data['user_feel']))
+
 
         """we will register user and set his id into session 
         redirect to user dashboard and change nav to logout instead of login | sign up"""
         session.clear()
 
-        form_data['created_at'] = datetime.datetime.now()
-        form_data['last_login'] = datetime.datetime.now()
-        form_data['password'] = generate_password_hash('password')
-        form_data['feelist'] = {}
-        user_name_split = form_data['name'].split(' ')
-        user_name=''
+       # new user
+        user_name_split = new_user['name'].split(' ')
+        user_name = ''
         counter = 0
         for name in user_name_split:
-            sanitize(name,'string')
-            user_name +=  sanitize(name,'string') if counter == 0 else ' '+ sanitize(name,'string')
+            sanitize(name, 'string')
+            user_name += sanitize(name, 'string') if counter == 0 else ' ' + sanitize(name, 'string')
             counter += 1
 
-        form_data['name'] = user_name
+        new_user['name'] = user_name
+        new_user['password'] = generate_password_hash(new_user['password'])
+        new_user['created_at'] = datetime.datetime.now()
+        new_user['last_login'] = datetime.datetime.now()
+        new_user['last_feel'] = 100
+        new_user['likes'] = []
+        new_user['flags'] = []
+        new_user['user_feel'] = {datetime.datetime.now().strftime("%F"): 0}
+        mongo.db.users.insert_one(new_user)
 
-
-        #session_user(form_data, True)
-        form_data['last_feel'] = 0
-        form_data['user_feel'] = {datetime.datetime.now().strftime("%F"): 0}
-
-
-        mongo.db.users.insert_one(form_data)
-        flash('Thank you for signing up '+ form_data['name']+'. You can log in now !')
+        #mongo.db.users.insert_one(new_user)
+        flash('Thank you for signing up '+ new_user['name']+'. You can log in now !')
         return redirect(url_for('authorize_bp.sign_in'))
 
 
@@ -278,7 +216,7 @@ def session_user(form_data, register=False):
         session['user_name'] = form_data['name']
         session['last_login'] = form_data['last_login']
         session['user_country_code'] = form_data['country_code']
-        session['user_feelist'] = form_data['feelist']
+        session['user_feel'] = form_data['user_feel']
 
 
 def sticky_form(form_data):

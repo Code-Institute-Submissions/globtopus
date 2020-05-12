@@ -5,7 +5,7 @@
         <meta name="viewport"
               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Document</title>
+        <title>Globtopus</title>
 
         <!--BOOTSTRAP CSS FILES-->
         <link
@@ -58,7 +58,7 @@
 
                 <nav class="navbar navbar-expand-sm ">
                     <a class="navbar-brand" href="{{url_for('landing_bp.index')}}">
-                        <img class="globi_logo" src="{{url_for('assets_dist_bp.static', filename='images/gloptopus_logo.gif')}}"/>
+                        <img class="globi_logo" src="{{url_for('assets_dist_bp.static', filename='images/logo.png')}}"/>
                     </a>
 
 
@@ -119,7 +119,7 @@
 
             {% macro feelometer() -%}
             <!--feelometer-->
-            <div class="form-group bg-light">
+            <div class="form-group ">
                 <div class="col-auto">
 
                     <div class="input-group mb-2">
@@ -129,29 +129,32 @@
                             </div>
                         </div>
 
-                        <input type="text" class="form-control  border_bottom_only bg-transparent  text-center"
+                        <input type="text" class="form-control  border_bottom_only bg-transparent  text-center text-wrap"
                                id="feeling_holder" name="user_feel"
-                               placeholder="how do you feel ?" readonly required>
+                               placeholder="select how you feel" readonly required>
                     </div>
                 </div>
 
 
-                <div class="d-flex  justify-content-center align-items-center">
+                <div class="d-flex justify-content-center align-items-center">
                     <label class="sr-only" for="feeling">feeling</label>
-                    <div class="input-group mb-2">
+
+                    <div class="input-group mb-2 justify-content-around align-items-center bg-transparent">
                         <div class="input-group-prepend">
                             <div class="input-group-text no_border bg-transparent">
                                 <img class="globi_icon" src="{{url_for('assets_dist_bp.static', filename='images/sad.png')}}"/>
                             </div>
                         </div>
                         <input type="range" min="1" max="100"
-                               class="custom-range" id="feeling">
+                               class="custom-range feelometer" id="feeling">
+
                         <div class="input-group-prepend">
                             <div class="input-group-text no_border bg-transparent">
                                 <img class="globi_icon" src="{{url_for('assets_dist_bp.static', filename='images/happy.png')}}"/>
                             </div>
                         </div>
                     </div>
+
                 </div>
 
             </div>

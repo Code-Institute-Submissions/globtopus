@@ -13,7 +13,8 @@
         <div class=" interaction-holder" data-cy="user_interaction">
             <div class="row ">
                 <!--GLOBE WITH FEELING-->
-                <div class="col-md-4 int_steps_globe d-flex justify-content-center align-items-center parent mr-2  int_steps"
+
+                <div class="col-lg-4 d-flex justify-content-center align-items-center parent mr-2  int_steps"
                      id="hearth">
                     <h4 class="child_at_top smaller_h text-center">This is how we feel</h4>{{ db }}
                     <div>
@@ -33,7 +34,7 @@
                     </div>
                 </div>
                 <!--SLIDER WITH TEXT AREAS FOR INPUTING HOW DOES USER FEELS-->
-                <div class="col-md-4 int_steps  parent mr-2 d-flex align-content-around flex-wrap" id="how_do_you_feel">
+                <div class="col-lg-4 int_steps  parent mr-2 p-2 d-flex align-content-around flex-wrap" id="how_do_you_feel">
                     <div class="col-md-12"><h4 class="smaller_h text-center">How do you feel?</h4></div>
                     <div class="col-md-12">
                         <input type="text" class="form-control border_bottom_only mb-1 form_label" form="user_feel" id="one"
@@ -51,42 +52,24 @@
                     {{ feelometer() }}
                 </div>
                 <!--STEPS TO FEEL THIS WAY OR BETTER-->
-                <div class="col int_steps p-2 parent   d-flex align-content-around flex-wrap" id="what_do_you_do">
+                <div class="col int_steps p-2 parent d-flex align-content-around flex-wrap" id="what_do_you_do">
                     <div class="col-md-12">
-                        <h4 class="smaller_h text-center">What do you do</h4>
-                        <h4 id="better" class="smaller_h text-center ">to feel better?</h4>
-                        <h4 id="this_or_better" class="smaller_h text-center d-none">to feel this way or better ?</h4>
+                        <h4 class="smaller_h one_thing text-center">What is the one thing that you will do
+                        <span id="better" class=" text-center ">to feel better?</span>
+                        <span id="this_or_better" class=" text-center d-none">to feel this way or better ?</span></h4>
                     </div>
-                    <hr>
+
                     <div class="col-md-12">
                     <textarea form="user_feel"
-                              rows="1"
-                              name="action_1"
-                              id="action_1"
+                              rows="5"
+                              name="action"
+                              id="action"
                               class="form-control ___ mb-2 border_bottom_only form_label"
-                              placeholder="action 1"
+                              placeholder="One thing that you do..."
                               required
                     ></textarea>
                     </div>
-                    <div class="col-md-12">
-                    <textarea form="user_feel"
-                              rows="1"
-                              data-title="EUR"
-                              name="action_2"
-                              id="action_2"
-                              class="form-control ___ mb-2 border_bottom_only form_label"
-                              placeholder="action 2"
-                    ></textarea>
-                    </div>
-                    <div class="col-md-12">
-                    <textarea form="user_feel"
-                              rows="1"
-                              name="action_3"
-                              id="action_3"
-                              class="form-control ___ mb-2 border_bottom_only form_label"
-                              placeholder="action 3"
-                    ></textarea>
-                    </div>
+
                     {% if session.get('authorized_user') %}
                     <button class="gl_button col-md-12 p-2" type="submit">submit</button>
                     {% else %}
@@ -100,7 +83,7 @@
         </div>
     </form>
 </section>
-<section id="glob_search" class="landing_interaction d-none">
+<section id="glob_search" class="mt-2 landing_interaction d-none">
     <div class="">
         <div class="row  ">
             <div class="col-md-8 offset-md-2 mt-2">
@@ -120,7 +103,7 @@
         </div>
     </div>
 </section>
-<section id="map_search" class="landing_interaction d-none">
+<section id="map_search" class="mt-2 landing_interaction d-none">
     <div class="row">
         <div class="col  text-center pt-4 d-none d-md-block">
                 <span class="map_controls" title="zoom in" data-action="zoomIn">
@@ -1588,7 +1571,7 @@
         </table>
     </div>
 </section>
-<section id="chart_search" class="landing_interaction d-none">
+<section id="chart_search" class="mt-2 landing_interaction d-none">
     <div class="row">
         <div class="col-md-8  m-2 border_green" id="chart_holder">
             <canvas id="chart" width="800" height="450"></canvas>

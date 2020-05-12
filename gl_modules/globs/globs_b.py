@@ -1,7 +1,8 @@
 from bson import ObjectId
 from flask import Blueprint, request, jsonify, session
-
+from bson.json_util import dumps
 from gl_modules.shared.sanitize import sanitize
+from gl_modules.user.user_b import feelists
 
 globs_bp = Blueprint('globs_bp', __name__,
                      template_folder='templates',
@@ -31,39 +32,29 @@ def search():
     AND WE WILL DISPLAY i_feel and because VALUES ALONG 
     ACTIONS GLOBBERS TOOK TO FEEL THAT WAY OR BETTER"""
 
-    feelists = mongo.db.feels.find(
 
-        {"$or": [
-            {"i_feel": {"$in": q}},  # q is array
-            {"because": {"$in": q}}  # q is array
-        ]}
-    )
-    # obj_id = "5ea738942f3d6b576e209382"
-    # feelists = mongo.db.feels.find(
-    #
-    #     {"_id": ObjectId(obj_id)}
-    # )
 
-    for feel in feelists:
+    search_results = mongo.db.users.aggregate([
+
+        {"$unwind": '$posts'}, {"$match": {"$or": [
+            {"posts.i_feel": {"$in": q}},  # q is array
+            {"posts.because": {"$in": q}}  # q is array
+        ]} }
+
+    ])
+   # return dumps(search_results)
+    for result in search_results:
         results.append(
             {
-                'id': str(feel['_id']),
-                'user_name': str(feel['user_name']),
-                'user_feel': int(feel['user_feel']),
-                'feelings': feel['i_feel'],
-                'because': (' ').join(feel['because']),
-                'action_1': str(feel['action_1']),
-                'action_2': str(feel['action_2']),
-                'action_3': str(feel['action_3']),
-                'action_1_likes': str(feel['action_1_likes']),
-                'action_2_likes': str(feel['action_2_likes']),
-                'action_3_likes': str(feel['action_3_likes']),
-                'action_1_feelist': str(feel['action_1_feelist']),
-                'action_2_feelist': str(feel['action_2_feelist']),
-                'action_3_feelist': str(feel['action_3_feelist']),
-                'action_1_flag': str(feel['action_1_flag']),
-                'action_2_flag': str(feel['action_2_flag']),
-                'action_3_flag': str(feel['action_3_flag']),
+                'id': str(result['posts']['post_id']),
+                'user_name': str(result['name']),
+                'user_feel': int(result['posts']['feel']),
+                'i_feel': (' ').join(result['posts']['i_feel']),
+                'because': (' ').join(result['posts']['because']),
+                'action': str(result['posts']['action']),
+                'likes': result['posts']['likes'] if 'likes' in result['posts'] else 0,
+                'additions': result['posts']['additions'] if 'additions' in result['posts'] else 0,
+                'flags': result['posts']['flags'] if 'flags' in result['posts'] else 0
 
             }
         )
@@ -71,7 +62,7 @@ def search():
     """RETURNING SEARCH RESULTS TO USER, IF HE IS LOGGED IN HE CAN INTERACT WITH THEM"""
 
     return jsonify(result=results,
-                   feelists=session.get('user_feelist') if session.get('user_feelist') else {},
+                   feelists=session.get('my_feelists') if session.get('my_feelists') else {},
                    authorized_user=True if session.get('authorized_user') else False)
 
 
@@ -86,51 +77,93 @@ def search():
                     SO IF USER LIKES,ADDS,FLAGS
                     ACTIONS WE WILL STORE IT WITH  @action_num AND
     @glob_id SO THAT WE KNOW EXACTLY WHICH ACTION FROM THE GLOB IT IS"""
+
+
 @globs_bp.route('/_actions')
 def actions():
-    action_num = request.args.get('action_num', 0, type=str)
-    glob_id = request.args.get('glob_id', 0, type=str)
+    post_id = request.args.get('post_id', 0, type=str)
     action = request.args.get('action', 0, type=str)
-    feel_list = request.args.get('feel_list', 0, type=str)
+    feelist_name = request.args.get('feelist_name', 0, type=str)
+    new_feelist = request.args.get('new_feelist', 0, type=str)
 
     """USER MUST BE AUTHORIZED TO BE ABLE TO INTERACT WITH ACTIONS"""
     if not session.get('authorized_user'):
         return jsonify(result='not_authorized')
 
-    """if we have feelist we will update feelist object (it is one level deeper then likes
-    that's why ...)"""
-    if feel_list:
-        field_to_update = action + '.' + feel_list + '.' + glob_id
+    """
+       CHECK IF USER ALREADY LIKED/ADDED/FLAGGED POST 
+    """
 
-        """if we do not have feelist we will update likes object"""
-    else:
-        field_to_update = action + '.' + glob_id
+    added_to_feelist = False
+    liked_or_flagged = False
 
-    """check if user already liked/added action to his feelist"""
     from app import mongo
-    alreday_added = mongo.db.users.find_one(
-        {"email": session.get('user_email'), field_to_update: {"$in": [action_num]}},
 
-    )
-    if alreday_added:
+    # if action == 'additions':
+    #     added_to_feelist = mongo.db.users.find_one(
+    #         {"_id": ObjectId(session.get('user_id')), "my_feelists." + feel_list + ".post_ids": {"$in": [post_id]}})
+
+    if action == 'likes' or action == 'flags':
+        liked_or_flagged = mongo.db.users.find_one(
+            {"_id": ObjectId(session.get('user_id')), action: {"$in": [post_id]}})
+
+
+    #return str(type(liked_or_flagged))
+
+    if  liked_or_flagged:
         return jsonify(result='already_added')
 
-    """update user likes/feelist if it is new like"""
-    mongo.db.users.update(
-        {"email": session.get('user_email')},
-        {"$push": {field_to_update: action_num}}
-        ,
-        upsert=True
-    )
+    if action == 'additions' and new_feelist == 'true':
 
-    """update feel likes/feelists if it is new like"""
-    mongo.db.feels.update(
-        {"_id": ObjectId(glob_id)},
-        {"$inc":
-             {"action_" + action_num + "_" + action: 1,
-              }}
-        ,
-        upsert=True
-    )
 
-    return jsonify(result=glob_id)
+        """
+           CREATE NEW FEELIST FOR USER 
+        """
+        mongo.db.users.update(
+            {"_id": ObjectId(session.get('user_id'))},
+            {
+                "$push": {
+                    "my_feelists":
+                        {"name": feelist_name, "post_ids": [post_id]}
+
+                }
+            }, upsert=True
+        )
+        session['my_feelists'] = feelists(mongo.db.users.find_one({"_id": ObjectId(session.get('user_id'))})['my_feelists'])
+    elif action == 'additions':
+        """
+           UPDATE CURRENT FEELIST FOR USER 
+         """
+        mongo.db.users.update(
+            {"_id": ObjectId(session.get('user_id')), "my_feelists.name": feelist_name},
+            {"$addToSet": {"my_feelists.$.post_ids": post_id}},
+            upsert=True
+        )
+        session['my_feelists'] = feelists(mongo.db.users.find_one({"_id": ObjectId(session.get('user_id'))})['my_feelists'])
+    else:
+        """
+            UPDATE LIKES OR FLAGS FOR POST
+        """
+
+        mongo.db.users.update(
+            {"posts.post_id": post_id},
+            {"$inc":
+                 {"posts.$." + action: 1,
+                  }}
+            ,
+            upsert=True
+        )
+        """
+            UPDATE USERS LIKES OR FLAGS
+        """
+
+        mongo.db.users.update(
+            {"_id": ObjectId(session.get('user_id'))},
+            {"$addToSet":
+                 {action: post_id,
+                  }}
+            ,
+            upsert=True
+        )
+
+    return jsonify(result=post_id, dumps=dumps(session.get('my_feelists')))
