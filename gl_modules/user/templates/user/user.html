@@ -8,19 +8,30 @@
             </li>
             <a href="{{url_for('user_bp.user')}}" class="list-group-item no_border user_nav" data-nav="my_progress">My
                 Progress</a>
-            <li class="list-group-item no_border user_nav" data-nav="my_glob">My Glob</li>
+            <a class="list-group-item no_border user_nav" data-nav="my_glob" id="my_glob"
+               data-toggle="collapse" href="#list_of_globers" role="button" aria-expanded="false" aria-controls="list_of_globers"
+            >My Glob</a>
+            <ul class="list-group collapse" id="list_of_globers">
+            </ul>
             <a class="list-group-item no_border user_nav" data-nav="my_feelist"
-               data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">My
+               data-toggle="collapse" href="#list_of_feelists" role="button" aria-expanded="false" aria-controls="list_of_feelists">My
                 Feelists
             </a>
-            <ul class="list-group collapse" id="collapseExample">
+            <ul class="list-group collapse" id="list_of_feelists">
                 {% for item in session.get('my_feelists')%}
                 <li class="list-group-item no_border feelist " data-f_name="{{ item }}">{{ item }}</li>
                 {% endfor %}
             </ul>
-            <li class="list-group-item no_border user_nav" data-nav="my_fav">My Favourites</li>
-            <li class="list-group-item no_border user_nav" data-nav="my_posts">My Posts</li>
-            <li class="list-group-item no_border user_nav" data-nav="my_posts">Add New Posts</li>
+            <li class="list-group-item no_border user_nav" data-nav="my_fav" id="my_fav"
+            >My Favourites
+            </li>
+            <li class="list-group-item no_border user_nav" data-nav="my_posts" id="my_posts"
+                data-user_id={{session['user_id']}}
+                data-user_name={{session['user_name']}}
+            >My Posts
+            </li>
+            <a href="{{url_for('landing_bp.index')}}" class="list-group-item no_border user_nav" data-nav="my_posts">Add
+                New Posts</a>
             <li class="list-group-item no_border ">last login : <small> {{user.last_login}}</small></li>
         </ul>
     </div>
@@ -34,21 +45,17 @@
                 <span id="feelings" data-feelings={{ feelings }}></span>
             </div>
             <!--USER'S GLOB-->
-            <div class="d-none user_interaction" id="glob">
+            <div class="d-none user_interaction h_aligned col-md-12" id="glob">
             </div>
             <!--USER'S FEELISTS-->
-            <div class="d-none user_interaction h_aligned" id="feelists">
-
-
-
-
-
+            <div class="d-none user_interaction h_aligned col-md-12" id="feelists">
             </div>
+
             <!--USER'S FAVOURITES-->
-            <div class="d-none user_interaction" id="favourites">
+            <div class="d-none user_interaction col-md-12 h_aligned" id="favourites">
             </div>
             <!--USER'S POSTS-->
-            <div class=" d-none user_interaction" id="posts">
+            <div class=" d-none user_interaction h_aligned col-md-12" id="posts">
             </div>
         </div>
     </div>

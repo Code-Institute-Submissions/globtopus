@@ -21,7 +21,7 @@ $(function () {
 
                 var search_results = data.result
                 var feelists = Object.keys(data.feelists)
-                console.log("feelists"+feelists)
+                console.log("feelists" + feelists)
                 authorized_user = data.authorized_user
 
 
@@ -41,34 +41,51 @@ $(function () {
                 /*WE HAVE RESULTS*/
                 else {
 
+                    var counter = 1
 
                     $.each(search_results, function (key, value) {
 
 
                         results.append(`
 
-                    <div class="row mb-2 border_blue pt-2">
+                    <div class="row mb-2 border_blue_l pt-2">
                      <!--APPENDING  ACTION,-->
                         <div class="col-md-8">
 
                          <span class="smaller_h">1.</span>
                             ${value.action}
                             ${actions(value.likes, value.additions, value.flags, value.id)} 
-                             
-                            
-                      
-                           
-
                         </div>
                             <!--INFO ABOUT GLOBBER-->
-                        <div class="col-md-4 border_blue">
-                             ${value.user_name}  ${value.user_feel}  ${value.id}
+                        <div class="col-md-4 ">
+                         <img class="avatar" src="assets/dist/images/avatars/${counter % 12}.png"/>
+                             ${value.name}  ${value.user_feel}  
+                              <span class="float-right remove_from_glob blue removed_from_glob${value.user_id}
+                             ${value.in_my_glob === 1 ? '' : 'd-none'}" 
+                             data-user_id="${value.user_id}" 
+                             data-user_name="${value.name}"
+                             data-user_action="removed_from_glob"
+                             title="Remove me from your glob !">
+                             <i class="fas fa-user-minus"></i>
+                             </span>
+                             <span class="float-right add_to_glob blue added_to_glob${value.user_id}
+                            ${value.in_my_glob !== 1 ? '' : 'd-none'}" 
+                             data-user_id="${value.user_id}" 
+                             data-user_name="${value.name}"
+                              data-user_action="added_to_glob"
+                             title="Add me to your glob !">
+                             <i class="fas fa-user-plus"></i>
+                             </span>
+                             <br>
+                             <span class="action_response_r${value.user_id}"></span>
+                              <span class="action_response_a${value.user_id}"></span>
                               <hr class="p-0 m-1">
                               <span class="float-left">I feel :</span>  <br>  
-                               <span class=" smaller_h  text-info">${value.i_feel}  </span>
+                               <span class="text-info">${value.i_feel.join(' ')}  </span>
                                <hr class="p-0 m-1">
                                <span>because :</span><br>
-                                ${value.because}
+                               <span class="text-info">${value.because.join(' ')}  </span>
+                                
 
                         </div>
                         
@@ -76,7 +93,7 @@ $(function () {
 
 
                 `)
-
+                        counter++
                     })
                 }
 
@@ -186,6 +203,39 @@ $(function () {
                     perform_action($(this));
                 })
 
+                /*USER CAN ADD ANOTHER USER INTO HIS GLOB TO SEE POSTS FROM THIS USER*/
+                $('.add_to_glob,.remove_from_glob').on('click', function () {
+                    var user_id = $(this).data('user_id')
+                    var user_name = $(this).data('user_name')
+                    var user_action = $(this).data('user_action')
+
+                    $.getJSON('/glob_action',
+                        {
+                            user_id: user_id,
+                            user_action: user_action
+                        },
+                        function (response) {
+
+                            if (response.text === 'success' && user_action === 'added_to_glob') {
+                                $('.added_to_glob' + user_id).addClass('d-none')
+                                $('.removed_from_glob' + user_id).removeClass('d-none')
+                                $('.action_response_a' + user_id)
+                                    .html(`${user_name} added`)
+                                    .fadeOut(3000)
+
+                            } else if (response.text === 'success' && user_action === 'removed_from_glob') {
+                                $('.added_to_glob' + user_id).removeClass('d-none')
+                                $('.removed_from_glob' + user_id).addClass('d-none')
+                                $('.action_response_r' + user_id)
+                                    .html(`${user_name} removed`)
+                                    .fadeOut(3000)
+
+                            }
+
+                        })
+
+                })
+
             });
 
 
@@ -199,7 +249,7 @@ $(function () {
         var action = $_this.data('action')
 
         var feelist_name = $("input[name='feelist']:checked").data('feelist');
-         var new_feelist = $("input[name='feelist']:checked").data('new_feelist');
+        var new_feelist = $("input[name='feelist']:checked").data('new_feelist');
 
 
         /*WHEN USER ADDING ACTION TO HIS FEELIST AND HE DOESN'T SELECT ANY FEELIST
@@ -224,7 +274,7 @@ $(function () {
 
                 },
                 function (data) {
-                        console.log(data.dumps)
+                    console.log(data.dumps)
                     /*IF USER IS NOT AUTHORIZED*/
                     if (data.result === "not_authorized") {
                         please_login()
@@ -249,10 +299,10 @@ $(function () {
                     * PAGE, TO GIVE USER INSTANT FEEDBACK*/
                     else {
 
-                        var action_el = $('#' + action +'_'+ post_id)
+                        var action_el = $('#' + action + '_' + post_id)
                         action_el.text(parseInt(action_el.text()) + 1)
                             .addClass('blue bg-warning p-1')
-                            .prop('disabled','disabled')
+                            .prop('disabled', 'disabled')
 
                     }
 

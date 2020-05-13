@@ -67,6 +67,8 @@ def login():
     last_login = user_to_check['last_login']
     country_code = user_to_check['country_code']
     last_feel = user_to_check['last_feel']
+    my_glob = user_to_check['my_globs'] if 'my_globs' in user_to_check else []
+    my_likes = user_to_check['likes'] if 'likes' in user_to_check else []
     user_id = str(user_to_check['_id'])
 
     """if we have user with those credentials we will log user """
@@ -88,6 +90,8 @@ def login():
         session['user_country_code'] = country_code
         session['my_feelists'] = user_feelists
         session['user_id'] = user_id
+        session['my_globs'] = my_glob
+        session['my_likes'] = my_likes
 
         session_user(user)
 

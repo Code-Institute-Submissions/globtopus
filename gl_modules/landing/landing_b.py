@@ -1,10 +1,8 @@
-from bson import ObjectId
-from flask import Blueprint, render_template, request, flash, redirect, url_for, session, jsonify
+
+from flask import Blueprint, render_template
 import datetime
 
-from gl_modules.shared.today import today_f
-from gl_modules.shared.sanitize import sanitize
-from gl_modules.shared.update_feel import update_world_feel, update_country_feel
+
 
 landing_bp = Blueprint('landing_bp', __name__,
                        template_folder='templates',
@@ -42,65 +40,4 @@ def index():
     return render_template('landing/landing.html', feels=feels, world_feel=round(world_feel), wf_full=world_feel)
 
 
-""" USER CREATING POST """
 
-
-@landing_bp.route('/add_your_feel', methods=['POST'])
-def add_your_feel():
-    """INSERTING INTO FEELS TABLE"""
-    form_data = request.form.to_dict()
-    if form_data['user_feel'] == '':
-        flash('Please select how you feel!')
-
-        return redirect(url_for('landing_bp.index'))
-
-    # form_data['user_email'] = session.get('user_email')
-    # form_data['user_name'] = session.get('user_name')
-    # form_data['i_feel'] = sanitize(form_data['i_feel'], 'array')
-    # form_data['because'] = sanitize(form_data['because'], 'array')
-    # form_data['actions'] = {'text': [form_data['action_1'], form_data['action_2'], form_data['action_3']]}
-
-
-    #day = datetime.datetime.now()
-    #form_data['created_at'] = day
-
-    from app import mongo
-    """
-       ADDING NEWLY CREATED POST TO USER'S POSTS ARRAY 
-    """
-    mongo.db.users.update(
-        {"_id": ObjectId(session.get('user_id'))},
-        {
-            "$push": {
-                "posts":
-                    {"i_feel": sanitize(form_data['i_feel'], 'array'), "because": sanitize(form_data['because'], 'array'),
-                     "feel": form_data['user_feel'],
-                     "action": form_data['action'],
-                     "post_id": str(ObjectId()),
-                     "created_at":datetime.datetime.now(),
-                     }
-
-            }
-        }, True
-    )
-    #mongo.db.feels.insert_one(form_data)
-
-    """INSERTING INTO WORLD FEEL FOR THE CURRENT DAY
-      IF LOGGED IN USER SUBMITS AGAIN JUST RECALCULATE FEELING
-       WITHOUT ADDING EXTRA PERSON TO THE MIX 
-       - LAST FEELING + CURRENT FEELING"""
-
-    update_world_feel(mongo, 0, int(form_data['user_feel']) - int(session.get('user_feel')))
-    """updating user feel during the day, when he feels differently"""
-
-    mongo.db.users.update(
-        {"email": session.get('user_email')},
-        {"$set": {'user_feel.' + today_f(): form_data['user_feel']}})
-
-    """updating country feel"""
-    update_country_feel(mongo, session.get("user_country_code"), 0,
-                        int(form_data['user_feel']) - int(session.get('user_feel')))
-    session['user_feel'] = form_data["user_feel"]
-
-    flash('Thank you ' + session.get('user_name'))
-    return redirect(url_for('landing_bp.index'))

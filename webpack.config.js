@@ -9,20 +9,20 @@
 const path = require ( 'path' );
 
 var config = {
-	
+
 	module : {}
 };
 
 var dist ='gl_modules/assets_dist/static/js'
 
 var landing = Object.assign ( {}, config, {
-	
+
 	entry  : [
 
 		'./gl_modules/landing/static/src/js/show_search.js',
 		'./gl_modules/shared/static/js/feel_meter.js',
 		'./gl_modules/shared/static/js/form_label.js',
-		'./gl_modules/globs/static/js/globs.js',
+		'./gl_modules/posts/static/js/posts.js',
 		'./gl_modules/charts/static/js/charts.js',
 
 
@@ -35,7 +35,7 @@ var landing = Object.assign ( {}, config, {
 	watch  : true
 } );
 var user = Object.assign ( {}, config, {
-	
+
 	entry  : [
 		'./gl_modules/user/static/src/js/user.js',
 	],

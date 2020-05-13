@@ -20,6 +20,10 @@ h2, h3, h4 {
 h4.feelist_title{
   text-transform: none;
 }
+h4.danger_title{
+  text-transform: none;
+   color: red;
+}
 .smaller_h {
   font-family: Oswald, sans-serif;
   text-transform: uppercase;
@@ -111,7 +115,7 @@ h4.feelist_title{
   margin: 10px 0 0 10px;
 }
 
-.chart, .user_nav,.delete_action ,.delete_feelist{
+.chart, .user_nav,.delete_action ,.delete_feelist,.add_to_glob,.remove_from_glob,.delete_post,.edit_post{
   cursor: pointer;
 }
 
@@ -120,22 +124,33 @@ h4.feelist_title{
   color:  #0e4963;
   font-weight: bold;
 }
-.feelist{
+.feelist,.glober{
   padding: 0 0 0 40px;
   cursor: pointer;
   font-weight: bold;
   color: #0e4963;
 }
-.feelist:hover{
+.feelist:hover,.glober:hover{
   background-color: rgba(111, 227, 0, 0.2);
 }
 .delete_action{
   color: grey;
 }
-.delete_action:hover,.delete_feelist:hover{
+.delete_action:hover,.delete_feelist:hover,.remove_from_glob:hover,.delete_post:hover{
   color: red;
   font-size: 1.2em;
 
+}
+.add_to_glob:hover,.edit_post:hover{
+   color:   #177199;
+   font-size: 1.2em;
+}
+
+img.avatar{
+  width: 70px;
+   height: 70px;
+  border-radius: 50%;
+  padding: 3px;
 }
 .h_aligned{
   margin-left: auto;
@@ -162,7 +177,10 @@ h4.feelist_title{
   border: 1px solid #177199;
   white-space: nowrap;
 }
-
+.gl_button.danger{
+  background-color: red;
+  color: whitesmoke;
+}
 .gl_button:hover {
   background-color: whitesmoke;
   color: #177199;
@@ -302,7 +320,9 @@ h4.feelist_title{
 .border_blue {
   border: 1px solid #177199;
 }
-
+.border_blue_l {
+  border: 1px solid  rgba(23, 113, 153, 0.2);
+}
 .border_green {
   border: solid 1px rgba(111, 227, 0, 1);
 }
