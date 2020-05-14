@@ -7,7 +7,14 @@
 *           4. SEARCH FOR POSTS
 * */
 $(function () {
+ const Toast = Swal.mixin({
+        toast: true,
+        position: 'middle-end',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
 
+    })
     var authorized_user
     $('#get_results').on('click', function () {
 
@@ -163,6 +170,7 @@ $(function () {
                                 data-id="${post_id}" data-action=${action}
                                 
                                 >save</button>
+                                <span id="feelist_saved" class="text-center" onclick="swal.close()" ></span>
                             </div>
                             `
                         })
@@ -184,6 +192,7 @@ $(function () {
                     /*BY CLICKING ON save BUTTON HE CAN SAVE ACTION TO HIS FEELIST*/
                     $('.save_feelist').on('click', function () {
                         perform_action($(this));
+
                     })
 
                     /*WHEN GLOBBER IS CREATING NEW FEELIST, WE ARE APPENDING NAME OF THE FEELIST TO data-feelist
@@ -219,16 +228,14 @@ $(function () {
                             if (response.text === 'success' && user_action === 'added_to_glob') {
                                 $('.added_to_glob' + user_id).addClass('d-none')
                                 $('.removed_from_glob' + user_id).removeClass('d-none')
-                                $('.action_response_a' + user_id)
-                                    .html(`${user_name} added`)
-                                    .fadeOut(3000)
+                                 Toast.fire({html: ` <img  src="assets/dist/images/happy.png"/>
+                                                    <p class="text-success">${user_name} was added !</h4> `})
 
                             } else if (response.text === 'success' && user_action === 'removed_from_glob') {
                                 $('.added_to_glob' + user_id).removeClass('d-none')
                                 $('.removed_from_glob' + user_id).addClass('d-none')
-                                $('.action_response_r' + user_id)
-                                    .html(`${user_name} removed`)
-                                    .fadeOut(3000)
+                                 Toast.fire({html: ` <img  src="assets/dist/images/sad.png"/>
+                                                    <p class="text-danger">${user_name} was removed !</h4> `})
 
                             }
 
@@ -261,7 +268,8 @@ $(function () {
         /*ALL GOOD => FEELIST SELECTED*/
         else {
             /*CLOSING ALERT WITH USER'S FEELISTS*/
-            swal.close();
+            $('#feelist_saved').text('saved').addClass('gl_button')
+            $('.save_feelist').addClass('d-none')
 
             /*AJAX REQUEST TO PERFORM THE ACTION*/
             $.getJSON(
@@ -274,7 +282,7 @@ $(function () {
 
                 },
                 function (data) {
-                    console.log(data.dumps)
+
                     /*IF USER IS NOT AUTHORIZED*/
                     if (data.result === "not_authorized") {
                         please_login()
@@ -303,6 +311,11 @@ $(function () {
                         action_el.text(parseInt(action_el.text()) + 1)
                             .addClass('blue bg-warning p-1')
                             .prop('disabled', 'disabled')
+
+                        Toast.fire({html: ` <img  src="assets/dist/images/happy.png"/>
+                                                    <p class="feelist_title">${action === 'likes'
+                                ? `liked` : `${action === 'flags' ? `flagged` : `added`}`
+                            }!</h4> `})
 
                     }
 

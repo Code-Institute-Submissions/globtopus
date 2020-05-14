@@ -1,5 +1,5 @@
 (function () {
-    const Toast = Swal.mixin({
+   const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
@@ -32,7 +32,14 @@
         }
     });
 
+    $('#my_feelist').on('click', function () {
 
+
+        if ($('#list_of_feelists').text().replace(/\s/g, "") ===''){
+              $('.user_interaction').addClass('d-none')
+              $('#feelists').removeClass('d-none')
+}
+    })
     $('.feelist').on('click', function () {
 
         var f_name = $(this).data('f_name')
@@ -42,54 +49,17 @@
             },
 
             function (response) {
-                var f_actions = response.f_actions
-                $('.user_interaction').addClass('d-none')
-                var feelist = $('#feelists')
-                feelist.removeClass('d-none').html('')
-                var counter = 0
-                feelist.append(`<h4 class="feelist_title" >My Feelist : ${f_name} 
-                <small  class="float-right delete_feelist" title="Delete feelist?" data-f_name="${f_name}">
-                 <i class="far fa-trash-alt"></i></small></h4>    `)
-                for (var action of f_actions) {
-                    counter++
 
-                    feelist.append(` 
- <div class="card mb-3 mt-3 feelist_action " id="${action.post_id}" style="max-width: 540px;">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-4 ">
-                                            <img class="avatar" src="assets/dist/images/avatars/${counter % 12}.png"/>
-                                            <div class="d-flex justify-content-center"><a href="#" class="user">${action.name}</a></div>
-                                             <div class="d-flex justify-content-center"><small class="text-muted">${action.created_at}</small></div>
-                                           
-                                        </div>
-                                        <div class="col-md-8 p-1">
+              if (response.f_actions) {
 
-                                            <div class="card-body  m-0">
-                                            
-                                                <p class="card-text m-1 blue">
-                                                    
-                                                    When I feel/feel like... <span class="i_feel text-secondary">${action.i_feel.join(' ')}</span></p>
-
-                                                <p class="card-text m-1 blue">Because...<span class="because">${action.because.join(' ')}</span></p>
-
-                                                <p class="card-text m-1 blue">I ...  <span class="card-text">${action.action}</span></p>
-                                                
-                                                <p class="card-text float-right">
-                                                    <small class="delete_action" title="Remove from list?"
-                                                    data-post_id="${action.post_id}">
-                                                    <i class="far fa-trash-alt"></i>
-                                                    
-                                                   </small>
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                
-
-`)
+                    render_posts($('#feelists'),
+                        response.f_actions,
+                        "My Feelist :" + f_name,
+                        true, ['delete'],
+                        'delete_action',
+                        f_name)
                 }
+
 
                 $('.delete_action').on('click', function () {
                     var post_id = $(this).data('post_id')
@@ -119,7 +89,7 @@
 
                                         Toast.fire({
 
-                                            html: `<img  src="assets/dist/images/happy.png"/><p class="feelist_title">Post was deleted!</h4> 
+                                            html: `<img  src="assets/dist/images/happy.png"/><p class="text-success">Post was deleted!</h4> 
                                        `,
                                         })
 
@@ -128,7 +98,7 @@
                                 }, function (error) {
                                     Toast.fire({
                                         html: ` <img  src="assets/dist/images/sad.png"/>
-                                                    <p class="feelist_title">Something is wrong. <br> Please try later!</h4> 
+                                                    <p class="text-danger">Something is wrong. <br> Please try later!</h4> 
                                        `,
                                     })
                                 }
@@ -167,7 +137,7 @@
                                         Toast.fire({
 
                                             html: ` <img  src="assets/dist/images/happy.png"/>
-                                                    <p class="feelist_title">Your feelist was deleted!</h4> 
+                                                    <p class="text-success">Your feelist was deleted!</h4> 
                                        `,
                                         })
 
@@ -177,7 +147,7 @@
                                     Toast.fire({
 
                                         html: ` <img  src="assets/dist/images/sad.png"/>
-                                                    <p class="feelist_title">Something is wrong. <br> Please try later!</h4> 
+                                                    <p class="text-danger">Something is wrong. <br> Please try later!</h4> 
                                        `,
                                     })
                                 }
@@ -202,6 +172,12 @@
         $.getJSON('/my_glob',
             {},
             function (data) {
+
+                if(data.my_glob.length === 0)
+                {
+                     $('.user_interaction').addClass('d-none')
+                    $('#glob').removeClass('d-none')
+                }
                 glober_list.html('')
                 $.each(data.my_glob, function (key, glober) {
                     glober_list.append(`<li class="list-group-item no_border glober" 
@@ -211,56 +187,59 @@
 
                 $('.glober').on('click', function () {
 
-                    $('.user_interaction').addClass('d-none')
-
-                    var glober_id = $(this).data('glober_id')
                     var glober_name = $(this).data('glober_name')
-                    var glob = $('#glob')
-                    var img = Math.floor(Math.random() * 10)
-
-                    glob.removeClass('d-none').html('')
-                        .append(`<h4 class="feelist_title">My Glob : ${glober_name}</h4>`)
+                    var glober_id = $(this).data('glober_id')
+                    sessionStorage.setItem('glober_id', glober_id)
 
                     $.getJSON('/user_posts',
                         {
                             user_id: glober_id
                         },
                         function (response) {
+                            if (response.user_posts) {
 
-                            $.each(response.user_posts, function (key, action) {
+                                render_posts($('#glob'),
+                                    response.user_posts,
+                                    "My Glob : " + glober_name,
+                                    true,
+                                    [],
+                                    ''
+                                )
+                            }
 
-                                glob.append(`<div class="card mb-3 mt-3 feelist_action " id="${action.post_id}" style="max-width: 540px;">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-4 ">
-                                            <img class="avatar" src="assets/dist/images/avatars/${img}.png"/>
-                                            <div class="d-flex justify-content-center"><a href="#" class="user">${glober_name}</a></div>
-                                             <div class="d-flex justify-content-center"><small class="text-muted">${action.created_at}</small></div>
-                                           
-                                        </div>
-                                        <div class="col-md-8 p-1">
+                            $('#remove_from_globe').on('click', function () {
 
-                                            <div class="card-body  m-0">
-                                            
-                                                <p class="card-text m-1 blue">
-                                                    
-                                                    When I feel/feel like... <span class="i_feel text-secondary">${action.i_feel.join(' ')}</span></p>
+                                Swal.fire({
+                                    html: `     <img  src="assets/dist/images/sad.png"/>
+                                    <h4 class="danger_title">Remove ${glober_name} from your globe?</h4>
+                                   `,
 
-                                                <p class="card-text m-1 blue">Because...<span class="because">${action.because.join(' ')}</span></p>
+                                    showCancelButton: true,
+                                    buttonsStyling: false,
+                                    cancelButtonColor: 'red',
+                                    confirmButtonText: 'Yes!',
+                                    cancelButtonText: 'No!',
+                                    customClass: {
+                                        confirmButton: 'gl_button',
+                                        cancelButton: 'gl_button danger'
+                                    },
+                                }).then((result) => {
+                                    if (result.value) {
+                                        $.getJSON('/glob_action',
+                                    {
+                                        user_id: $(this).data('glober_id'),
+                                        user_action: 'removed_from_glob'
+                                    },
+                                    function (response) {
+                                        if (response.text === 'success') {
+                                            $('#glob').html('')
+                                            Toast.fire({html: ` <img  src="assets/dist/images/happy.png"/>
+                                                    <p class="text-success">${glober_name} was removed !</h4> `})
 
-                                                <p class="card-text m-1 blue">I ...  <span class="card-text">${action.action}</span></p>
-                                                
-                                                <p class="card-text float-right">
-                                                    <small class="delete_action" title="Remove from list?"
-                                                    data-post_id="${action.post_id}">
-                                                    <i class="far fa-trash-alt"></i>
-                                                    
-                                                   </small>
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>`)
+                                        }
+                                    })
+                                    }
+                                })
 
                             })
                         })
@@ -272,60 +251,24 @@
 
     $('#my_posts').on('click', function () {
 
-        var user_id = $(this).data('user_id')
-        var user_name = $(this).data('user_name')
-        var posts = $('#posts')
-
-        $('.user_interaction').addClass('d-none')
-        posts.html('').removeClass('d-none')
-
 
         $.getJSON('/user_posts',
-            {user_id: user_id},
+            {user_id: $(this).data('user_id')},
             function (response) {
-                posts.append(`<h4 class="feelist_title">My posts</h4>`)
-                $.each(response.user_posts, function (key, action) {
+             if(response.user_posts.length === 0)
+                {
+                     $('.user_interaction').addClass('d-none')
+                    $('#posts').removeClass('d-none')
+                }
 
-                    posts.append(`
-<div class="card mb-3 mt-3 feelist_action " id="${action.post_id}" style="max-width: 540px;">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-4 ">
-                                            <img class="avatar" src="assets/dist/images/avatars/2.png"/>
-                                            <div class="d-flex justify-content-center"><a href="#" class="user">${user_name}</a></div>
-                                             <div class="d-flex justify-content-center"><small class="text-muted">${action.created_at}</small></div>
-                                           
-                                        </div>
-                                        <div class="col-md-8 p-1">
-
-                                            <div class="card-body  m-0">
-                                            
-                                                <p class="card-text m-1 blue">
-                                                    
-                                                    When I feel/feel like... <span class="i_feel_${action.post_id} text-secondary">${action.i_feel.join(' ')}</span></p>
-
-                                                <p class="card-text m-1 blue">Because...<span class="because_${action.post_id}">${action.because.join(' ')}</span></p>
-
-                                                <p class="card-text m-1 blue">I ...  <span class="card-text action_${action.post_id}">${action.action}</span></p>
-                                                
-                                                <p class="card-text float-right">
-                                                    <small class="delete_post mr-2" title="Delete post?"
-                                                    data-post_id="${action.post_id}">
-                                                    <i class="far fa-trash-alt"></i>
-                                                    
-                                                   </small>
-                                                    <small class="edit_post" title="Edit post?"
-                                                    data-post_id="${action.post_id}">
-                                                   <i class="far fa-edit"></i>
-                                                    
-                                                   </small>
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>`)
-
-                })
+               else if (response.user_posts) {
+                    render_posts($('#posts'),
+                        response.user_posts,
+                        "My Posts",
+                        true,
+                        ['delete', 'edit'],
+                        'delete_post')
+                }
 
 
                 $('.delete_post').on('click', function () {
@@ -356,7 +299,7 @@
                                         Toast.fire({
 
                                             html: ` <img  src="assets/dist/images/happy.png"/>
-                                                    <p class="feelist_title">Your post was deleted!</h4> 
+                                                    <p class="text-success">Your post was deleted!</h4> 
                                        `,
                                         })
 
@@ -441,7 +384,7 @@
 
 
                                         html: ` <img  src="assets/dist/images/happy.png"/>
-                                                <p class="feelist_title">Your post was succesfully updated!</h4> 
+                                                <p class="text-success">Your post was succesfully updated!</h4> 
                                        `,
                                     })
 
@@ -460,7 +403,7 @@
                                     Toast.fire({
 
                                         html: ` <img  src="assets/dist/images/sad.png"/>
-                                                    <p class="feelist_title">Your post was not updated, please try later!</h4> 
+                                                    <p class="text-danger">Your post was not updated, please try later!</h4> 
                                        `,
                                     })
                                 }
@@ -476,22 +419,85 @@
 
     $('#my_fav').on('click', function () {
 
-        var favourites = $('#favourites')
-
-        $('.user_interaction').addClass('d-none')
-        favourites.removeClass('d-none')
-
         $.getJSON('/my_fav_posts',
             {},
             function (response) {
-                    if(response.my_favs)
-                    {
-                        favourites.html('').append(`<h4 class="feelist_title">My Favourites</h4>`)
-                        $.each(response.my_favs, function (key, post) {
-                        favourites.append(`
-                           <div class="row mb-1">
+            if(response.my_favs.length === 0)
+                {
+                     $('.user_interaction').addClass('d-none')
+                    $('#favourites').removeClass('d-none')
+                }
+                else if (response.my_favs) {
+                    render_posts($('#favourites'),
+                        response.my_favs,
+                        "My Favourites",
+                        false,
+                        ['delete'],
+                        'delete_fav')
+                } else {
+                    console.log('some error')
+                }
+
+                $('.delete_fav').on('click', function () {
+                    var post_id = $(this).data('post_id')
+
+                    Swal.fire({
+                        html: `     <img  src="assets/dist/images/sad.png"/>
+                                    <h4 class="danger_title">Delete post? </h4>
+                                   `,
+
+                        showCancelButton: true,
+                        buttonsStyling: false,
+                        cancelButtonColor: 'red',
+                        confirmButtonText: 'Yes!',
+                        cancelButtonText: 'No!',
+                        customClass: {
+                            confirmButton: 'gl_button',
+                            cancelButton: 'gl_button danger'
+                        },
+                    }).then((result) => {
+                        if (result.value) {
+                            $.getJSON('/remove_from_likes', {post_id: post_id},
+                                function (response) {
+                                    console.log('response is ' + response.deleted)
+                                    if (response.deleted === 'deleted') {
+
+                                        $('#' + post_id).remove()
+                                        Toast.fire({
+
+                                            html: ` <img  src="assets/dist/images/happy.png"/>
+                                                    <p class="text-success">One of your favourites was deleted!</h4> 
+                                       `,
+                                        })
+
+                                    }
+
+                                }, function (error) {
+                                    console.log(error)
+                                }
+                            )
+                        }
+                    })
+
+
+                })
+            })
+    })
+
+
+    function render_posts(div, posts, title, single_user, controls, delete_class, f_name = null) {
+
+        $('.user_interaction').addClass('d-none')
+        div.removeClass('d-none').html('').append(`<h4 class="feelist_title">${title} 
+        ${delete_class === 'delete_action' ? `<small  class="float-right delete_feelist" title="Delete feelist?" data-f_name="${f_name}">
+                 <i class="far fa-trash-alt"></i></small>` : `${delete_class === '' ?
+            `<small  class="float-right " id="remove_from_globe" title="Remove from globe?" data-glober_id="${sessionStorage.getItem('glober_id')}">
+                 <i class="far fa-trash-alt"></i></small>` : ``}`}</h4>`)
+
+        $.each(posts, function (key, post) {
+            div.append(`<div class="row mb-1" id="${post.post_id}">
                                 <div class="col-md-4 border_blue_l p-2 d-flex justify-content-around">
-                                    <img class="avatar" src="assets/dist/images/avatars/${Math.ceil(Math.random() * 10)}.png"/>
+                                    <img class="avatar" src="assets/dist/images/avatars/${single_user ? 1 : Math.ceil(Math.random() * 10)}.png"/>
                                     <div>
                                         <div class="d-flex justify-content-center"><a href="#" class="user">${post.name}</a></div>
                                         <div class="d-flex justify-content-center"><small class="text-muted">${post.created_at}</small></div>
@@ -505,27 +511,29 @@
                                     </p>
                                     <p class="card-text m-1 blue">I ... <span class="card-text action_${post.post_id}">${post.action}</span></p>
                                     <p class="card-text ">
-                                        <small class="remove_fav mr-2 float-right" title="Remove from favourites?"
+                                    
+                                        ${controls.indexOf('delete') !== -1 ? `<small class=" ${delete_class} r-2 float-right" title="Delete?"
                                                data-post_id="${post.post_id}">
                                             <i class="far fa-trash-alt"></i>
-                                        </small>
-                                        <small class="remove_fav mr-2 float-left" title="Remove from favourites?"
+                                        </small>` : ``}
+                                        
+                                        ${controls.indexOf('edit') !== -1 ? `<small class="edit_post float-right mr-2" title="Edit post?"
+                                                    data-post_id="${post.post_id}">
+                                                   <i class="far fa-edit"></i>
+                                                    
+                                        </small>` : ``}  
+                                        
+                                         <small class=" mr-2 float-left" title="likes"
                                                data-post_id="${post.post_id}">
-                                            <i class="fas fa-heart " title="likes">
+                                            <i class="fas fa-heart " >
                                                 <span>&nbsp; ${post.likes}</span> </i>
                                         </small>
+                                        
                                     </p>
                                 </div>
                             </div>`)
-                        })
-                    }
-                    else
-                    {
-                        console.log('some error')
-                    }
-            })
-    })
-
+        })
+    }
 
 })()
 

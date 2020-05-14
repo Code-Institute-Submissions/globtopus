@@ -10,17 +10,22 @@
                 Progress</a>
             <a class="list-group-item no_border user_nav" data-nav="my_glob" id="my_glob"
                data-toggle="collapse" href="#list_of_globers" role="button" aria-expanded="false" aria-controls="list_of_globers"
-            >My Glob</a>
+            >My Globe</a>
             <ul class="list-group collapse" id="list_of_globers">
             </ul>
-            <a class="list-group-item no_border user_nav" data-nav="my_feelist"
+            <a class="list-group-item no_border user_nav" data-nav="my_feelist" id="my_feelist"
                data-toggle="collapse" href="#list_of_feelists" role="button" aria-expanded="false" aria-controls="list_of_feelists">My
                 Feelists
             </a>
-            <ul class="list-group collapse" id="list_of_feelists">
-                {% for item in session.get('my_feelists')%}
+
+            <ul class="list-group collapse" id="list_of_feelists" >
+                {% if session.get('my_feelists') != [] %}
+
+                {% for item in session.get('my_feelists') %}
                 <li class="list-group-item no_border feelist " data-f_name="{{ item }}">{{ item }}</li>
                 {% endfor %}
+
+                {% endif %}
             </ul>
             <li class="list-group-item no_border user_nav" data-nav="my_fav" id="my_fav"
             >My Favourites
@@ -46,16 +51,68 @@
             </div>
             <!--USER'S GLOB-->
             <div class="d-none user_interaction h_aligned col-md-12" id="glob">
+                <div class="d-flex justify-content-center ">
+                    <p class="text-center initial_interaction font-weight-bold">
+                        You have no one in your globe yet!</p>
+                </div>
+                <hr class="bg_blue_l">
+                <p class="text-center blue">Hopefully, You can find someone you like here!</p>
+                <p class="text-center">
+                    <a class="gl_button pl-3  pr-3" title=" Find someone !" href="{{url_for('landing_bp.index')}}">
+                        Find someone !
+                    </a>
+                </p>
             </div>
             <!--USER'S FEELISTS-->
             <div class="d-none user_interaction h_aligned col-md-12" id="feelists">
+                <div class="d-flex justify-content-center ">
+                    <p class="text-center initial_interaction font-weight-bold">
+                        You have no one in your feelist yet!</p>
+                </div>
+                <hr class="bg_blue_l">
+                 <p class="text-center blue">Feelist is like playlist of actions you like to take to feel the way you want to feel...;-)</p>
+                 <hr class="bg_blue_l">
+                <p class="text-center blue">Hopefully, You can find few here!</p>
+                <p class="text-center">
+                    <a class="gl_button pl-3  pr-3" title=" Find some!" href="{{url_for('landing_bp.index')}}">
+                        Find some!
+                    </a>
+                </p>
             </div>
-
             <!--USER'S FAVOURITES-->
-            <div class="d-none user_interaction col-md-12 h_aligned" id="favourites">
+            <div class="d-none user_interaction col-md-12 h_aligned " id="favourites">
+
+                <div class="d-flex justify-content-center ">
+                    <p class="text-center initial_interaction font-weight-bold">
+                        You have no one in your favourites yet!</p>
+                </div>
+                <hr class="bg_blue_l">
+
+
+                <p class="text-center blue">Hopefully, You can find someone here!</p>
+                <p class="text-center">
+                    <a class="gl_button pl-3  pr-3" title=" Find someone !" href="{{url_for('landing_bp.index')}}">
+                         Find someone !
+                    </a>
+                </p>
+
             </div>
             <!--USER'S POSTS-->
             <div class=" d-none user_interaction h_aligned col-md-12" id="posts">
+
+                <div class="d-flex justify-content-center ">
+                    <p class="text-center initial_interaction font-weight-bold">
+                        You didn't write any posts yet!</p>
+                </div>
+                <hr class="bg_blue_l">
+
+
+                <p class="text-center blue">Hopefully, You can write few here!</p>
+                <p class="text-center">
+                    <a class="gl_button pl-3  pr-3" title=" Find someone !" href="{{url_for('landing_bp.index')}}">
+                         Write a post!
+                    </a>
+                </p>
             </div>
         </div>
     </div>

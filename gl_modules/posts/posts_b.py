@@ -199,7 +199,7 @@ def actions():
             {
                 "$push": {
                     "my_feelists":
-                        {"name": feelist_name, "post_ids": [post_id]}
+                        {"name": feelist_name.replace(" ", "_"), "post_ids": [post_id]}
 
                 }
             }, upsert=True
@@ -242,8 +242,8 @@ def actions():
             ,
             upsert=True
         )
-
-    return jsonify(result=post_id, dumps=dumps(session.get('my_feelists')))
+    session['my_likes'] = mongo.db.users.find_one({'_id': ObjectId(session.get('user_id'))})['likes']
+    return jsonify(result=post_id, dumps=dumps(session.get('my_likes')))
 
 
 @posts_bp.route('/user_posts')
@@ -254,6 +254,7 @@ def user_posts():
     user_posts = []
     for post in user['posts']:
         user_posts.append({
+            'name': user['name'],
             'i_feel': post['i_feel'],
             'because': post['because'],
             'action': post['action'],
@@ -276,6 +277,7 @@ def my_fav():
         {"$match": {"posts.post_id": {"$in": session.get('my_likes')}}}
 
     ])
+
     favs = []
     for fav in posts:
         favs.append({'name': fav['name'],
@@ -290,6 +292,7 @@ def my_fav():
 
 
     return jsonify(my_favs=favs)
+
 
 @posts_bp.route('/delete_post')
 def delete_post():
