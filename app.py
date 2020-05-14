@@ -31,6 +31,7 @@ app.register_blueprint(charts_m.charts_bp, url_prefix='/')
 app.register_blueprint(factory_m.factory_bp, url_prefix='/')
 app.register_blueprint(map_m.map_bp, url_prefix='/')
 
+
 if __name__ == '__main__':
     app.run(
         port=os.environ.get('PORT'),

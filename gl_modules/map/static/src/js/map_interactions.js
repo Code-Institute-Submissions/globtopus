@@ -41,6 +41,8 @@
                         <hr>
                          <p id='${$(this).attr('id')}' class="gl_button green text-center p-3 text-wrap">
                         <span class="smaller_h">EXPLORE MORE</span>
+                        <a href="/country">see the country</a>
+                        </p>
                 `)
         });
 
