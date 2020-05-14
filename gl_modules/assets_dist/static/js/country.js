@@ -97,14 +97,14 @@ eval("/*FUNCTIONS FOR INTERACTIONS WITH CHARTS\r\n* DISPLAYING HOW DO WORLD COUN
 
 /***/ }),
 
-/***/ "./gl_modules/landing/static/src/js/show_search.js":
-/*!*********************************************************!*\
-  !*** ./gl_modules/landing/static/src/js/show_search.js ***!
-  \*********************************************************/
+/***/ "./gl_modules/country/static/src/js/country.js":
+/*!*****************************************************!*\
+  !*** ./gl_modules/country/static/src/js/country.js ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("/*FUNCTIONS TO SHOW DIV WITH SEARCH FIELD FOR FEELISTS*/\r\n\r\n$(function () {\r\n    $('#posts').on('click', function () {\r\n        /*HIDE ANY PREVIOUSLY OPEN DIVS ( CHARTS, MAPS)*/\r\n        $('.landing_interaction').addClass('d-none')\r\n        /*AND FOR MOBILE DEVICES WE NEED TO SCROLL TO SEARCH RESULTS*/\r\n        $('#post_search').toggleClass('d-none').get(0).scrollIntoView();\r\n\r\n\r\n    })\r\n\r\n\r\n})\r\n\r\n\r\n\r\n\n\n//# sourceURL=webpack:///./gl_modules/landing/static/src/js/show_search.js?");
+eval("(function () {\r\n    $('#country_map').on('click', function () {\r\n        $('#map_holder').removeClass('d-none')\r\n        $('#chart_holder').addClass('d-none')\r\n    })\r\n})()\n\n//# sourceURL=webpack:///./gl_modules/country/static/src/js/country.js?");
 
 /***/ }),
 
@@ -119,36 +119,14 @@ eval("/*FUNCTIONS FOR SEARCH AND INTERACTION WITH POSTS\r\n*\r\n* USER CAN:\r\n*
 
 /***/ }),
 
-/***/ "./gl_modules/shared/static/js/feel_meter.js":
-/*!***************************************************!*\
-  !*** ./gl_modules/shared/static/js/feel_meter.js ***!
-  \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-eval("/*FUNCTIONALITY TO SHOW USER FEELINGS ON SLIDE RANGE\r\n* AND TO CHANGE TEXT ABOVE ACTIONS PART OF THE FORM\r\n* IF FEELINGS < 51 OR >= 51*/\r\n\r\n(function () {\r\n\r\n\r\n\r\n    $('#feeling').on('change', function () {\r\n\r\n        var feelings = this.value;\r\n\r\n        $('#feeling_holder').val(feelings);\r\n\r\n        if(feelings > 51){\r\n            $('#this_or_better').removeClass('d-none');\r\n            $('#better').addClass('d-none');\r\n        }\r\n        else{\r\n             $('#this_or_better').addClass('d-none');\r\n             $('#better').removeClass('d-none');\r\n        }\r\n    });\r\n})();\r\n\r\n\n\n//# sourceURL=webpack:///./gl_modules/shared/static/js/feel_meter.js?");
-
-/***/ }),
-
-/***/ "./gl_modules/shared/static/js/form_label.js":
-/*!***************************************************!*\
-  !*** ./gl_modules/shared/static/js/form_label.js ***!
-  \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-eval("(function () {\r\n    $('.form_label').on(('click','focus'), function () {\r\n\r\n        var element_id = $(this).attr('id')\r\n        var placeholder_text = $(this).prop('placeholder')\r\n        if($(this).data('label')) {\r\n            var div = element_id+'_label'\r\n        }\r\n        else\r\n        {\r\n            div = element_id\r\n        }\r\n\r\n\r\n        if (placeholder_text !== '' &&  $(\"label[for='\" + element_id + \"']\").text().length === 0) {\r\n\r\n            sessionStorage.setItem(element_id,placeholder_text)\r\n            $(this).prop('placeholder', '')\r\n            $('#' + div).before(` <label for=${element_id} ><small>${placeholder_text}</small></label>`)\r\n        }\r\n\r\n\r\n    }).on('input', function () {\r\n        var element_id = $(this).attr('id')\r\n\r\n        var input_field = $('#' + element_id)\r\n        var label = $(\"label[for='\" + element_id + \"']\")\r\n\r\n        if (input_field.val() === '') {\r\n            input_field.prop('placeholder', sessionStorage.getItem(element_id))\r\n            label.html('')\r\n        }\r\n        else if(input_field.val().length === 1)\r\n        {\r\n            label.html(`<small>${sessionStorage.getItem(element_id)}</small>`)\r\n        }\r\n\r\n\r\n    })\r\n})()\n\n//# sourceURL=webpack:///./gl_modules/shared/static/js/form_label.js?");
-
-/***/ }),
-
 /***/ 0:
-/*!*************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./gl_modules/landing/static/src/js/show_search.js ./gl_modules/shared/static/js/feel_meter.js ./gl_modules/shared/static/js/form_label.js ./gl_modules/posts/static/js/posts.js ./gl_modules/charts/static/js/charts.js ***!
-  \*************************************************************************************************************************************************************************************************************************************/
+/*!*****************************************************************************************************************************************!*\
+  !*** multi ./gl_modules/posts/static/js/posts.js ./gl_modules/charts/static/js/charts.js ./gl_modules/country/static/src/js/country.js ***!
+  \*****************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("__webpack_require__(/*! ./gl_modules/landing/static/src/js/show_search.js */\"./gl_modules/landing/static/src/js/show_search.js\");\n__webpack_require__(/*! ./gl_modules/shared/static/js/feel_meter.js */\"./gl_modules/shared/static/js/feel_meter.js\");\n__webpack_require__(/*! ./gl_modules/shared/static/js/form_label.js */\"./gl_modules/shared/static/js/form_label.js\");\n__webpack_require__(/*! ./gl_modules/posts/static/js/posts.js */\"./gl_modules/posts/static/js/posts.js\");\nmodule.exports = __webpack_require__(/*! ./gl_modules/charts/static/js/charts.js */\"./gl_modules/charts/static/js/charts.js\");\n\n\n//# sourceURL=webpack:///multi_./gl_modules/landing/static/src/js/show_search.js_./gl_modules/shared/static/js/feel_meter.js_./gl_modules/shared/static/js/form_label.js_./gl_modules/posts/static/js/posts.js_./gl_modules/charts/static/js/charts.js?");
+eval("__webpack_require__(/*! ./gl_modules/posts/static/js/posts.js */\"./gl_modules/posts/static/js/posts.js\");\n__webpack_require__(/*! ./gl_modules/charts/static/js/charts.js */\"./gl_modules/charts/static/js/charts.js\");\nmodule.exports = __webpack_require__(/*! ./gl_modules/country/static/src/js/country.js */\"./gl_modules/country/static/src/js/country.js\");\n\n\n//# sourceURL=webpack:///multi_./gl_modules/posts/static/js/posts.js_./gl_modules/charts/static/js/charts.js_./gl_modules/country/static/src/js/country.js?");
 
 /***/ })
 

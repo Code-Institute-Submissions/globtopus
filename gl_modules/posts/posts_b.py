@@ -96,6 +96,7 @@ def update_post():
 def search():
     """sanitizing input and returning array of words"""
     q = sanitize(request.args.get('q', 0, type=str).lower(), 'array')  # array
+    cc = request.args.get('cc', 0, type=str)
 
     results = []
     from app import mongo
@@ -107,16 +108,58 @@ def search():
     
     AND WE WILL DISPLAY i_feel and because VALUES ALONG 
     ACTIONS GLOBBERS TOOK TO FEEL THAT WAY OR BETTER"""
+    if cc and q :
+        search_results = mongo.db.users.aggregate([
 
-    search_results = mongo.db.users.aggregate([
+            {"$unwind": '$posts'},
+            {"$match": {"$or": [
 
-        {"$unwind": '$posts'}, {"$match": {"$or": [
-            {"posts.i_feel": {"$in": q}},  # q is array
-            {"posts.because": {"$in": q}}  # q is array
-        ]}}
+                                {"posts.i_feel": {"$in": q}},  # q is array
+                                {"posts.because": {"$in": q}}
+                                ],
+                        "$and": [
+                            {"country_code": cc},
 
-    ])
-    # return dumps(search_results)
+
+                        ]}}
+            ,
+            {"$sort": {"posts.created_at": -1}},
+            {"$limit": 20}
+
+        ])
+
+    elif cc != '':
+        search_results = mongo.db.users.aggregate([
+
+            {"$unwind": '$posts'},
+            {"$match": {"$or": [
+                                {"country_code": cc},
+                                {"posts.i_feel": {"$in": q}},  # q is array
+                                {"posts.because": {"$in": q}}
+                                ],
+                       }}
+            ,
+            {"$sort": {"posts.created_at": -1}},
+            {"$limit": 20}
+
+        ])
+
+    else:
+
+        search_results = mongo.db.users.aggregate([
+
+            {"$unwind": '$posts'},
+            {"$match": {"$or": [
+                {"posts.i_feel": {"$in": q}},  # q is array
+                {"posts.because": {"$in": q}}
+            ]
+               }}
+            ,
+            {"$sort": {"posts.created_at": -1}},
+            {"$limit": 20}
+
+        ])
+    #return dumps(search_results)
     for result in search_results:
         results.append(
             {
@@ -128,7 +171,7 @@ def search():
                 'i_feel': (result['posts']['i_feel']),
                 'because': (result['posts']['because']),
                 'action': str(result['posts']['action']),
-                'created_at': result['posts']['created_at'].strftime("%F"),
+                'created_at': result['posts']['created_at'],
                 'likes': result['posts']['likes'] if 'likes' in result['posts'] else 0,
                 'additions': result['posts']['additions'] if 'additions' in result['posts'] else 0,
                 'flags': result['posts']['flags'] if 'flags' in result['posts'] else 0
@@ -268,6 +311,7 @@ def user_posts():
 
     return jsonify(user_posts=user_posts)
 
+
 @posts_bp.route('/my_fav_posts')
 def my_fav():
     from app import mongo
@@ -289,7 +333,6 @@ def my_fav():
                      'likes': fav['posts']['likes'] if 'likes' in fav['posts'] else 0,
                      'flags': fav['posts']['flags'] if 'flags' in fav['posts'] else 0,
                      'additions': fav['posts']['additions'] if 'additions' in fav['posts'] else 0, })
-
 
     return jsonify(my_favs=favs)
 

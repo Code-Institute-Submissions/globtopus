@@ -29,8 +29,8 @@
                         <span id="charts" data-num_of_days=10 class="gl_button " title="see the chart"><i
                                 class="far fa-chart-bar"></i>&nbsp;chart
                         </span>
-                        <span id="globs" class="gl_button " title="type how you feel and get feelist"><i
-                                class="far fa-heart"></i>&nbsp;feelist</span>
+                        <span id="posts" class="gl_button " title="type how you feel and get feelist"><i
+                                class="far fa-heart"></i>&nbsp;posts</span>
                     </div>
                 </div>
                 <!--SLIDER WITH TEXT AREAS FOR INPUTING HOW DOES USER FEELS-->
@@ -83,25 +83,14 @@
         </div>
     </form>
 </section>
-<section id="glob_search" class="mt-2 landing_interaction d-none">
-    <div class="">
-        <div class="row  ">
-            <div class="col-md-8 offset-md-2 mt-2">
-                <span class="gl_button beta ">beta</span>
-                <h4 class="smaller_h text-center">Please type in how you feel and we will try to show you actions
-                    other
-                    globbers took when they felt the same way as you are feeling now.</h4>
-                <input type="text" name="search" placeholder="How do you feel ? "
-                       class="form-control form-control-lg form_label blue"
-                       id="search">
-                <p id='get_results' class="gl_button text-center p-3">get results</p>
-            </div>
+<section id="post_search" class="mt-2 landing_interaction d-none">
+
+         {{ search_box()  }}
+
+        <div id="search_results" >
+
         </div>
-        <div id="search_results" class="">
-            <div id=results>
-            </div>
-        </div>
-    </div>
+
 </section>
 <section id="map_search" class="mt-2 landing_interaction d-none">
     <div class="row">

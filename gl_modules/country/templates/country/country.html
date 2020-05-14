@@ -4,222 +4,123 @@
 {% block content %}
 <section id="country_name">
     <div class="row  mb-1">
-     <div class="col-md-12 mt-1 mb-1 border_green">
-            <span class="country_name"> Slovakia</span>
-                <span class="gl_button">map</span>   <span class="gl_button">charts</span>   <span class="gl_button">posts</span>
-          </div>
-         </div>
+        <div class="col-md-12 mt-1 mb-1 border_green">
+            <span class="country_name">{{ country_name }}</span>
+            <span class="gl_button" id="country_map">map</span>
+            <span class="gl_button country"
 
+                    data-country="{{ cc }}"
+                    data-num_of_days="10">charts</span>
+            <span class="gl_button" id="c_search" data-cc="{{ cc }}">posts</span>
+        </div>
+    </div>
 </section>
-<section id="country_map">
+<section id="main_interaction">
     <div class="row  mb-1">
-        <div class="col-md-8 border_blue_l">
+        <div class="col-md-8 border_blue_l" id="map_holder">
             <img class="country_map img-fluid" src="{{url_for('assets_dist_bp.static', filename='images/map.png')}}"/>
         </div>
-        <div class="col-md-4 border_blue_l">
+        <div class="col-md-8  m-2 border_blue_l d-none " id="chart_holder">
+            <canvas id="chart" width="800" height="450"></canvas>
+            <div id="bottom_of_chart" class="d-flex justify-content-center">
+                    <span class="gl_btn_round country"
+                      title="click to see country progress past 30 days"
+                        data-type="country"
+                        data-country="{{ cc }}"
+                        data-num_of_days=30>30</span>
+                        <span class="gl_btn_round country"
+                        title="click to see country progress past 90 days"
+                         data-type="country"
+                        data-country="{{ cc }}"
+                        data-num_of_days=90>90</span>
+                        <span class="gl_btn_round country"
+                        title="click to see country progress past 180 days"
+                         data-type="country"
+                        data-country="{{ cc }}"
+                        data-num_of_days=180>180</span>
+                         <span class="gl_btn_round country"
+                         title="click to see country progress past 360 days"
+                         data-type="country"
+                        data-country="{{ cc }}"
+                        data-num_of_days=360>360</span></div>
+      </div>
+        <div class="col border_blue_l">
             adds are here
-             <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active" data-interval="8000">
-                            <img class="adds" src="{{url_for('assets_dist_bp.static', filename='images/adds/add_1.jpg')}}"/>
-                            <div class="text-light text-center  bg_blue_light p-2">
-                                <h5>How do you do</h5>
-                                <p>Learn english easy and fast. <a target="_blank"  href="https://github.com/marcelkolarcik/how-do-you-do">
+            <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active" data-interval="8000">
+                        <img class="adds" src="{{url_for('assets_dist_bp.static', filename='images/adds/add_1.jpg')}}"/>
+                        <div class="text-light text-center  bg_blue_light p-2">
+                            <h5>How do you do</h5>
+                            <p>Learn english easy and fast.
+                                <a target="_blank" href="https://github.com/marcelkolarcik/how-do-you-do">
                                     <span class="img-thumbnail gl_button">visit</span></a></p>
-                            </div>
                         </div>
-                        <div class="carousel-item " data-interval="8000">
-                            <img class="adds"
-                                 src="{{url_for('assets_dist_bp.static', filename='images/adds/add_3.jpg')}}"/>
-                            <div class="text-light text-center  bg_blue_light p-2">
-                                <h5>Wake up happy</h5>
-                                <p>Find a room with a view... <a target="_blank" href="https://marcelkolarcik.github.io/wake-up-happy/index.html">
-                                    <span class="img-thumbnail gl_button">visit</span></a></p>
-                            </div>
-                        </div>
-                        <div class="carousel-item" data-interval="8000">
-                            <img class="adds"
-                                 src="{{url_for('assets_dist_bp.static', filename='images/adds/add_2.jpg')}}"/>
-                            <div class="text-light text-center  bg_blue_light p-2">
-                                <h5>simple-jQuery-translator</h5>
-                                <p>Translate any website with ease...<a target="_blank"  href="https://marcelkolarcik.github.io/simple-jQuery-translator/">
-                                    <span class="img-thumbnail gl_button">visit</span></a></p> </p>
-                            </div>
-                        </div>
-
                     </div>
-                    <a class="carousel-control-prev " href="#carouselExampleFade" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon bg_blue" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon bg_blue" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
+                    <div class="carousel-item " data-interval="8000">
+                        <img class="adds"
+                             src="{{url_for('assets_dist_bp.static', filename='images/adds/add_3.jpg')}}"/>
+                        <div class="text-light text-center  bg_blue_light p-2">
+                            <h5>Wake up happy</h5>
+                            <p>Find a room with a view...
+                                <a target="_blank" href="https://marcelkolarcik.github.io/wake-up-happy/index.html">
+                                    <span class="img-thumbnail gl_button">visit</span></a></p>
+                        </div>
+                    </div>
+                    <div class="carousel-item" data-interval="8000">
+                        <img class="adds"
+                             src="{{url_for('assets_dist_bp.static', filename='images/adds/add_2.jpg')}}"/>
+                        <div class="text-light text-center  bg_blue_light p-2">
+                            <h5>simple-jQuery-translator</h5>
+                            <p>Translate any website with
+                                ease...<a target="_blank" href="https://marcelkolarcik.github.io/simple-jQuery-translator/">
+                                    <span class="img-thumbnail gl_button">visit</span></a></p> </p>
+                        </div>
+                    </div>
                 </div>
+                <a class="carousel-control-prev " href="#carouselExampleFade" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon bg_blue" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon bg_blue" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
             <div class="border_green mt-3">
                 <p class="text-center"> some info here <br> and here <br> and here</p>
-
-
             </div>
         </div>
     </div>
 </section>
-<section id="posts">
+
+<section id="post_search">
+
+
+
     <div class="row">
-        <div class="col-md-12 mt-1 mb-1 border_green">
-            some sorting for posts here
-        </div>
+        {{ search_box()  }}
         <div class="col-md-8 border_blue_l">
-            <div class="row mb-1" >
-                <div class="col-md-4 border_blue_l p-2 ">
-                    <img class="country_map img-fluid avatar" src="{{url_for('assets_dist_bp.static', filename='images/avatars/1.png')}}"/>
-                    <br>
-                    <div>
-                        <div class="d-flex justify-content-center"><a href="#" class="user text-wrap">Mary2012</a></div>
-                        <div class="d-flex justify-content-center"><small class="text-muted">1 day ago</small>
-                        </div>
-                    </div>
+            <div id="search_results" >
+
                 </div>
-                <div class="col-md-8 border_blue_l p-2">
-                    <p class="card-text m-1 blue">
-                        When I feel/feel like... <span class="i_feel_${post.post_id} text-secondary">Great</span>
-                    </p>
-                    <p class="card-text m-1 blue">Because...<span class="because_${post.post_id}"> i am working on country page already</span>
-                    </p>
-                    <p class="card-text m-1 blue">I ...
-                        <span class="card-text action_${post.post_id}">Keep going till I will have finished globi!</span></p>
-                    <p class="card-text ">
-                       <small class=" mr-2 float-left" title="likes"
-                               data-post_id="${post.post_id}">
-                            <i class="fas fa-heart ">
-                                <span>&nbsp; 23</span> </i>
-                        </small>
-                    </p>
-                </div>
-            </div>
-            <div class="row mb-1" >
-                <div class="col-md-4 border_blue_l p-2 ">
-                    <img class="country_map img-fluid avatar" src="{{url_for('assets_dist_bp.static', filename='images/avatars/2.png')}}"/>
-                    <br>
-                    <div>
-                        <div class="d-flex justify-content-center"><a href="#" class="user text-wrap">Liska2012</a></div>
-                        <div class="d-flex justify-content-center"><small class="text-muted">1 day ago</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-8 border_blue_l p-2">
-                    <p class="card-text m-1 blue">
-                        When I feel/feel like... <span class="i_feel_${post.post_id} text-secondary">Great</span>
-                    </p>
-                    <p class="card-text m-1 blue">Because...<span class="because_${post.post_id}"> i am working on country page already</span>
-                    </p>
-                    <p class="card-text m-1 blue">I ...
-                        <span class="card-text action_${post.post_id}">Keep going till I will have finished globi!</span></p>
-                    <p class="card-text ">
-                       <small class=" mr-2 float-left" title="likes"
-                               data-post_id="${post.post_id}">
-                            <i class="fas fa-heart ">
-                                <span>&nbsp; 23</span> </i>
-                        </small>
-                    </p>
-                </div>
-            </div>
-            <div class="row mb-1" >
-                <div class="col-md-4 border_blue_l p-2 ">
-                    <img class="country_map img-fluid avatar" src="{{url_for('assets_dist_bp.static', filename='images/avatars/3.png')}}"/>
-                    <br>
-                    <div>
-                        <div class="d-flex justify-content-center"><a href="#" class="user text-wrap">marcel77</a></div>
-                        <div class="d-flex justify-content-center"><small class="text-muted">1 day ago</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-8 border_blue_l p-2">
-                    <p class="card-text m-1 blue">
-                        When I feel/feel like... <span class="i_feel_${post.post_id} text-secondary">Great</span>
-                    </p>
-                    <p class="card-text m-1 blue">Because...<span class="because_${post.post_id}"> i am working on country page already</span>
-                    </p>
-                    <p class="card-text m-1 blue">I ...
-                        <span class="card-text action_${post.post_id}">Keep going till I will have finished globi!</span></p>
-                    <p class="card-text ">
-                       <small class=" mr-2 float-left" title="likes"
-                               data-post_id="${post.post_id}">
-                            <i class="fas fa-heart ">
-                                <span>&nbsp; 23</span> </i>
-                        </small>
-                    </p>
-                </div>
-            </div>
-            <div class="row mb-1" >
-                <div class="col-md-4 border_blue_l p-2 ">
-                    <img class="country_map img-fluid avatar" src="{{url_for('assets_dist_bp.static', filename='images/avatars/4.png')}}"/>
-                    <br>
-                    <div>
-                        <div class="d-flex justify-content-center"><a href="#" class="user text-wrap">gosc2012</a></div>
-                        <div class="d-flex justify-content-center"><small class="text-muted">1 day ago</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-8 border_blue_l p-2">
-                    <p class="card-text m-1 blue">
-                        When I feel/feel like... <span class="i_feel_${post.post_id} text-secondary">Great</span>
-                    </p>
-                    <p class="card-text m-1 blue">Because...<span class="because_${post.post_id}"> i am working on country page already</span>
-                    </p>
-                    <p class="card-text m-1 blue">I ...
-                        <span class="card-text action_${post.post_id}">Keep going till I will have finished globi!</span></p>
-                    <p class="card-text ">
-                       <small class=" mr-2 float-left" title="likes"
-                               data-post_id="${post.post_id}">
-                            <i class="fas fa-heart ">
-                                <span>&nbsp; 23</span> </i>
-                        </small>
-                    </p>
-                </div>
-            </div>
-            <div class="row mb-1" >
-                <div class="col-md-4 border_blue_l p-2 ">
-                    <img class="country_map img-fluid avatar" src="{{url_for('assets_dist_bp.static', filename='images/avatars/5.png')}}"/>
-                    <br>
-                    <div>
-                        <div class="d-flex justify-content-center"><a href="#" class="user text-wrap">gapex2012</a></div>
-                        <div class="d-flex justify-content-center"><small class="text-muted">1 day ago</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-8 border_blue_l p-2">
-                    <p class="card-text m-1 blue">
-                        When I feel/feel like... <span class="i_feel_${post.post_id} text-secondary">Great</span>
-                    </p>
-                    <p class="card-text m-1 blue">Because...<span class="because_${post.post_id}"> i am working on country page already</span>
-                    </p>
-                    <p class="card-text m-1 blue">I ...
-                        <span class="card-text action_${post.post_id}">Keep going till I will have finished globi!</span></p>
-                    <p class="card-text ">
-                       <small class=" mr-2 float-left" title="likes"
-                               data-post_id="${post.post_id}">
-                            <i class="fas fa-heart ">
-                                <span>&nbsp; 23</span> </i>
-                        </small>
-                    </p>
-                </div>
-            </div>
         </div>
         <div class="col-md-4 border_blue_l">
             top globbers are here
         </div>
     </div>
-
 </section>
 <section id="footer">
 </section>
 {% endblock %}
+
+
+
 {% block js %}
 <!--CHARTS charts.js-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
         integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+<script src="{{url_for('assets_dist_bp.static', filename='js/country.js')}}"></script>
 <!--<script src="{{url_for('map_bp.static', filename='src/js/SVGPanZoom.js')}}"></script>-->
 <!--<script src="{{url_for('map_bp.static', filename='src/js/map_interactions.js')}}"></script>-->
 <!--<script src="{{url_for('map_bp.static', filename='src/js/map_loader.js')}}"></script>-->

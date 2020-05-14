@@ -7,7 +7,7 @@
 *           4. SEARCH FOR POSTS
 * */
 $(function () {
- const Toast = Swal.mixin({
+    const Toast = Swal.mixin({
         toast: true,
         position: 'middle-end',
         showConfirmButton: false,
@@ -16,24 +16,20 @@ $(function () {
 
     })
     var authorized_user
-    $('#get_results').on('click', function () {
+    $('#search,#c_search').on('click', function () {
 
         /*AJAX REQUEST TO GET RESULTS*/
         $.getJSON('/_search', {
-                q: $('input[name="search"]').val(),
+                q: $('input[name="search_field"]').val(),
+                cc:$(this).data('cc')
 
             },
 
             function (data) {
 
                 var search_results = data.result
-                var feelists = Object.keys(data.feelists)
-                console.log("feelists" + feelists)
-                authorized_user = data.authorized_user
 
-
-                var results = $("#results").html('');
-
+                var results = $("#search_results").html('');
                 results.get(0).scrollIntoView();
 
                 /*WE HAVE NO RESULTS*/
@@ -41,57 +37,70 @@ $(function () {
 
                     results.append(` 
                 <h4 class="smaller_h"> There are no actions for how you feeling now :
-                    <span class="blue">${$('input[name="search"]').val()}</span>  
+                    <span class="blue">${$('input[name="search_field"]').val()}</span>  
                     
                     </h4>`)
                 }
                 /*WE HAVE RESULTS*/
                 else {
+                    var feelists = Object.keys(data.feelists)
 
+                    authorized_user = data.authorized_user
                     var counter = 1
 
-                    $.each(search_results, function (key, value) {
+                    $.each(search_results, function (key, post) {
 
 
                         results.append(`
 
                     <div class="row mb-2 border_blue_l pt-2">
                      <!--APPENDING  ACTION,-->
-                        <div class="col-md-8">
-
-                         <span class="smaller_h">1.</span>
-                            ${value.action}
-                            ${actions(value.likes, value.additions, value.flags, value.id)} 
+                        <div class="col-md-8 pb-2">
+                                <span >I feel :</span>  
+                               <span class="text-info" >${post.i_feel.join(' ')}  </span>
+                               <span >because :</span>
+                               <span  class="text-info">${post.because.join(' ')}  </span> <br>
+                        
+                              <span>${post.action}</span> 
+                            <br>
+                            <i  data-id="${post.id}"  data-action="likes"
+                            class="fas fa-heart float-right ml-3 gl_action" title="like it!" >
+                            <span id="likes_${post.id}" >&nbsp;${post.likes}</span> </i> 
+          
+                            <i   data-id="${post.id}"  data-action="additions"
+                            class="fas fa-plus float-right ml-3 add_to_feelist" title="add to your feelist!">
+                            <span id="additions_${post.id}" >&nbsp;${post.additions}</span>
+                            </i>
+                            <i  data-id="${post.id}"  data-action="flags"
+                            class="far fa-flag float-right ml-3 gl_action" title="report as inappropriate">
+                             <span id="flags_${post.id}" >&nbsp;${post.flags}</span>
+                                    </i>
                         </div>
                             <!--INFO ABOUT GLOBBER-->
                         <div class="col-md-4 ">
-                         <img class="avatar" src="assets/dist/images/avatars/${counter % 12}.png"/>
-                             ${value.name}  ${value.user_feel}  
-                              <span class="float-right remove_from_glob blue removed_from_glob${value.user_id}
-                             ${value.in_my_glob === 1 ? '' : 'd-none'}" 
-                             data-user_id="${value.user_id}" 
-                             data-user_name="${value.name}"
+                         <img class="avatar" src="assets/dist/images/avatars/${counter % 38}.png"/>
+                             ${post.name}  ${post.user_feel}  
+                              <span class="float-right remove_from_glob blue removed_from_glob${post.user_id}
+                             ${post.in_my_glob === 1 ? '' : 'd-none'}" 
+                             data-user_id="${post.user_id}" 
+                             data-user_name="${post.name}"
                              data-user_action="removed_from_glob"
                              title="Remove me from your glob !">
                              <i class="fas fa-user-minus"></i>
                              </span>
-                             <span class="float-right add_to_glob blue added_to_glob${value.user_id}
-                            ${value.in_my_glob !== 1 ? '' : 'd-none'}" 
-                             data-user_id="${value.user_id}" 
-                             data-user_name="${value.name}"
+                             <span class="float-right add_to_glob blue added_to_glob${post.user_id}
+                            ${post.in_my_glob !== 1 ? '' : 'd-none'}" 
+                             data-user_id="${post.user_id}" 
+                             data-user_name="${post.name}"
                               data-user_action="added_to_glob"
                              title="Add me to your glob !">
                              <i class="fas fa-user-plus"></i>
                              </span>
                              <br>
-                             <span class="action_response_r${value.user_id}"></span>
-                              <span class="action_response_a${value.user_id}"></span>
+                             <span class="action_response_r${post.user_id}">${post.created_at}</span>
+                              <span class="action_response_a${post.user_id}"></span>
                               <hr class="p-0 m-1">
-                              <span class="float-left">I feel :</span>  <br>  
-                               <span class="text-info">${value.i_feel.join(' ')}  </span>
-                               <hr class="p-0 m-1">
-                               <span>because :</span><br>
-                               <span class="text-info">${value.because.join(' ')}  </span>
+                              
                                 
 
                         </div>
@@ -228,14 +237,18 @@ $(function () {
                             if (response.text === 'success' && user_action === 'added_to_glob') {
                                 $('.added_to_glob' + user_id).addClass('d-none')
                                 $('.removed_from_glob' + user_id).removeClass('d-none')
-                                 Toast.fire({html: ` <img  src="assets/dist/images/happy.png"/>
-                                                    <p class="text-success">${user_name} was added !</h4> `})
+                                Toast.fire({
+                                    html: ` <img  src="assets/dist/images/happy.png"/>
+                                                    <p class="text-success">${user_name} was added !</h4> `
+                                })
 
                             } else if (response.text === 'success' && user_action === 'removed_from_glob') {
                                 $('.added_to_glob' + user_id).removeClass('d-none')
                                 $('.removed_from_glob' + user_id).addClass('d-none')
-                                 Toast.fire({html: ` <img  src="assets/dist/images/sad.png"/>
-                                                    <p class="text-danger">${user_name} was removed !</h4> `})
+                                Toast.fire({
+                                    html: ` <img  src="assets/dist/images/sad.png"/>
+                                                    <p class="text-danger">${user_name} was removed !</h4> `
+                                })
 
                             }
 
@@ -312,10 +325,12 @@ $(function () {
                             .addClass('blue bg-warning p-1')
                             .prop('disabled', 'disabled')
 
-                        Toast.fire({html: ` <img  src="assets/dist/images/happy.png"/>
+                        Toast.fire({
+                            html: ` <img  src="assets/dist/images/happy.png"/>
                                                     <p class="feelist_title">${action === 'likes'
                                 ? `liked` : `${action === 'flags' ? `flagged` : `added`}`
-                            }!</h4> `})
+                            }!</h4> `
+                        })
 
                     }
 
@@ -332,7 +347,7 @@ $(function () {
     *           SO THAT WE CAN TAKE APPROPRIATE ACTION*/
     function actions(likes, additions, flags, post_id) {
 
-        return `       
+        return `        <hr >
                             <i  data-id="${post_id}"  data-action="likes"
                             class="fas fa-heart float-right ml-3 gl_action" title="like it!" >
                             <span id="likes_${post_id}" >&nbsp;${likes}</span> </i> 
@@ -345,7 +360,7 @@ $(function () {
                             class="far fa-flag float-right ml-3 gl_action" title="report as inappropriate">
                              <span id="flags_${post_id}" >&nbsp;${flags}</span>
                                     </i>
-                             <hr >
+                            
                            `
 
     }

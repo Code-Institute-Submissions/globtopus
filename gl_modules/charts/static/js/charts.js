@@ -121,21 +121,48 @@
                     </li>
                    `)
                     })
-
+ }
                     /*NEED TO ADD EVENT LISTENER TO NEWLY RENDERED COUNTRIES
                     * SO THAT WHEN USER CLICKS ON ANY COUNTRY WE WILL DISPLAY
                     * CHART FOR THAT PERIOD OF DAYS*/
                     $('.country').on('click', function () {
 
-                        selected_chart($(this))
+                      render_country_chart($(this),num_of_countries)
+
+                    })
+
+
+
+
+
+                // RENDERING CHART FOR WORLD PROGRESS AND TOP COUNTRIES
+                render_chart(chart_canvas, type, c_labels, B_colors, num_of_countries, num_of_days)
+
+
+            });
+
+
+    })
+
+    $('.country').on('click', function () {
+
+
+
+        render_country_chart($(this),1)
+    })
+
+    function render_country_chart(this_,num_of_countries)
+    {
+                        show_country_chart()
+                        selected_chart(this_)
                         /*HIDE PREVIOUSLY ADDED BUTTONS*/
                         $('.controls').addClass('d-none')
 
                         /*show buttons to select duration of charts in days*/
-                        $(`[data-c_code=${$(this).data('country')}]`).removeClass('d-none');
+                        $(`[data-c_code=${this_.data('country')}]`).removeClass('d-none');
 
-                        var num_of_days = $(this).data('num_of_days')
-                        var country_code = $(this).data('country')
+                        var num_of_days = this_.data('num_of_days')
+                        var country_code = this_.data('country')
 
                         /*GETTING DATA FROM SERVER*/
                         $.getJSON('/_chart_data', {
@@ -157,28 +184,14 @@
                                 clear_canvas()
                                 /*end of to prevent old graph on hover*/
 
-                                var chart_canvas = $('#chart')
+
 
                                 // RENDERING CHART FOR COUNTRY PROGRESS
-                                render_chart(chart_canvas, 'country', c_labels, B_colors, num_of_countries, num_of_days, country_name)
+                                render_chart($('#chart'), 'country', c_labels, B_colors, num_of_countries, num_of_days, country_name)
 
 
                             });
-
-                    })
-
-
-                }
-
-
-                // RENDERING CHART FOR WORLD PROGRESS AND TOP COUNTRIES
-                render_chart(chart_canvas, type, c_labels, B_colors, num_of_countries, num_of_days)
-
-
-            });
-
-
-    })
+    }
 
     function render_chart(chart_canvas, type, c_labels, B_colors, num_of_countries, num_of_days, country_name) {
 
@@ -221,6 +234,12 @@
     function selected_chart(this_) {
         $('.chart').removeClass('gl_selected')
         this_.addClass('gl_selected')
+    }
+
+    function show_country_chart()
+    {
+        $('#map_holder').addClass('d-none')
+        $('#chart_holder').removeClass('d-none')
     }
 
     /*USER CAN SELECT WORLD CHARTS OR COUNTRIES CHARTS NEXT TO THE CHARTS*/

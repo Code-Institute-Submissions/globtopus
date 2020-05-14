@@ -18,7 +18,7 @@ def user():
     authorized_user = mongo.db.users.find_one({'_id': ObjectId(session.get('user_id'))})
     today = datetime.datetime.now().strftime("%F")
     days = ''
-    feelings = 'yes'
+    feelings = ''
 
     for single in user_initials:
         initials += single[0]
@@ -28,11 +28,11 @@ def user():
         session['my_feelists'] = feelists(authorized_user['my_feelists'])
     else:
         session['my_feelists'] = []
-        have_feelist = 'no'
+
 
     for day in authorized_user['user_feel']:
         days += day + '_'
-        feelings += authorized_user['user_feel'][day] + '_'
+        feelings += str(authorized_user['user_feel'][day]) + '_'
 
     return render_template('user/user.html', user=authorized_user, today=today, days=days, feelings=feelings)
 
@@ -165,6 +165,8 @@ def glob_action():
 
 @user_bp.route('/my_glob')
 def my_glob():
+
+
     return jsonify(my_glob=my_globers())
 
 
@@ -179,7 +181,8 @@ def feelists(db_feelists):
 
 def my_globers():
     from app import mongo
-    session['my_globs'] = mongo.db.users.find_one({"_id": ObjectId(session.get('user_id'))})['my_globs'] or []
+    user = mongo.db.users.find_one({"_id": ObjectId(session.get('user_id'))})
+    session['my_globs'] = user['my_globs'] if 'my_globs' in user else []
 
     object_ids = []
     for id in session.get('my_globs'):
