@@ -1,7 +1,9 @@
+import json
 import random
 
+import bson
 from bson import ObjectId
-from flask import Blueprint, jsonify, session
+from flask import Blueprint, jsonify, session, render_template, request
 import datetime
 from bson.json_util import dumps
 from werkzeug.security import generate_password_hash
@@ -11,40 +13,77 @@ from gl_modules.shared.today import today_f
 factory_bp = Blueprint('factory_bp', __name__,
                        template_folder='templates',
                        static_folder='static',
-                       static_url_path='assets/globs')
+                       static_url_path='assets/factory')
 
 
-@factory_bp.route('/create_compas')
-def create_compas():
+@factory_bp.route('/check_svg')
+def check_svg():
+    return render_template('country_map.html')
+
+
+@factory_bp.route('/store_map')
+def store_map():
     from app import mongo
-    mongo.db.compas.insert([
-        {"_id": 1,
-         "grades": [
-             {"type": "quiz", "questions": [10, 8, 5]},
-             {"type": "quiz", "questions": [8, 9, 6]},
-             {"type": "hw", "questions": [5, 4, 3]},
-             {"type": "exam", "questions": [25, 10, 23, 0]},
-         ]
-         }
-    ])
+    c_map = request.args.get('c_map', 0, type=str)
+    cc = request.args.get('cc', 0, type=str)
+    svg_for  = request.args.get('for', 0, type=str)
 
-    return 'inserted'
+    if svg_for == 'world' :
+        world_map_array = c_map.split('==')
+        world_map_array.pop()
+
+        map_array = []
+
+        for country in world_map_array:
+
+            map_array.append({
+                "cc":country.split('@')[0],
+                "d": country.split('@')[1].split('***')[0],
+                "cn":country.split('@')[1].split('***')[1],
+                "cn2":country.split('@')[1].split('***')[2],
+
+            })
+
+        mongo.db.c_maps.insert_one({'cc': 'world', 'countries': map_array})
+
+    else:
+
+        c_map_array = c_map.split('|')
+        c_map_array.pop()
+
+        map_array=[]
+        for county in c_map_array:
+            c_split = county.split('@')
+            map_array.append({"name":c_split[0], "d": c_split[1]})
 
 
-@factory_bp.route('/update_compas')
-def update_compas():
+
+        mongo.db.c_maps.insert_one({   'cc':cc, 'counties': map_array} )
+
+    return jsonify(text='inserted')
+
+@factory_bp.route('/num_of_maps')
+def num_of_maps():
     from app import mongo
+    c_map = mongo.db.c_maps.find()
+    number_of_maps = []
+    for map in c_map:
+        number_of_maps.append(map['cc'])
 
-    #     mongo.db.compas.update(
-    #    {},
-    #    { "$inc": { "grades.$[].questions.$[score]": 2 } },
-    #    { "arrayFilters": [  { "score": { "$gte": 8 } } ], "multi": True},True
-    # )
-    mongo.db.compas.update(
-        {"grades.type": "ball"},
-        {"$addToSet": {"grades.$.questions": "77"}}
-    )
-    return 'updated'
+    return dumps(number_of_maps)
+@factory_bp.route('/load_map')
+def load_map():
+    from app import mongo
+    cc = request.args.get('cc', 0, type=str)
+
+
+    c_map = mongo.db.c_maps.find_one({'cc': cc}, {'_id': 0})['counties']
+    svg_map = []
+    for county in c_map:
+        svg_map.append({county['name']: county['d']})
+
+    return jsonify(c_map=svg_map, c_c=cc)
+
 
 
 """
