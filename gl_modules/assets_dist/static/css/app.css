@@ -41,8 +41,12 @@ h4.danger_title{
   padding-bottom: 5px;
   border-radius: 0;
 }
-#map_holder{
 
+#chart_holder{
+  /*background-color: #c0c0c0;*/
+  /*  position:fixed;*/
+  /*  top:0;*/
+  /*  z-index:100;*/
 }
 .one_thing {
   line-height: 2;

@@ -9,15 +9,44 @@
             cc: $('#c_search').data('cc')
         },
         function (response) {
+            $('.chart_days').data('chart_for', 'country')
+            var feels = response.feels
 
             var new_map = ` <svg xmlns="http://www.w3.org/2000/svg" id="country_map" x="0" y="0" baseProfile="tiny" viewBox="0 0 660 447" xml:space="preserve">`
             var counties = ''
+             var fill = '#eeeeee'
             $.each(response.c_map, function (index, map_) {
                 var county = Object.keys(map_)[0]
                 var d = map_[county]
+
+               var feel = feels[county]
+
+
+                 if (feel < 20) fill="#006400"
+
+
+                else if (feel < 40)  fill="#20B2AA"
+
+
+                else if (feel < 60)   fill="#66FF00"
+
+
+                else if (feel < 80)  fill="#40E0D0"
+
+
+                else if (feel <= 100)  fill="#FFFF00"
+
+
                 counties += `${county} <br>`
 
-                new_map += `<path id="${county}" fill="#006400" stroke="#eee" stroke-width=".25" d="${d}"/>`
+                new_map += `<path id="${county}" 
+                                data-chart_for="county" 
+                                data-num_of_days="10" 
+                                class="chart map_chart" 
+                                data-county_name="${county}"
+                                fill="${fill}" 
+                                stroke="#177199" 
+                                stroke-width=".25" d="${d}"/>`
 
 
             })
@@ -34,12 +63,7 @@
                 </div>
             </div>`
             $('#map_holder').html(new_map)
-            // swal.fire({
-            //     title: 'Map from db and cc: '+c_c,
-            //
-            //     html: new_map + counties,
-            //     position: 'top-end'
-            // })
+
             $('path').on('mouseenter',
                 function () {
 
@@ -55,10 +79,68 @@
 
 
                     }
-                )
+                ).on('click', function () {
+
+                var num_of_days = $(this).data('num_of_days')
+                var county_name = $(this).attr('id')
 
 
+                /*CHANGING chart_for DATA ATTRIBUTE TO TEAD OF HARD-CODING SECOND SET OF CONTROLS FOR CHARTS
+                , => SO THE CHARTS WILL BE RENDERED FOR SELECTED COUNTY
+
+                CHANGING IT BACK TO COUNTRY WHEN USER CLICKS ON CHART BUTTON*/
+                $('.chart_days').data('chart_for', 'county').data('county_name',county_name)
+
+
+                $('#map_holder').addClass('d-none')
+
+                $('#chart_holder').removeClass('d-none')
+
+                /*to prevent old graph on hover*/
+                $("canvas#chart").remove();
+                $("div#chart_holder").append('<canvas id="chart"></canvas>');
+                /*end of to prevent old graph on hover*/
+                $.getJSON('/_chart_data',
+                    {
+                        num_of_days: num_of_days,
+                        county_name: county_name,
+                        chart_for: 'county'
+                    },
+                    function (data) {
+                        // RENDERING CHART FOR COUNTY PROGRESS
+
+                        c_labels = data.labels
+                        feels = data.feels
+                        new Chart(document.getElementById("chart"), {
+                            type: 'line',
+                            data: {
+                                labels: c_labels,
+                                datasets: [{
+                                    label: 'County feel',
+                                    backgroundColor: [],
+                                    data: feels,
+                                    fill: false,
+                                    borderColor: "#177199",
+                                }
+                                ]
+                            },
+                            options: {
+                                legend: {display: false},
+                                title: {
+                                    display: true,
+                                    text: `${county_name}    feel past ${num_of_days} days `
+                                }
+                            }
+                        });
+
+                        // chart.render()
+                       if (screen.width < 768)  $('#chart_holder').get(0).scrollIntoView()
+                    })
+
+            })
 
 
         })
+
+
 })()

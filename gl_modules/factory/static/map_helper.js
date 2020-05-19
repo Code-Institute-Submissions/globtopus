@@ -267,52 +267,10 @@ $.each(paths, function (key, value) {
 
 
     /*FOR COUNTRIES ONLY*/
-    // var county_raw = $(this).attr('id')
-    //
-    // var county = county_raw
-    //     .replace(/\__x7C__/g, '__')
-    //     .replace(/\_1_/g, '')
-    //
-    //     .replace(/\_2_/g, '')
-    //     .replace(/\_x5F__x5F_/g, '__')
-    //     .replace(/\_x5F/g, '')
-    //     .replace(/\_x2C__/g, ',')
-    //     .replace(/\_x7c/g, '')
-    //     .replace(/\_x27/g, '&#8217')
-    //     .replace(/\_x29/g, '')
-    //     .replace(/\_x28/g, '')
-    //     .replace(/\_3_/g, '')
-    //     .replace(/\_x200E/g, '')
-    //     .replace(/\__1/g, '')
-    //     .replace(/\_1/g, '')
-    //     .replace(/\_6/g, '')
-    //     .replace(/\_2/g, '')
-    //     .replace(/\_x2F/g, '')
-    //     .replace(/\_3/g, '')
-    //     .replace(/\_4/g, '')
-    //     .replace(/\_x2019/g, '&#8217')
-    //     .replace(/\_x2018_/g, '&#8217')
-    //     .replace(/\_x09/g, '')
-    //     .replace(/\_x2013/g, '')
-    //
-    //
-    // svg_html += `id="${county}"`
-    // map[county] = $(this).attr('d')
-    // map_for_mongo += `${county}@${$(this).attr('d')}|`
+    var county_raw = $(this).attr('id')
 
-
-
-    /*FOR WORLD MAP*/
-    var c_id = $(this).attr('id')
-    var country_code = c_id
-    var c_n_2 = $(this).data("cn2") ? $(this).data("cn2") : ''
-    var d =$(this).attr('d')
-
-
-    $.each(countries, function (country, cc) {
-
-
-    var cn2 = c_n_2.replace(/\__x7C__/g, '__')
+    var county = county_raw
+        .replace(/\__x7C__/g, '__')
         .replace(/\_1_/g, '')
 
         .replace(/\_2_/g, '')
@@ -338,21 +296,63 @@ $.each(paths, function (key, value) {
         .replace(/\_x2013/g, '')
 
 
+    svg_html += `id="${county}"`
+    map[county] = $(this).attr('d')
+    map_for_mongo += `${county}@${$(this).attr('d')}|`
 
 
 
-        if (country_code === cc) {
-            // svg_html += `id="${c_id}" data-cn="${country}"
-            // ${country !== cn2.replace(/\_/g, ' ')  && cn2 !== '' ? `data-cn2="${cn2}"`:""}  `
-        var country_2 = (country !== cn2.replace(/\_/g, ' ')  && cn2 !== '') ? cn2:""
-        map_for_mongo += `${c_id}@${d}***${country}***${country_2}==`
+    /*FOR WORLD MAP*/
+    // var c_id = $(this).attr('id')
+    // var country_code = c_id
+    // var c_n_2 = $(this).data("cn2") ? $(this).data("cn2") : ''
+    // var d =$(this).attr('d')
+    //
+    //
+    // $.each(countries, function (country, cc) {
+    //
+    //
+    // var cn2 = c_n_2.replace(/\__x7C__/g, '__')
+    //     .replace(/\_1_/g, '')
+    //
+    //     .replace(/\_2_/g, '')
+    //     .replace(/\_x5F__x5F_/g, '__')
+    //     .replace(/\_x5F/g, '')
+    //     .replace(/\_x2C__/g, ',')
+    //     .replace(/\_x7c/g, '')
+    //     .replace(/\_x27/g, '&#8217')
+    //     .replace(/\_x29/g, '')
+    //     .replace(/\_x28/g, '')
+    //     .replace(/\_3_/g, '')
+    //     .replace(/\_x200E/g, '')
+    //     .replace(/\__1/g, '')
+    //     .replace(/\_1/g, '')
+    //     .replace(/\_6/g, '')
+    //     .replace(/\_2/g, '')
+    //     .replace(/\_x2F/g, '')
+    //     .replace(/\_3/g, '')
+    //     .replace(/\_4/g, '')
+    //     .replace(/\_x2019/g, '&#8217')
+    //     .replace(/\_x2018_/g, '&#8217')
+    //     .replace(/\_x09/g, '')
+    //     .replace(/\_x2013/g, '')
 
 
-        }
 
 
 
-    })
+        // if (country_code === cc) {
+        //     // svg_html += `id="${c_id}" data-cn="${country}"
+        //     // ${country !== cn2.replace(/\_/g, ' ')  && cn2 !== '' ? `data-cn2="${cn2}"`:""}  `
+        // var country_2 = (country !== cn2.replace(/\_/g, ' ')  && cn2 !== '') ? cn2:""
+        // map_for_mongo += `${c_id}@${d}***${country}***${country_2}==`
+        //
+        //
+        // }
+
+
+
+    // })
 
     // if($(this).attr('cc')[0] !== '"')
     // {
@@ -411,24 +411,25 @@ $('#send_to_db').on('click', function () {
 
                         var locations = ''
 
-                        $.each(Svg.svg_map, function (index, map_) {
-
+                        $.each(Svg.c_map, function (index, map_) {
+                            console.log(   Svg.c_map[index])
                             /*var location = Svg.svg_map[index].cc  for world */
-                            var location = Svg.svg_map[index].cc
-
+                            //var location = Svg.c_map[index].cc
+                            var location = Object.keys(map_)[0]
+                            var d = map_[location]
 
                             locations += `${location} <br>`
                             /*for world we will append cc, name and name2 ( name in 2 languages )
                             * for country only name to id attribute*/
 
                             /*for country */
-                            //new_map += `<path id="${Svg.svg_map[index].name}" fill="#006400" stroke="#eee" stroke-width=".25" d="${d}"/>`
+                            new_map += `<path id="${location}" fill="#006400" stroke="#eee" stroke-width=".25" d="${d}"/>`
 
                             /*for world*/
-                            new_map += `<path id="${Svg.svg_map[index].cc}"  
-                                              data-cn="${Svg.svg_map[index].cn}" 
-                                              data-cn2="${Svg.svg_map[index].cn2}"
-                                              fill="#006400" stroke="#eee" stroke-width=".25" d="${Svg.svg_map[index].d}"/>`
+                            // new_map += `<path id="${Svg.c_map[index].cc}"
+                            //                   data-cn="${Svg.c_map[index].cn}"
+                            //                   data-cn2="${Svg.c_map[index].cn2}"
+                            //                   fill="#006400" stroke="#eee" stroke-width=".25" d="${Svg.c_map[index].d}"/>`
 
 
                         })

@@ -5,43 +5,58 @@
 <section id="country_name">
     <div class="row  mb-1">
         <div class="col-md-12 mt-1 mb-1 border_green">
-            <span class="country_name">{{ country_name }}</span>
+
             <span class="gl_button" id="country_map">map</span>
-            <span class="gl_button country"
+            <span class="gl_button  chart"
+                  data-chart_for="country"
+                  data-country_name="{{ country_name }}"
                   data-country="{{ cc }}"
                   data-num_of_days="10">charts</span>
             <span class="gl_button" id="c_search" data-cc="{{ cc }}">posts</span>
+             <span class="country_name">{{ country_name }}</span>
         </div>
     </div>
 </section>
 <section id="main_interaction">
     <div class="row  mb-1">
 
-        <div class="col-md-8 border_blue_l" id="map_holder"> </div>
+        <div class="col-md-8 border_blue_l landing_interaction" id="map_holder"> </div>
 
         <div class="col-md-8  m-2 border_blue_l d-none " id="chart_holder">
             <canvas id="chart" width="800" height="450"></canvas>
             <div id="bottom_of_chart" class="d-flex justify-content-center">
-                    <span class="gl_btn_round country"
-                          title="click to see country progress past 30 days"
-                          data-type="country"
+
+
+                    <span class="gl_btn_round chart chart_days"
+                          title="click to see progress past 30 days"
+                          data-chart_for="country"
+                          data-country_name="{{ country_name }}"
+                           data-county_name=""
                           data-country="{{ cc }}"
                           data-num_of_days=30>30</span>
-                <span class="gl_btn_round country"
-                      title="click to see country progress past 90 days"
-                      data-type="country"
+                <span class="gl_btn_round chart chart_days"
+                      title="click to see progress past 90 days"
+                      data-chart_for="country"
                       data-country="{{ cc }}"
+                       data-country_name="{{ country_name }}"
+                       data-county_name=""
                       data-num_of_days=90>90</span>
-                <span class="gl_btn_round country"
-                      title="click to see country progress past 180 days"
-                      data-type="country"
+                <span class="gl_btn_round chart chart_days"
+                      title="click to see progress past 180 days"
+                      data-chart_for="country"
+                       data-country_name="{{ country_name }}"
+                       data-county_name=""
                       data-country="{{ cc }}"
                       data-num_of_days=180>180</span>
-                <span class="gl_btn_round country"
-                      title="click to see country progress past 360 days"
-                      data-type="country"
+                <span class="gl_btn_round chart chart_days"
+                      title="click to see progress past 360 days"
+                      data-chart_for="country"
+                       data-country_name="{{ country_name }}"
+                       data-county_name=""
                       data-country="{{ cc }}"
-                      data-num_of_days=360>360</span></div>
+                      data-num_of_days=360>360</span>
+
+            </div>
         </div>
         <div class="col border_blue_l">
             adds are here

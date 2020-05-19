@@ -15,55 +15,42 @@
 
             country_feels = response.feels
             people = response.total_people
+
             var fill = '#ffffff'
-            $.each(response.svg_map, function (index, Map) {
+            $.each(paths, function (key, value) {
 
-                if (country_feels[Map.cc] < 20) fill = "#006400"
+                $(this).data('people', people[$(this).attr('id')]);
 
+                var feel = country_feels[$(this).attr('id')]
 
-                else if (country_feels[Map.cc] < 40) fill = "#20B2AA"
+                $(this).data('feel', feel)
 
-
-                else if (country_feels[Map.cc] < 60) fill = "#66FF00"
-
-
-                else if (country_feels[Map.cc] < 80) fill = "#40E0D0"
+                if (feel < 20) $(this).attr('fill', "#006400")
 
 
-                else if (country_feels[Map.cc] <= 100) fill = "#FFFF00"
-
-                else fill = "#eeeeee"
-
-                /*for world*/
-                new_map += `<path id="${Map.cc}"  
-                                              data-cn="${Map.cn}" 
-                                              data-cn2="${Map.cn2}"
-                                              data-people="${people[Map.cc]}"
-                                              data-feel="${country_feels[Map.cc]}"
-                                              fill="${fill}" stroke="#000" stroke-width=".25" d="${Map.d}"/>`
+                else if (feel < 40) $(this).attr('fill', '#20B2AA')
 
 
-            })
-            new_map += `</svg><div class="row no-gutters">
-                <div class="col-md-6  text-center border_green border_bottom_only p-2">
-                    <span id="current">Hover over map to see country name here</span>
-                </div>
-                <div class="col-md-6  text-center border_green border_bottom_only d-flex justify-content-around">
-                    <span class="map_color_legend map_20" data-range="0-20"><20 </span>
-                    <span class="map_color_legend map_40" data-range="20-40"><40 </span>
-                    <span class="map_color_legend map_60" data-range="40-60"><60 </span>
-                    <span class="map_color_legend map_80" data-range="60-80"><80 </span>
-                    <span class="map_color_legend map_100" data-range="80-100">≤100 </span>
-                </div>
-            </div>`
+                else if (feel < 60) $(this).attr('fill', '#66FF00')
 
-            $('#SVGContainer').html(new_map)
+
+                else if (feel < 80) $(this).attr('fill', '#40E0D0')
+
+
+                else if (feel <= 100) $(this).attr('fill', '#FFFF00')
+
+                else $(this).attr('fill', '#eeeeee')
+                    ;
+            });
+
             $('#map').on('click', function () {
                 /*HIDE ANY PREVIOUSLY OPEN DIVS ( CHARTS, MAPS)*/
                 $('.landing_interaction').addClass('d-none')
 
                 var map_search = $('#map_search')
-                map_search.removeClass('d-none').get(0).scrollIntoView()
+                map_search.removeClass('d-none')
+
+                 if (screen.width < 768)  map_search.get(0).scrollIntoView(1,'slow')
 
             })
 
@@ -90,8 +77,7 @@
                 
                     <span class="blue"> total globers : </span> <span class="smaller_h"> 
                       ${new Intl.NumberFormat(navigator.language).format($(this).data('people'))} 
-                     </span><br>
-                     <small class="blue">( last 7 days )</small>
+                     </span>
                     <hr>
                      <span class="smaller_h user_heart country d-flex justify-content-center align-items-center"> 
                         ${new Intl.NumberFormat(navigator.language).format($(this).data('feel'))} </span>

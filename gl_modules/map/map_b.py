@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, session
 
 from gl_modules.factory.factory_b import get_country_name
 
@@ -24,23 +24,12 @@ def world_feel():
         ]
     )
 
-    c_map = mongo.db.c_maps.find_one({'cc': 'world'}, {'_id': 0})['countries']
-    svg_map = {}
-
-    counter = 0
-    for location in c_map:
-        svg_map[counter] = {'cn': location['cn'],
-                            'cn2': location['cn2'],
-                            'cc': location['cc'],
-                            'd': location['d']}
-        counter += 1
-    #return jsonify(svg_map=svg_map, c_c=cc)
 
     for feel in country_feel:
         feels[feel['country_code']] = str(round(feel['total'], 2))
         total_people[feel['country_code']] = feel['total_people']
 
-    return jsonify(feels=feels, total_people=total_people,svg_map=svg_map)
+    return jsonify(feels=feels, total_people=total_people)
 
 
 @map_bp.route('/_range_countries')

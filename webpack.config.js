@@ -26,6 +26,7 @@ var country = Object.assign ( {}, config, {
 
 
 
+
 	],
 	output : {
 		path     : path.resolve ( __dirname, dist ),

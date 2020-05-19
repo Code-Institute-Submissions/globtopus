@@ -30,7 +30,7 @@ $(function () {
                 var search_results = data.result
 
                 var results = $("#search_results").html('');
-                results.get(0).scrollIntoView();
+              if (screen.width < 768)  results.get(0).scrollIntoView();
 
                 /*WE HAVE NO RESULTS*/
                 if (search_results.length == 0) {
