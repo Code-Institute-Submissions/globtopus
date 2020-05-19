@@ -1,0 +1,131 @@
+{% extends 'base.html' %} {% block content %}
+<div class="row">
+    <!--USER DASHBOARD NAV-->
+    <div class="col-md-12 border_blue mb-3">
+        <div class="row">
+            <div class="col-md-4">
+                <span class="user_page user_heart d-flex justify-content-center align-items-center">{{user['last_feel']}}</span>
+                <img class="avatar" src="{{url_for('assets_dist_bp.static', filename='images/avatars/3.png')}}"/>
+                    {{user['name']}}
+
+                 <ul class="list-group">
+                    <li class="list-group-item no_border ">last active : <small> {{user['last_login']}}</small></li>
+                </ul>
+            </div>
+            <div class="col-md-8">
+                 <div class="d-flex justify-content-center ">
+                    <p class="text-center initial_interaction user font-weight-bold">
+                        “Stay away from negative people, they have problem for every solution!”</p>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    <!--USER ACTION WINDOW-->
+    <div class="col-md-8 border_blue">
+
+            {% for post in user_posts %}
+            <div class="row mb-2 border_blue_l pt-2">
+                <!--APPENDING  ACTION,-->
+                <div class="col-md-10 pb-2">
+                    <span>I feel :</span>
+                    <span class="text-info">{{(' ').join(post.i_feel)}}  </span>
+                    <span>because :</span>
+                    <span class="text-info">{{ (' ').join(post.because)}}  </span> <br>
+                    <span>{{post.action}}</span>
+                    <br>
+                    <i data-id="{{post.post_id}}" data-action="likes"
+                       class="fas fa-heart float-right ml-3 gl_action" title="like it!">
+                        <span id="likes_{{post.post_id}}">&nbsp;{{post.likes}}</span> </i>
+                    <i data-id="{{post.post_id}}" data-action="additions"
+                       class="fas fa-plus float-right ml-3 add_to_feelist" title="add to your feelist!">
+                        <span id="additions_{{post.post_id}}">&nbsp;{{post.additions}}</span>
+                    </i>
+                    <i data-id="{{post.post_id}}" data-action="flags"
+                       class="far fa-flag float-right ml-3 gl_action" title="report as inappropriate">
+                        <span id="flags_{{post.post_id}}">&nbsp;{{post.flags}}</span>
+                    </i>
+                </div>
+                <!--INFO ABOUT GLOBBER-->
+                <div class="col-md-2 ">
+                  {{post.feel}}
+                    <span class="float-right remove_from_glob blue removed_from_glob{{user._id}}
+                             {{ '' if 1 in post.in_my_glob  else 'd-none'  }} "
+                          data-user_id="{{user._id}}"
+                          data-user_name="{{user.name}}"
+                          data-user_action="removed_from_glob"
+                          title="Remove me from your glob !">
+                             <i class="fas fa-user-minus"></i>
+                             </span>
+                    <span class="float-right add_to_glob blue added_to_glob{{user._id}}
+
+                             {{ '' if 1  not in post.in_my_glob  else 'd-none'  }}
+"
+                          data-user_id="{{user._id}}"
+                          data-user_name="{{user.name}}"
+                          data-user_action="added_to_glob"
+                          title="Add me to your glob !">
+                             <i class="fas fa-user-plus"></i>
+                             </span>
+                    <br>
+                    <span class="action_response_r{{user._id}}">{{post.created_at.strftime("%b %d %Y %H:%M:%S") }}</span>
+                    <span class="action_response_a{{user._id}}"></span>
+                    <hr class="p-0 m-1">
+                </div>
+            </div>
+            {% endfor %}
+
+
+
+    </div>
+    <div class="col-md-4">
+         <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active" data-interval="8000">
+                            <img class="adds" src="{{url_for('assets_dist_bp.static', filename='images/adds/add_1.jpg')}}"/>
+                            <div class="text-light text-center  bg_blue_light p-2">
+                                <h5>How do you do</h5>
+                                <p>Learn english easy and fast. <a target="_blank"  href="https://github.com/marcelkolarcik/how-do-you-do">
+                                    <span class="img-thumbnail gl_button">visit</span></a></p>
+                            </div>
+                        </div>
+                        <div class="carousel-item " data-interval="8000">
+                            <img class="adds"
+                                 src="{{url_for('assets_dist_bp.static', filename='images/adds/add_3.jpg')}}"/>
+                            <div class="text-light text-center  bg_blue_light p-2">
+                                <h5>Wake up happy</h5>
+                                <p>Find a room with a view... <a target="_blank" href="https://marcelkolarcik.github.io/wake-up-happy/index.html">
+                                    <span class="img-thumbnail gl_button">visit</span></a></p>
+                            </div>
+                        </div>
+                        <div class="carousel-item" data-interval="8000">
+                            <img class="adds"
+                                 src="{{url_for('assets_dist_bp.static', filename='images/adds/add_2.jpg')}}"/>
+                            <div class="text-light text-center  bg_blue_light p-2">
+                                <h5>simple-jQuery-translator</h5>
+                                <p>Translate any website with ease...<a target="_blank"  href="https://marcelkolarcik.github.io/simple-jQuery-translator/">
+                                    <span class="img-thumbnail gl_button">visit</span></a></p> </p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <a class="carousel-control-prev " href="#carouselExampleFade" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon bg_blue" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon bg_blue" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+<!--CHARTS charts.js-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+        integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+<script src="{{url_for('assets_dist_bp.static', filename='js/public_user.js')}}"></script>
+{% endblock %}

@@ -65,6 +65,18 @@ var user = Object.assign ( {}, config, {
 	},
 	watch  : true
 } );
+var public_user = Object.assign ( {}, config, {
+
+	entry  : [
+		'./gl_modules/user/static/src/js/public_user.js',
+		'./gl_modules/posts/static/js/posts.js',
+	],
+	output : {
+		path     : path.resolve ( __dirname, dist ),
+		filename : "public_user.js"
+	},
+	watch  : true
+} );
 
 // var admin = Object.assign ( {}, config, {
 //
@@ -118,6 +130,6 @@ var sign_in = Object.assign ( {}, config, {
 // Return Array of Configurations
 module.exports = [
 
-	landing, user,  sign_in, sign_up, country
+	landing, user,  sign_in, sign_up, country,public_user
 
 ];

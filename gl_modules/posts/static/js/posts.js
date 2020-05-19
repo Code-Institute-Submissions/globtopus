@@ -21,7 +21,7 @@ $(function () {
         /*AJAX REQUEST TO GET RESULTS*/
         $.getJSON('/_search', {
                 q: $('input[name="search_field"]').val(),
-                cc:$(this).data('cc')
+                cc: $(this).data('cc')
 
             },
 
@@ -30,7 +30,7 @@ $(function () {
                 var search_results = data.result
 
                 var results = $("#search_results").html('');
-              if (screen.width < 768)  results.get(0).scrollIntoView();
+                if (screen.width < 768) results.get(0).scrollIntoView();
 
                 /*WE HAVE NO RESULTS*/
                 if (search_results.length == 0) {
@@ -78,8 +78,11 @@ $(function () {
                         </div>
                             <!--INFO ABOUT GLOBBER-->
                         <div class="col-md-4 ">
-                         <img class="avatar" src="assets/dist/images/avatars/${counter % 38}.png"/>
-                             ${post.name}  ${post.user_feel}  
+                        
+                            <img class="avatar" src="assets/dist/images/avatars/${counter % 38}.png"/>
+                            <a href="/user/${post.user_id}" class="user">
+                             ${post.name}  ${post.user_feel} 
+                             </a> 
                               <span class="float-right remove_from_glob blue removed_from_glob${post.user_id}
                              ${post.in_my_glob === 1 ? '' : 'd-none'}" 
                              data-user_id="${post.user_id}" 
@@ -226,33 +229,37 @@ $(function () {
                     var user_id = $(this).data('user_id')
                     var user_name = $(this).data('user_name')
                     var user_action = $(this).data('user_action')
+                    if (!authorized_user) {
+                        please_login()
+                    } else {
+                        $.getJSON('/glob_action',
+                            {
+                                user_id: user_id,
+                                user_action: user_action
+                            },
+                            function (response) {
 
-                    $.getJSON('/glob_action',
-                        {
-                            user_id: user_id,
-                            user_action: user_action
-                        },
-                        function (response) {
-
-                            if (response.text === 'success' && user_action === 'added_to_glob') {
-                                $('.added_to_glob' + user_id).addClass('d-none')
-                                $('.removed_from_glob' + user_id).removeClass('d-none')
-                                Toast.fire({
-                                    html: ` <img  src="assets/dist/images/happy.png"/>
+                                if (response.text === 'success' && user_action === 'added_to_glob') {
+                                    $('.added_to_glob' + user_id).addClass('d-none')
+                                    $('.removed_from_glob' + user_id).removeClass('d-none')
+                                    Toast.fire({
+                                        html: ` <img  src="assets/dist/images/happy.png"/>
                                                     <p class="text-success">${user_name} was added !</h4> `
-                                })
+                                    })
 
-                            } else if (response.text === 'success' && user_action === 'removed_from_glob') {
-                                $('.added_to_glob' + user_id).removeClass('d-none')
-                                $('.removed_from_glob' + user_id).addClass('d-none')
-                                Toast.fire({
-                                    html: ` <img  src="assets/dist/images/sad.png"/>
+                                } else if (response.text === 'success' && user_action === 'removed_from_glob') {
+                                    $('.added_to_glob' + user_id).removeClass('d-none')
+                                    $('.removed_from_glob' + user_id).addClass('d-none')
+                                    Toast.fire({
+                                        html: ` <img  src="assets/dist/images/sad.png"/>
                                                     <p class="text-danger">${user_name} was removed !</h4> `
-                                })
+                                    })
 
-                            }
+                                }
 
-                        })
+                            })
+                    }
+
 
                 })
 
@@ -340,30 +347,6 @@ $(function () {
 
     }
 
-    /*HELPER FUNCTION TO APPEND ACTIONS FOR EVERY GLOB(POST)
-    * WITH DATA ABOUT EVERY ACTION
-    * post_id => WHICH GLOB DOES ACTION BELONGS TO (ObjectId)
-    * action => WHICH ACTION IS IT (likes, feelist, flag)
-    *           SO THAT WE CAN TAKE APPROPRIATE ACTION*/
-    function actions(likes, additions, flags, post_id) {
-
-        return `        <hr >
-                            <i  data-id="${post_id}"  data-action="likes"
-                            class="fas fa-heart float-right ml-3 gl_action" title="like it!" >
-                            <span id="likes_${post_id}" >&nbsp;${likes}</span> </i> 
-          
-                            <i   data-id="${post_id}"  data-action="additions"
-                            class="fas fa-plus float-right ml-3 add_to_feelist" title="add to your feelist!">
-                            <span id="additions_${post_id}" >&nbsp;${additions}</span>
-                            </i>
-                            <i  data-id="${post_id}"  data-action="flags"
-                            class="far fa-flag float-right ml-3 gl_action" title="report as inappropriate">
-                             <span id="flags_${post_id}" >&nbsp;${flags}</span>
-                                    </i>
-                            
-                           `
-
-    }
 
     function please_login() {
         swal.fire({

@@ -168,7 +168,17 @@ def my_glob():
 
 
     return jsonify(my_glob=my_globers())
+@user_bp.route('/user/<user_id>')
 
+def public_user(user_id):
+    from app import mongo
+
+    user = mongo.db.users.find_one({'_id': ObjectId(user_id)},{'password':0,'email':0,'user_feel':0,'added_me':0})
+    user_posts= []
+
+
+
+    return render_template('user/public_user.html', user=user,user_posts=user['posts'])
 
 
 

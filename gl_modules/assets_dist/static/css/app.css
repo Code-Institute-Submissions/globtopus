@@ -138,7 +138,9 @@ h4.danger_title {
   font-family: 'Exo 2', sans-serif;
   color: rgba(23, 113, 153, 0.15);
 }
-
+.initial_interaction.user{
+   font-size: 3.2em;
+}
 .chart, .user_nav, .delete_action, .delete_feelist, .add_to_glob, .remove_from_glob, .delete_post, .edit_post, .delete_fav, #remove_from_globe {
   cursor: pointer;
 }
@@ -227,6 +229,13 @@ a.map_chart:hover {
   padding: 2px;
   text-decoration: none;
 
+}
+a.user:hover{
+
+  color: #0e4963;
+  font-weight: bolder;
+
+  text-decoration: none;
 }
 .gl_button:hover {
   background-color: whitesmoke;
@@ -466,7 +475,10 @@ a:hover {
   background-size: 15%;
   background-repeat: no-repeat;
 }
-
+.user_heart.public{
+   background-size: 12%;
+  background-position: center center;
+}
 /*REMOVING CARET FROM DROPDOWN UNDER USER ICON IN THE TOP RIGHT CORNER OF NAVIGATION*/
 .caret-off::before {
   display: none;
@@ -558,6 +570,9 @@ a:hover {
 
   .initial_interaction {
     font-size: 2em;
+  }
+  .initial_interaction.user{
+    font-size:1.5em;
   }
 }
 

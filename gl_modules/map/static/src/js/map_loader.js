@@ -22,7 +22,7 @@
 
                 var feel = country_feels[$(this).attr('id')]
                 var c_name = $(this).data('cn2') ? $(this).data('cn2'): $(this).data('cn')
-               var cc = $(this).attr('id')
+                var cc = $(this).attr('id')
                 $(this).data('feel', feel)
 
                 if (feel < 20) {
