@@ -75,7 +75,7 @@ def charts_data():
         feels = mongo.db.country_feel.find_one(
             {'country_code': country_code})
 
-        counties = cc_with_counties()[country_code]
+        #counties = cc_with_counties()[country_code]
         """feels for the period of x past days"""
         for day in feels['feels']:
 
@@ -87,7 +87,7 @@ def charts_data():
 
         """day_feels[::-1] reversing array to display dates from oldest to newest"""
         return jsonify(feels=day_feels, labels=days, B_colors=get_colors(num_of_days),
-                       country_name=get_country_name(country_code),counties=counties)
+                       country_name=get_country_name(country_code))
     elif chart_for == 'county':
         day_feels = []
         days = []

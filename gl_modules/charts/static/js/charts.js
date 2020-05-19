@@ -33,7 +33,7 @@
 
         var chart_for = $(this).data('chart_for')
 
-        if (chart_for === 'country') $('.chart_days').data('chart_for', 'country')
+         if (chart_for === 'country') $('.chart_days').data('chart_for', 'country')
 
 
         /*@num_of_days HOW MANY DAYS TO DISPLAY ON THE CHART*/
@@ -87,7 +87,7 @@
 
                         list_of_locations.append(`
                             
-                        <li class="list-group-item no_border chart country mb-1"   
+                        <li class="list-group-item no_border chart  mb-1"   
                         title="click to see country progress past 7 days"
                         data-chart_for="country"
                         data-country=${code}
@@ -136,10 +136,24 @@
                 /*NEED TO ADD EVENT LISTENER TO NEWLY RENDERED COUNTRIES
                 * SO THAT WHEN USER CLICKS ON ANY COUNTRY WE WILL DISPLAY
                 * CHART FOR THAT PERIOD OF DAYS*/
-                $('.country').on('click', function () {
+                $('.chart').on('click', function () {
 
-                    render_country_chart($(this), num_of_countries)
+                   // render_country_chart($(this), num_of_countries)
 
+                        show_country_chart()
+                        selected_chart($(this))
+                        /*HIDE PREVIOUSLY ADDED BUTTONS*/
+                        $('.controls').addClass('d-none')
+
+                        /*show buttons to select duration of charts in days*/
+                        $(`[data-c_code=${$(this).data('country')}]`).removeClass('d-none');
+
+                         num_of_days = $(this).data('num_of_days')
+                         country_code = $(this).data('country')
+
+                })
+                $('.country').on('click',function(){
+                  render_country_chart($(this), num_of_countries)
                 })
 
 

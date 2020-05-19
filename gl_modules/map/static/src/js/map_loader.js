@@ -1,3 +1,4 @@
+
 (function () {
 
     var country_feels
@@ -11,8 +12,6 @@
         success: function (response) {
 
 
-            var new_map = `<svg xmlns="http://www.w3.org/2000/svg" id="world" x="0" y="0" baseProfile="tiny" viewBox="0 -100 1600 840" xml:space="preserve">`
-
             country_feels = response.feels
             people = response.total_people
 
@@ -22,25 +21,45 @@
                 $(this).data('people', people[$(this).attr('id')]);
 
                 var feel = country_feels[$(this).attr('id')]
-
+                var c_name = $(this).data('cn2') ? $(this).data('cn2'): $(this).data('cn')
+               var cc = $(this).attr('id')
                 $(this).data('feel', feel)
 
-                if (feel < 20) $(this).attr('fill', "#006400")
+                if (feel < 20) {
+                    $(this).attr('fill', "#006400")
+                     $('#r_20').append(chart_link (c_name,feel,cc))
+                }
 
 
-                else if (feel < 40) $(this).attr('fill', '#20B2AA')
+                else if (feel < 40) {
+                    $(this).attr('fill', '#20B2AA')
+                    $('#r_40').append(chart_link (c_name,feel))
+                }
 
 
-                else if (feel < 60) $(this).attr('fill', '#66FF00')
+                else if (feel < 60) {
+                    $(this).attr('fill', '#66FF00')
+                     $('#r_60').append(chart_link (c_name,feel))
+                }
 
 
-                else if (feel < 80) $(this).attr('fill', '#40E0D0')
+                else if (feel < 80) {
+                    $(this).attr('fill', '#40E0D0')
+                     $('#r_80').append(chart_link (c_name,feel))
+                }
 
 
-                else if (feel <= 100) $(this).attr('fill', '#FFFF00')
+                else if (feel <= 100) {
+                    $(this).attr('fill', '#FFFF00')
+                     $('#r_100').append(chart_link (c_name,feel))
+                }
 
-                else $(this).attr('fill', '#eeeeee')
-                    ;
+                else {
+                    $(this).attr('fill', '#eeeeee')
+
+                }
+
+                 $('#r_all').append(chart_link (c_name,feel))
             });
 
             $('#map').on('click', function () {
@@ -58,13 +77,12 @@
             $('path').on('mouseenter',
                 function () {
 
-                    current_fill = $(this).attr('fill')
-                    $(this).attr('fill', "rgba(111, 227, 0, 0.3)")
+                    $(this).attr('stroke', "red").attr('stroke-width', 2)
                     $('#current').html(country_name($(this)))
                 })
                 .on('mouseleave',
                     function () {
-                        $(this).attr('fill', current_fill)
+                       $(this).attr('stroke', "#177199").attr('stroke-width', 0.25)
 
 
                     }
@@ -120,11 +138,7 @@
                 if (action === 'panRight') MapControl.panRight()
                 if (action === 'panUp') MapControl.panUp()
                 if (action === 'panDown') MapControl.panDown()
-                if (action === 'reset') MapControl.reset()
-
-
-
-            })
+                if (action === 'reset') MapControl.reset() })
 
 
 
@@ -134,7 +148,19 @@
         }
     });
 
+ function chart_link (county,feel,cc){
 
+              return  `<span class="list-group-item no_padding">
+                             <a id="${county}" 
+                             href="/${cc}"
+                                data-chart_for="county" 
+                                data-num_of_days="10" 
+                                class="chart map_chart" 
+                                data-county_name="${county}">
+                                ${parseFloat(feel) .toFixed(2) } - ${county.replace(/\__/g, ' | ').replace(/\_/g, ' ')}</a><br>
+
+                        </span>  `
+            }
 })()
 
 

@@ -130,12 +130,19 @@
                     <span id="current">Hover over map to see country name here</span>
                 </div>
                 <div class="col-md-6  text-center border_green border_bottom_only d-flex justify-content-around">
-                    <span class="map_color_legend map_20" data-range="0-20"><20 </span>
-                    <span class="map_color_legend map_40" data-range="20-40"><40 </span>
-                    <span class="map_color_legend map_60" data-range="40-60"><60 </span>
-                    <span class="map_color_legend map_80" data-range="60-80"><80 </span>
-                    <span class="map_color_legend map_100" data-range="80-100">≤100 </span>
+                     <span class="map_color_legend map_20" data-range="20"><20 </span>
+                    <span class="map_color_legend map_40" data-range="40"><40 </span>
+                    <span class="map_color_legend map_60" data-range="60"><60 </span>
+                    <span class="map_color_legend map_80" data-range="80"><80 </span>
+                    <span class="map_color_legend map_100" data-range="100">≤100 </span>
+                    <span class="map_color_legend" data-range="all"><i class="fas fa-list"></i></span>
                 </div>
+             <div class="col-md-12 range d-none" id="r_20"><h4 class="feelist_title">Countries 0-20</h4></div>
+            <div class="col-md-12 range d-none" id="r_40"><h4 class="feelist_title">Countries 20-40</h4></div>
+            <div class="col-md-12 range d-none" id="r_60"><h4 class="feelist_title">Countries 40-60</h4></div>
+            <div class="col-md-12 range d-none" id="r_80"><h4 class="feelist_title">Countries 60-80</h4></div>
+            <div class="col-md-12 range d-none" id="r_100"><h4 class="feelist_title">Countries 80-100</h4></div>
+            <div class="col-md-12 range d-none" id="r_all"><h4 class="feelist_title">Countries all</h4></div>
             </div>
             <!--RANGE COUNTRIES BUTTON-->
 
@@ -154,8 +161,7 @@
     <!--TABLE TO DISPLAY COUNTRIES IN THAT RANGE-->
     <div class="row mt-2" id="table_holder">
         <div id="country_range" class="text-center  col-md-12"></div>
-        <table class="table table-responsive" id="range_countries">
-        </table>
+        <table class="table table-responsive" id="range_countries"></table>
     </div>
 </section>
 <section id="chart_search" class="mt-2 landing_interaction d-none">
@@ -179,7 +185,7 @@
                         past 10 days
                     </li>
                     <li class="list-group-item border_bottom_only chart" data-chart_for="world" data-num_of_days="30">
-                        past 30 days
+                        past 30rr days
                     </li>
                     <li class="list-group-item border_bottom_only chart" data-chart_for="world" data-num_of_days="90">
                         past 90 days
@@ -216,7 +222,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
         integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
 <script src="{{url_for('assets_dist_bp.static', filename='js/landing.js')}}"></script>
-<script src="{{url_for('map_bp.static', filename='src/js/map_loader.js')}}"></script>
+<script src="{{url_for('map_bp.static', filename='src/js/map_loader.js')}}" type="module"></script>
 <script src="{{url_for('map_bp.static', filename='src/js/SVGPanZoom.js')}}"></script>
-<script src="{{url_for('map_bp.static', filename='src/js/map_interactions.js')}}"></script>
+<script src="{{url_for('map_bp.static', filename='src/js/map_interactions.js')}}" type="module"></script>
 {% endblock %}
