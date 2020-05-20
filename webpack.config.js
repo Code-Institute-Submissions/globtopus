@@ -68,8 +68,9 @@ var user = Object.assign ( {}, config, {
 var public_user = Object.assign ( {}, config, {
 
 	entry  : [
-		'./gl_modules/user/static/src/js/public_user.js',
 		'./gl_modules/posts/static/js/posts.js',
+		'./gl_modules/user/static/src/js/public_user.js',
+
 	],
 	output : {
 		path     : path.resolve ( __dirname, dist ),
