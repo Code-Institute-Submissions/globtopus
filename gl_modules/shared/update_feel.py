@@ -31,8 +31,7 @@ def update_country_feel(mongo, country_code, people, feeling):
      without adding new person to the mix, 
      if new user we will add 1 person to the mix"""
 
-    """here increase current people and current feelings
-    and with cron job, substract 8th day from it <- TO DO"""
+
     mongo.db.country_feel.update(
         {"country_code": country_code},
         {"$inc":

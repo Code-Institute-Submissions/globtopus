@@ -40,10 +40,12 @@ def login():
     user = request.form.to_dict()
     from app import mongo
     user_to_check = mongo.db.users.find_one({"email": user['email']})
+    if not user_to_check:
+        session['form_email'] = user['email']
+        flash('We have no user with those credentials')
 
-    db_feelists = user_to_check['my_feelists'] if 'my_feelists' in user_to_check else []
+        return redirect(url_for('authorize_bp.sign_in'))
 
-    user_feelists = feelists(db_feelists)
     # if db_feelists != []:
     #     for feelist in db_feelists:
     #
@@ -60,20 +62,25 @@ def login():
 
         return redirect(url_for('authorize_bp.sign_in'))
 
-    user['last_login'] = datetime.datetime.now()
+
     user_password = user_to_check['password']
-    user_name = user_to_check['name']
     user_email = user_to_check['email']
-    last_login = user_to_check['last_login']
-    country_code = user_to_check['country_code']
-    last_feel = user_to_check['last_feel']
-    my_glob = user_to_check['my_globs'] if 'my_globs' in user_to_check else []
-    my_likes = user_to_check['likes'] if 'likes' in user_to_check else []
-    user_id = str(user_to_check['_id'])
 
     """if we have user with those credentials we will log user """
     if check_password_hash(user_password, user['password']) and user_email == user['email']:
 
+        db_feelists = user_to_check['my_feelists'] if 'my_feelists' in user_to_check else []
+        user['last_login'] = datetime.datetime.now()
+        user_name = user_to_check['name']
+
+        last_login = user_to_check['last_login']
+        country_code = user_to_check['country_code']
+        last_feel = user_to_check['last_feel']
+        my_glob = user_to_check['my_globs'] if 'my_globs' in user_to_check else []
+        my_likes = user_to_check['likes'] if 'likes' in user_to_check else []
+        user_id = str(user_to_check['_id'])
+
+        user_feelists = feelists(db_feelists)
         mongo.db.users.update(
             {"email": user_email},
             {"$set": {

@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, session
 
 from gl_modules.factory.factory_b import get_country_name
 
@@ -8,8 +8,8 @@ map_bp = Blueprint('map_bp', __name__,
                    static_url_path='assets/map')
 
 
-@map_bp.route('/_country_feel', methods=['POST'])
-def country_feel():
+@map_bp.route('/_world_feel', methods=['POST'])
+def world_feel():
     from app import mongo
 
     feels = {}
@@ -23,6 +23,8 @@ def country_feel():
 
         ]
     )
+
+
     for feel in country_feel:
         feels[feel['country_code']] = str(round(feel['total'], 2))
         total_people[feel['country_code']] = feel['total_people']

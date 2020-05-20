@@ -2,7 +2,7 @@ import datetime
 import random
 from json import dump
 
-from gl_modules.factory.factory_b import get_country_name
+from gl_modules.factory.factory_b import get_country_name, cc_with_counties
 from flask import Blueprint, request, jsonify
 
 charts_bp = Blueprint('charts_bp', __name__,
@@ -18,8 +18,9 @@ def charts_data():
     """required data to display charts from AJAX REQUEST"""
     num_of_days = request.args.get('num_of_days', 0, type=int)
     num_of_countries = request.args.get('num_of_countries', 0, type=int)
-    chart_type = request.args.get('type', 0, type=str)
+    chart_for = request.args.get('chart_for', 0, type=str)
     country_code = request.args.get('country_code', 0, type=str)
+    county_name = request.args.get('county_name', 0, type=str)
 
     """IF TYPE OF CHART IS world => WE WILL INITIALLY CALCULATE LAST 7 DAYS AND DISPLAY LINE CHART
         USER HAS OPTION OF SELECTING LONGER DURATIONS 30-9-180-360 DAYS
@@ -30,7 +31,7 @@ def charts_data():
         
         IF TYPE IS country =>   WE WILL INITIALLY DISPLAY PAST 7 DAYS PROGRESS OF SELECTED COUNTRY
         USER HAS OPTIONS OF 30-90-180-360 DAYS"""
-    if chart_type == 'world':
+    if chart_for == 'world':
 
         day_feels = []
         days = []
@@ -45,7 +46,7 @@ def charts_data():
 
         return jsonify(feels=day_feels, labels=days, B_colors=get_colors(num_of_days))
 
-    elif chart_type == 'countries':
+    elif chart_for == 'countries':
 
         from app import mongo
 
@@ -67,12 +68,32 @@ def charts_data():
 
         return jsonify(feels=feels, labels=countries, B_colors=get_colors(num_of_countries),
                        country_codes=country_codes)
-    elif chart_type == 'country':
+    elif chart_for == 'country':
         day_feels = []
         days = []
 
         feels = mongo.db.country_feel.find_one(
-            {'country_code': country_code},
+            {'country_code': country_code})
+
+        #counties = cc_with_counties()[country_code]
+        """feels for the period of x past days"""
+        for day in feels['feels']:
+
+            if datetime.datetime.now().strftime("%F") >= day >= (
+                    (datetime.datetime.now() - datetime.timedelta(days=num_of_days)).strftime("%F")):
+                day_feels.append(feels['feels'][day]['sum_of_feelings'] / feels['feels'][day]['num_of_people'])
+
+                days.append(day)
+
+        """day_feels[::-1] reversing array to display dates from oldest to newest"""
+        return jsonify(feels=day_feels, labels=days, B_colors=get_colors(num_of_days),
+                       country_name=get_country_name(country_code))
+    elif chart_for == 'county':
+        day_feels = []
+        days = []
+
+        feels = mongo.db.stats.find_one(
+            {'cl': county_name},
 
 
            )
@@ -86,8 +107,7 @@ def charts_data():
                 days.append(day)
 
         """day_feels[::-1] reversing array to display dates from oldest to newest"""
-        return jsonify(feels=day_feels, labels=days, B_colors=get_colors(num_of_days),
-                       country_name=get_country_name(country_code))
+        return jsonify(feels=day_feels, labels=days )
 
 
 """COLORS FOR THE CHARTS IN charts.js AS EVERY COUNTRY NEED ONE COLOR

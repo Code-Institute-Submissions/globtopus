@@ -18,7 +18,7 @@ def user():
     authorized_user = mongo.db.users.find_one({'_id': ObjectId(session.get('user_id'))})
     today = datetime.datetime.now().strftime("%F")
     days = ''
-    feelings = 'yes'
+    feelings = ''
 
     for single in user_initials:
         initials += single[0]
@@ -28,13 +28,17 @@ def user():
         session['my_feelists'] = feelists(authorized_user['my_feelists'])
     else:
         session['my_feelists'] = []
-        have_feelist = 'no'
 
     for day in authorized_user['user_feel']:
         days += day + '_'
-        feelings += authorized_user['user_feel'][day] + '_'
+        feelings += str(authorized_user['user_feel'][day]) + '_'
 
     return render_template('user/user.html', user=authorized_user, today=today, days=days, feelings=feelings)
+
+
+@user_bp.route('/is_authorized')
+def is_authorized():
+    return jsonify(user=True if session.get('authorized_user') else False,feelists=session.get('my_feelists') if session.get('my_feelists') else {})
 
 
 @user_bp.route('_my_feelist', methods=['POST', 'GET'])
@@ -62,7 +66,7 @@ def my_feelist():
             'user_id': str(post['_id']),
             'post_id': post['posts']['post_id'],
             'feel': post['posts']['feel'],
-            'likes':post['posts']['likes'] if 'likes' in post['posts'] else 0
+            'likes': post['posts']['likes'] if 'likes' in post['posts'] else 0
 
         })
 
@@ -78,7 +82,7 @@ def delete_action():
     mongo.db.users.update({"_id": ObjectId(session.get('user_id'))},
                           {'$pull': {"my_feelists.$[].post_ids": post_id}})
 
-    session['my_feelists'] = feelists( mongo.db.users.find_one({'_id':ObjectId( session.get('user_id'))})['my_feelists'])
+    session['my_feelists'] = feelists(mongo.db.users.find_one({'_id': ObjectId(session.get('user_id'))})['my_feelists'])
 
     return jsonify(deleted='deleted')
 
@@ -90,18 +94,19 @@ def delete_feelist():
     f_name = request.args.get('f_name', 0, type=str)
 
     mongo.db.users.update({"_id": ObjectId(session.get('user_id'))},
-                          {"$pull": {"my_feelists": {"name": f_name.replace(' ','_')}}})
+                          {"$pull": {"my_feelists": {"name": f_name.replace(' ', '_')}}})
 
     return jsonify(deleted='deleted')
+
 
 @user_bp.route('/remove_from_likes')
 def remove_from_likes():
     post_id = request.args.get('post_id', 0, type=str)
     from app import mongo
     mongo.db.users.update({"_id": ObjectId(session.get('user_id'))},
-                          {"$pull": {"likes": { "$in": [post_id]}}})
+                          {"$pull": {"likes": {"$in": [post_id]}}})
 
-    session['my_likes'] = mongo.db.users.find_one({'_id':ObjectId( session.get('user_id'))})['likes']
+    session['my_likes'] = mongo.db.users.find_one({'_id': ObjectId(session.get('user_id'))})['likes']
     return jsonify(deleted='deleted')
 
 
@@ -161,25 +166,33 @@ def glob_action():
         return jsonify(text='success')
 
 
-
-
 @user_bp.route('/my_glob')
 def my_glob():
     return jsonify(my_glob=my_globers())
 
 
+@user_bp.route('/user/<user_id>')
+def public_user(user_id):
+    from app import mongo
+
+    user = mongo.db.users.find_one({'_id': ObjectId(user_id)},
+                                   {'password': 0, 'email': 0, 'user_feel': 0, 'added_me': 0})
+    user_posts = []
+
+    return render_template('user/public_user.html', user=user, user_posts=user['posts'])
 
 
 def feelists(db_feelists):
     my_feelists = {}
     for feelist in db_feelists:
-        my_feelists[feelist['name'].replace('_',' ')] = feelist['post_ids']
+        my_feelists[feelist['name'].replace('_', ' ')] = feelist['post_ids']
     return my_feelists
 
 
 def my_globers():
     from app import mongo
-    session['my_globs'] = mongo.db.users.find_one({"_id": ObjectId(session.get('user_id'))})['my_globs'] or []
+    user = mongo.db.users.find_one({"_id": ObjectId(session.get('user_id'))})
+    session['my_globs'] = user['my_globs'] if 'my_globs' in user else []
 
     object_ids = []
     for id in session.get('my_globs'):
@@ -191,6 +204,3 @@ def my_globers():
         my_glob.append({'id': str(item['_id']), 'name': item['name']})
 
     return my_glob
-
-
-

@@ -15,6 +15,26 @@ var config = {
 
 var dist ='gl_modules/assets_dist/static/js'
 
+var country = Object.assign ( {}, config, {
+
+	entry  : [
+
+
+		'./gl_modules/posts/static/js/posts.js',
+		'./gl_modules/charts/static/js/charts.js',
+		'./gl_modules/country/static/src/js/country.js',
+
+
+
+
+	],
+	output : {
+		path     : path.resolve ( __dirname, dist ),
+		filename : "country.js"
+	},
+	watch  : true
+} );
+
 var landing = Object.assign ( {}, config, {
 
 	entry  : [
@@ -42,6 +62,19 @@ var user = Object.assign ( {}, config, {
 	output : {
 		path     : path.resolve ( __dirname, dist ),
 		filename : "user.js"
+	},
+	watch  : true
+} );
+var public_user = Object.assign ( {}, config, {
+
+	entry  : [
+		'./gl_modules/posts/static/js/posts.js',
+		'./gl_modules/user/static/src/js/public_user.js',
+
+	],
+	output : {
+		path     : path.resolve ( __dirname, dist ),
+		filename : "public_user.js"
 	},
 	watch  : true
 } );
@@ -98,6 +131,6 @@ var sign_in = Object.assign ( {}, config, {
 // Return Array of Configurations
 module.exports = [
 
-	landing, user,  sign_in, sign_up
+	landing, user,  sign_in, sign_up, country,public_user
 
 ];

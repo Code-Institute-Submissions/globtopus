@@ -10,6 +10,7 @@
 
     var days = $('#days').data('days').slice(0, -1).split('_');
     var feelings = $('#feelings').data('feelings').slice(0, -1).split('_');
+
     //rendering users progress
     new Chart(document.getElementById("user_chart"), {
         type: 'line',
