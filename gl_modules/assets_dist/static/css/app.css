@@ -141,7 +141,10 @@ h4.danger_title {
 .initial_interaction.user{
    font-size: 3.2em;
 }
-.chart, .user_nav, .delete_action, .delete_feelist, .add_to_glob, .remove_from_glob, .delete_post, .edit_post, .delete_fav, #remove_from_globe {
+.chart, .user_nav, .delete_action,
+.delete_feelist, .add_to_glob,
+.remove_from_glob, .delete_post,
+.edit_post, .delete_fav, #remove_from_globe {
   cursor: pointer;
 }
 
@@ -314,7 +317,7 @@ a.user:hover{
   background-color: #EEEEEE;
 }
 
-.map_color_legend {
+.map_color_legend ,.reload{
   cursor: pointer;
   width: 40px;
   height: 40px;
@@ -322,7 +325,7 @@ a.user:hover{
   padding: 7px 0 0px 0;
 }
 
-.map_color_legend:hover {
+.map_color_legend:hover ,.reload:hover{
   background-color: #EEEEEE;
   color: #006400;
   border: 1px dashed #006400;
@@ -360,8 +363,13 @@ a.user:hover{
 }
 
 .locations_list {
-  background-color: #177199;
-  color: whitesmoke;
+
+   color: #0e4963;
+}
+.locations_list:hover{
+    background-color: #0e4963;
+    color: whitesmoke;
+    padding:2px;
 }
 
 /*app specific color classes*/
