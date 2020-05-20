@@ -1,17 +1,11 @@
 {% extends 'base.html' %}
 <!--CSS FOR SIGN UP PAGE-->
 {% block css %}
-<!--LEAFLET CSS-->
-<link
-        crossorigin=""
-        href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
-        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-        rel="stylesheet"
-/>
+
 {% endblock %}
 {% block content %}
-<h4>Sign up</h4>
-<form action="{{url_for('authorize_bp.register')}}" method="POST" id="user_feel">
+<h4 id="user_sign_up">Sign up</h4>
+<form action="{{url_for('authorize_bp.register')}}" method="POST" >
     <div class="row">
         <div class="col-md-6">
             <!--COUNTRY-->
@@ -21,7 +15,7 @@
                     <div class="input-group-text bg-transparent border_bottom_only"><i class="fas fa-globe"></i></div>
                 </div>
                 <input type="text" class="form-control form-control-lg border_bottom_only bg-transparent form_label"
-                       readonly  name="country"
+                       readonly required name="country"
                        id="country_name" placeholder="{{session['form_country'] or 'Please select your Country on the map'}}"
                 >
             </div>
@@ -33,7 +27,7 @@
                 <div class="input-group-prepend">
                     <div class="input-group-text bg-transparent border_bottom_only"><i class="fas fa-globe"></i></div>
                 </div>
-                <input type="text" class="form-control form-control-lg border_bottom_only bg-transparent form_label"
+                <input type="text" required class="form-control form-control-lg border_bottom_only bg-transparent form_label"
                        id="county_name" readonly  name="county"
                        placeholder="{{session['form_county'] or 'Please select your state / county on the map'}}"
                 >
@@ -82,26 +76,31 @@
             </div>
             <!--feelometer-->
             <div class="mt-5">
-                <button class="btn bg_blue text-light pt-3 pb-3 pr-5 pl-5 float-right smaller_h"
-                        title="Have a great day!">Sign
-                    up!
+                <button class="btn bg_blue text-light pt-3 pb-3 pr-5 pl-5 float-right smaller_h" id="sign_up"
+                        title="Have a great day!">Sign up!
                 </button>
             </div>
         </div>
         <div class="col-lg-8 col-md-12">
             <!--MAP WILL RENDER INTO THIS DIV-->
             <div id="map_sign_up">
-                 <div class="row no-gutters">
-                    <div class="col-md-6  text-center border_green border_bottom_only p-2">
-                        <span id="current">Hover over map to see country name here</span>
+                 <div class="row no-gutters map_info" >
+                    <div class="col-md-6  text-center border_green border_bottom_only p-2 d-flex justify-content-around align-items-center">
+                        <span id="current">Hover over map to see country name here, scroll, drag or double click to navigate
+                       </span>
                     </div>
-                    <div class="col-md-6  text-center border_green border_bottom_only d-flex justify-content-around">
-                        <span class="map_color_legend" data-range="all" title="see the list"><i class="fas fa-list"></i></span>
+                    <div  data-range="all" title="see the list"
+                            class="col-md-6 p-2 show_list text-center border_green border_bottom_only d-flex justify-content-around align-items-center">
+                        <span><i class="fas fa-list"></i></span><br>
+                        <span>or select location from the list</span>
 
                     </div>
 
                 </div>
-                {{ world_map() }}
+                <div id="svg_map">
+                      {{ world_map() }}
+                </div>
+
 
             </div>
             <div class="col-md-12 range d-none" id="r_all"><h4 class="feelist_title">Countries all</h4></div>

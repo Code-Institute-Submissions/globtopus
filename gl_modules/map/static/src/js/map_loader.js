@@ -4,6 +4,7 @@
         var country_feels
         var people
         var paths = $('path')
+        var svg_map = 'world'
 
         /*IF WE ARE ON LANDING PAGE, WE WILL LOAD FEELINGS DATA INTO
         * #THE MAP , AND APPLY DIFFERENT COLOR TO COUNTRIES,
@@ -78,34 +79,6 @@
             });
         }
 
-        /*ZOOMING AND PANING FOR SVG MAP*/
-        var MapControl = new SVGPanZoom(document.getElementById('world'), {
-            eventMagnet: null,
-            // zoom options
-            zoom: {
-                factor: 0.25,
-                minZoom: 1,
-                maxZoom: 20,
-                events: {
-                    mouseWheel: true,
-                    doubleClick: true,
-                    pinch: true
-                },
-                callback: function callback(multiplier) {
-                }
-            },
-        });
-        $('.map_controls').on('click', function () {
-
-            var action = $(this).data('action')
-            if (action === 'zoomIn') MapControl.zoomIn()
-            if (action === 'zoomOut') MapControl.zoomOut()
-            if (action === 'panLeft') MapControl.panLeft()
-            if (action === 'panRight') MapControl.panRight()
-            if (action === 'panUp') MapControl.panUp()
-            if (action === 'panDown') MapControl.panDown()
-            if (action === 'reset') MapControl.reset()
-        })
 
         /*MAP HOVER INTERACTIVITY*/
         map_interactivity()
@@ -124,7 +97,7 @@
         })
 
         /*CLICKING ON COLORFUL LEGEND TO GET LOCATIONS IN RANGE*/
-        $('.map_color_legend').on('click', function () {
+        $('.map_color_legend,.show_list').on('click', function () {
 
             /*POPUP WITH COUNTIES/ STATES*/
             show_list($(this))
@@ -209,16 +182,21 @@
                         * 2 BUTTONS
                         *
                         * ONE TO SHOW LIST OF LOCATIONS AND SECOND TO RELOAD WORLD MAP*/
-                        var new_map = `<div class="row no-gutters">
-                                <div class="col-md-6  text-center border_green border_bottom_only p-2">
-                                    <span id="current">Hover over map to see location name here</span>
-                                </div>
-                                <div class="col-md-6  text-center border_green border_bottom_only d-flex justify-content-around">
-                                   
-                                    <span class="map_color_legend" data-range="all" title="see the list"><i class="fas fa-list"></i></span>
-                                    <span class="reload" title="reload map"><i class="fas fa-redo" ></i></span>
-                                </div>
-                            </div>
+                        var new_map = `
+                            <div class="row no-gutters" >
+                    <div class="col-md-6 map_info text-center border_green border_bottom_only p-2 d-flex justify-content-around align-items-center">
+                        <span id="current">Hover over map to see county name
+                       </span>
+                    </div>
+                    <div  data-range="all" title="see the list"
+                            class="col-md-6 p-2 show_list text-center border_green border_bottom_only d-flex justify-content-around align-items-center">
+                        <span><i class="fas fa-list"></i></span><br>
+                        <span class="text-center">or select location from the list</span>
+                       
+
+                    </div>
+                        <span class="reload d-flex justify-content-around" title="reload map"><i class="fas fa-redo  pt-1" ></i></span>
+                </div>
                         <svg xmlns="http://www.w3.org/2000/svg" id="country_map" x="0" y="0" 
                         baseProfile="tiny" viewBox="0 0 660 447" xml:space="preserve">`
 
@@ -248,6 +226,8 @@
                         /*CLOSE UP SVG ELEMENT*/
                         new_map += `</svg> `
 
+                        svg_map = 'country_map'
+
                         /*ASSIGN NEWLY CREATED MAP TO map_sign_up DIV*/
                         $('#map_sign_up').html(new_map)
 
@@ -263,7 +243,7 @@
                         })
 
                         /*SELECTING LOCATIONS IN RANGE*/
-                        $('.map_color_legend').on('click', function () {
+                        $('.map_color_legend,.show_list').on('click', function () {
 
 
                             show_list($(this))
@@ -285,7 +265,17 @@
             }
             /*IF WE ARE ON COUNTY MAP, WE WILL ADD COUNTY NAME TO INPUT FIELD*/
             else if (level === 'county') {
+
+                /*FORM INPUT FIELD VALUE OF CURRENTLY SELECTED LOCATION*/
                 $('#county_name').val(display_name(location))
+
+                /*RESET ANY PREVIOUSLY SELECTED LOCATION*/
+                $('path').attr('fill', '#66FF00')
+
+                /*WE WILL CHANGE COLOR OF SELECTED LOCATION*/
+                $("[data-location='" + location + "']").attr('fill', '#20B2AA')
+                 if (screen.width < 768) $('.globi_logo').get(0).scrollIntoView(1, 'slow')
+
             }
             swal.close()
 
@@ -372,6 +362,35 @@
                 `)
                     });
         }
+
+        /*ZOOMING AND PANING FOR SVG MAP*/
+        var MapControl = new SVGPanZoom(document.getElementById(svg_map), {
+            eventMagnet: null,
+            // zoom options
+            zoom: {
+                factor: 0.25,
+                minZoom: 1,
+                maxZoom: 20,
+                events: {
+                    mouseWheel: true,
+                    doubleClick: true,
+                    pinch: true
+                },
+                callback: function callback(multiplier) {
+                }
+            },
+        });
+        $('.map_controls').on('click', function () {
+
+            var action = $(this).data('action')
+            if (action === 'zoomIn') MapControl.zoomIn()
+            if (action === 'zoomOut') MapControl.zoomOut()
+            if (action === 'panLeft') MapControl.panLeft()
+            if (action === 'panRight') MapControl.panRight()
+            if (action === 'panUp') MapControl.panUp()
+            if (action === 'panDown') MapControl.panDown()
+            if (action === 'reset') MapControl.reset()
+        })
     }
 
 )()

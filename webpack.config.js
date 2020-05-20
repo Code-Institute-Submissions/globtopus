@@ -98,7 +98,7 @@ var sign_up = Object.assign ( {}, config, {
 	entry  : [
 
 
-		'./gl_modules/authorize/static/src/js/get_location.js',
+		'./gl_modules/authorize/static/src/js/form_check.js',
 		'./gl_modules/shared/static/js/feel_meter.js',
 		'./gl_modules/shared/static/js/form_label.js',
 

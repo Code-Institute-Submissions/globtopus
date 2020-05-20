@@ -144,7 +144,7 @@ h4.danger_title {
 .chart, .user_nav, .delete_action,
 .delete_feelist, .add_to_glob,
 .remove_from_glob, .delete_post,
-.edit_post, .delete_fav, #remove_from_globe {
+.edit_post, .delete_fav, #remove_from_globe,.show_list {
   cursor: pointer;
 }
 
@@ -316,7 +316,10 @@ a.user:hover{
 .map_0 {
   background-color: #EEEEEE;
 }
+.map_info{
+  height: 66px;
 
+}
 .map_color_legend ,.reload{
   cursor: pointer;
   width: 40px;
@@ -325,7 +328,7 @@ a.user:hover{
   padding: 7px 0 0px 0;
 }
 
-.map_color_legend:hover ,.reload:hover{
+.map_color_legend:hover ,.reload:hover,.show_list:hover{
   background-color: #EEEEEE;
   color: #006400;
   border: 1px dashed #006400;
@@ -581,6 +584,9 @@ a:hover {
   }
   .initial_interaction.user{
     font-size:1.5em;
+  }
+  #svg_map{
+    margin-top:30px;
   }
 }
 
