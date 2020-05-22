@@ -15,6 +15,8 @@
     *       2. COUNTRIES TOP 10,30,ALL...*/
     $('.chart').on('click', function () {
 
+        /*HIDE WRITE YOUR FEELING FORM*/
+        $('.feel_form').addClass('d-none')
         /*USER VISUAL FEEDBACK AS TO WHAT CHART IS DISPLAYED*/
         selected_chart($(this))
 
@@ -33,7 +35,7 @@
 
         var chart_for = $(this).data('chart_for')
 
-         if (chart_for === 'country') $('.chart_days').data('chart_for', 'country')
+        if (chart_for === 'country') $('.chart_days').data('chart_for', 'country')
 
 
         /*@num_of_days HOW MANY DAYS TO DISPLAY ON THE CHART*/
@@ -138,22 +140,22 @@
                 * CHART FOR THAT PERIOD OF DAYS*/
                 $('.chart').on('click', function () {
 
-                   // render_country_chart($(this), num_of_countries)
+                    // render_country_chart($(this), num_of_countries)
 
-                        show_country_chart()
-                        selected_chart($(this))
-                        /*HIDE PREVIOUSLY ADDED BUTTONS*/
-                        $('.controls').addClass('d-none')
+                    show_country_chart()
+                    selected_chart($(this))
+                    /*HIDE PREVIOUSLY ADDED BUTTONS*/
+                    $('.controls').addClass('d-none')
 
-                        /*show buttons to select duration of charts in days*/
-                        $(`[data-c_code=${$(this).data('country')}]`).removeClass('d-none');
+                    /*show buttons to select duration of charts in days*/
+                    $(`[data-c_code=${$(this).data('country')}]`).removeClass('d-none');
 
-                         num_of_days = $(this).data('num_of_days')
-                         country_code = $(this).data('country')
+                    num_of_days = $(this).data('num_of_days')
+                    country_code = $(this).data('country')
 
                 })
-                $('.country').on('click',function(){
-                  render_country_chart($(this), num_of_countries)
+                $('.country').on('click', function () {
+                    render_country_chart($(this), num_of_countries)
                 })
 
 
@@ -199,7 +201,6 @@
                 counties = data.counties
 
 
-
                 /*to prevent old graph on hover*/
                 clear_canvas()
                 /*end of to prevent old graph on hover*/
@@ -212,7 +213,7 @@
             });
     }
 
-    function render_chart(chart_canvas, chart_for, feels, c_labels, B_colors, num_of_countries, num_of_days, location_name ) {
+    function render_chart(chart_canvas, chart_for, feels, c_labels, B_colors, num_of_countries, num_of_days, location_name) {
 
 
         var chart = new Chart(chart_canvas, {

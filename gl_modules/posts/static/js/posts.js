@@ -348,6 +348,8 @@ $(function () {
                            <div class="row">
                            <div class="col-md-12">
                            <h4 class="smaller_h" id="add_to">add to</h4>
+                           
+                                <small>one of your feelists or create new one</small> <hr>
                            <h4 class="smaller_h d-none bg_purple text-light" id="no_feelist">feelist ?</h4>
                      
                             </div>
@@ -374,6 +376,7 @@ $(function () {
                                 
                                 >save</button>
                                 <span id="feelist_saved" class="text-center" onclick="swal.close()" ></span>
+                                
                             </div>
                             `
             })

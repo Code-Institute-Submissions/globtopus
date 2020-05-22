@@ -30,10 +30,16 @@
                         </span>
                         <span id="posts" class="gl_button " title="type how you feel..."><i
                                 class="far fa-heart"></i>&nbsp;posts</span>
+
+                        <span id="write_post" class="gl_button mt-3  d-md-none"><i class="fas fa-pencil-alt"></i>&nbsp;write</span>
                     </div>
                 </div>
+
+
+
+
                 <!--SLIDER WITH TEXT AREAS FOR INPUTING HOW DOES USER FEELS-->
-                <div class="col-lg-4 int_steps  parent mr-2 p-2 d-flex align-content-around flex-wrap" id="how_do_you_feel">
+                <div class="col-lg-4 int_steps  parent mr-2 p-2  align-content-around flex-wrap d-none feel_form  d-md-block" id="how_do_you_feel">
                     <div class="col-md-12"><h4 class="smaller_h text-center">How do you feel?</h4></div>
                     <div class="col-md-12">
                         <input type="text" class="form-control border_bottom_only mb-1 form_label" form="user_feel" id="one"
@@ -47,11 +53,12 @@
                               name="because" required
                               placeholder="Because..."
                               data-cy="description"></textarea>
-                    </div>
+
                     {{ feelometer() }}
+                         </div>
                 </div>
                 <!--STEPS TO FEEL THIS WAY OR BETTER-->
-                <div class="col int_steps p-2 parent d-flex align-content-around flex-wrap" id="what_do_you_do">
+                <div class="col int_steps p-2 parent  align-content-around flex-wrap feel_form d-none feel_form d-md-block" id="what_do_you_do">
                     <div class="col-md-12">
                         <h4 class="smaller_h one_thing text-center">What is the one thing that you will do
                             <span id="better" class=" text-center ">to feel better?</span>
@@ -68,15 +75,21 @@
                               required
                     ></textarea>
                     </div>
+                    <div class="text-center">
+
+
                     {% if session.get('authorized_user') %}
                     <button class="gl_button col-md-12 p-2" type="submit">submit</button>
                     {% else %}
                     <a class="" href="{{url_for('authorize_bp.sign_in')}}">Sign in </a>
                     or
                     <a class="" href="{{url_for('authorize_bp.sign_up')}}">Sign up </a>
-                    to <span class="gl_button ">submit</span>.
+                    to <br> <span class="gl_button ">submit</span>.
                     {% endif %}
+                         </div>
                 </div>
+
+
             </div>
         </div>
     </form>
@@ -122,8 +135,9 @@
         </div>
         <div class="col-md-8 p-0 border_blue">
             <!--WORLD MAP WILL BE RENDERED HERE-->
-            {{ world_map() }}
+
             <div class="row no-gutters">
+                <!--RANGE COUNTRIES BUTTON-->
                 <div class="col-md-6  text-center border_green border_bottom_only p-2">
                     <span id="current">Hover over map to see country name here</span>
                 </div>
@@ -142,7 +156,8 @@
                 <div class="col-md-12 range d-none" id="r_100"><h4 class="feelist_title">Countries 80-100</h4></div>
                 <div class="col-md-12 range d-none" id="r_all"><h4 class="feelist_title">Countries all</h4></div>
             </div>
-            <!--RANGE COUNTRIES BUTTON-->
+             {{ world_map() }}
+
         </div>
         <!--INFO ABOUT COUNTRY-->
         <div class="col-md-3  border_blue d-flex align-content-around flex-wrap" id="map_info">

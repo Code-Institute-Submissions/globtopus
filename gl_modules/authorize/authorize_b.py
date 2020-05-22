@@ -157,7 +157,7 @@ def register():
     #     flash('Please select how you feel!')
     #     return redirect(url_for('authorize_bp.sign_up'))
 
-    if new_user['country_code'] == '':
+    if new_user['cc'] == '':
         sticky_form(new_user)
 
         flash('Please select location on the map!')

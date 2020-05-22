@@ -8,7 +8,7 @@
 
 body {
   font-family: "Lato", sans-serif;
-  color: #777777;
+  color: #0e4963;
 }
 
 h2, h3, h4 {
@@ -77,9 +77,11 @@ h4.danger_title {
 .no_border {
   border: none;
 }
-.no_padding{
+
+.no_padding {
   padding: 0;
 }
+
 #hearth {
   /* aspect ratio of the image 300/1600*/
   /*https://stackoverflow.com/questions/11099930/100-width-background-image-with-an-auto-height*/
@@ -102,15 +104,48 @@ h4.danger_title {
 .feel_in {
 }
 
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  margin-bottom: 10px;
+  opacity: 1;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 35px;
+  height: 35px;
+  background: url("../images/slider_hearth.png");
+  background-position: center center;
+  border-radius: 0;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 35px;
+  height: 35px;
+  border-radius: 0;
+  background: url("../images/slider_hearth.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
 .custom-range {
-  width: 66%;
   margin-top: 30px;
 }
 
 #feeling_holder {
-  font-size: 0.9em;
+  font-size: 1em;
   font-family: Oswald, sans-serif;
-  text-transform: uppercase;
   letter-spacing: 4px;
   padding-right: 55px;
 }
@@ -138,9 +173,11 @@ h4.danger_title {
   font-family: 'Exo 2', sans-serif;
   color: rgba(23, 113, 153, 0.15);
 }
-.initial_interaction.user{
-   font-size: 3.2em;
+
+.initial_interaction.user {
+  font-size: 3.2em;
 }
+
 .chart, .user_nav, .delete_action, .delete_feelist, .add_to_glob, .remove_from_glob, .delete_post, .edit_post, .delete_fav, #remove_from_globe {
   cursor: pointer;
 }
@@ -218,25 +255,26 @@ img.avatar {
   background-color: red;
   color: whitesmoke;
 }
-a.map_chart{
-   color:  #0e4963;
+
+a.map_chart ,a.locations_list{
+  color: #0e4963;
   text-decoration: none;
 }
-a.map_chart:hover {
-  background-color:#177199;
+
+a.map_chart:hover,a.locations_list:hover,a.sign_in:hover {
+  background-color: #177199;
   color: whitesmoke;
   font-weight: normal;
   padding: 2px;
   text-decoration: none;
-
 }
-a.user:hover{
 
+a.user:hover {
   color: #0e4963;
   font-weight: bolder;
-
   text-decoration: none;
 }
+
 .gl_button:hover {
   background-color: whitesmoke;
   color: #177199;
@@ -360,8 +398,8 @@ a.user:hover{
 }
 
 .locations_list {
-  background-color: #177199;
-  color: whitesmoke;
+  /*background-color: #177199;*/
+  /*color: whitesmoke;*/
 }
 
 /*app specific color classes*/
@@ -475,10 +513,12 @@ a:hover {
   background-size: 15%;
   background-repeat: no-repeat;
 }
-.user_heart.public{
-   background-size: 12%;
+
+.user_heart.public {
+  background-size: 12%;
   background-position: center center;
 }
+
 /*REMOVING CARET FROM DROPDOWN UNDER USER ICON IN THE TOP RIGHT CORNER OF NAVIGATION*/
 .caret-off::before {
   display: none;
@@ -537,20 +577,13 @@ a:hover {
 
 @media screen and ( max-width: 1200px ) {
   .custom-range {
-    width: 60%;
     margin-top: 30px;
   }
 }
 
 @media screen and ( max-width: 990px ) {
   .custom-range {
-    width: 60%;
     margin-top: 30px;
-  }
-
-  .globi_icon {
-    width: 90%;
-    height: 90%;
   }
 
   #hearth {
@@ -560,7 +593,6 @@ a:hover {
 
 @media screen and ( max-width: 767px ) {
   .custom-range {
-    width: 60%;
     margin-top: 30px;
   }
 
@@ -571,15 +603,15 @@ a:hover {
   .initial_interaction {
     font-size: 2em;
   }
-  .initial_interaction.user{
-    font-size:1.5em;
+
+  .initial_interaction.user {
+    font-size: 1.5em;
   }
 }
 
 /*SMALLER SIZES FOR PROGRESS STEPS */
 @media screen and ( max-width: 540px ) {
   .custom-range {
-    width: 60%;
     margin-top: 20px;
   }
 

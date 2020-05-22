@@ -89,18 +89,7 @@
         /*MAP HOVER INTERACTIVITY*/
         map_interactivity()
 
-        /*CLICKING ON map BUTTON UNDER THE GLOBE TO SEE MAP*/
-        $('#map').on('click', function () {
-            /*HIDE ANY PREVIOUSLY OPEN DIVS ( CHARTS, MAPS)*/
-            $('.landing_interaction').addClass('d-none')
 
-            /*SHOW DIV WITH MAP*/
-            var map_search = $('#map_search')
-            map_search.removeClass('d-none')
-
-            if (screen.width < 768) map_search.get(0).scrollIntoView(1, 'slow')
-
-        })
 
         /*CLICKING ON COLORFUL LEGEND TO GET LOCATIONS IN RANGE*/
         $('.map_color_legend,.show_list').on('click', function () {
