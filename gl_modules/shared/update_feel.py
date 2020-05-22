@@ -45,3 +45,25 @@ def update_country_feel(mongo, country_code, people, feeling):
         ,
         upsert=True
     )
+
+def update_county_feel(mongo, country_code,county_name, people, feeling):
+    today = today_f()
+
+    """if logged in user changing his feel, we will just recalculate his feel
+     without adding new person to the mix, 
+     if new user we will add 1 person to the mix"""
+
+
+    mongo.db.stats.update(
+        {"cc": country_code,'cl':county_name},
+        {"$inc":
+            {
+                "feels." + today + ".num_of_people": people,
+                "feels." + today + ".sum_of_feelings": feeling,
+                "total_people": people,
+                "total_feelings": feeling
+            },
+        }
+        ,
+        upsert=True
+    )

@@ -624,235 +624,7 @@ def create_counties():
     return 'counties inserted : ' + str(counter)
 
 
-@factory_bp.route('/create_countries_data2')
-def countries_data2():
-    from app import mongo
 
-    total_people = 0
-    total_feelings = 0
-
-    counter = 0
-
-    world_people = 0
-    world_feelings = 0
-
-    world = []
-    world_feel = {}
-
-    country_people = {}
-    country_feelings = {}
-    country_people_n = 0
-    country_feelings_n = 0
-
-    countries = []
-    country_feel = {}
-
-    county_people = {}
-    county_feelings = {}
-    county_people_n = 0
-    county_feelings_n = 0
-
-    counties = {}
-    county_feel = {}
-
-    counties_array = []
-
-    for i in range(1, 3):
-
-        if (counter < 10):
-
-            feelings = random.randint(1, 20)
-        elif (counter < 30):
-            feelings = random.randint(20, 40)
-        elif (counter < 90):
-            feelings = random.randint(40, 60)
-        elif (counter < 120):
-            feelings = random.randint(60, 80)
-        elif (counter < 145):
-            feelings = random.randint(80, 100)
-
-        day = str((datetime.datetime.now() - datetime.timedelta(days=3 - i)).strftime("%F"))
-
-        for key, value in countryListAlpha2.items():
-
-            country_code = key.lower()
-
-            for county in cc_with_counties()[country_code]:
-                # return dumps(cc_with_counties()[country_code])
-                num_of_people = random.randint(1, random.randint(1, 500))
-
-                county_feel[day] = {'num_of_people': num_of_people,
-                                    'sum_of_feelings': num_of_people * feelings}
-
-                county_people_n += num_of_people
-                county_feelings_n += num_of_people * feelings
-
-                country_people_n += num_of_people
-                country_feelings_n += num_of_people * feelings
-
-                total_people += num_of_people
-                total_feelings += num_of_people * feelings
-
-                county_people[county] = county_people_n
-                county_feelings[county] = county_feelings_n
-
-            counties_array.append({'cc': country_code, 'name': county, 'total_people': county_people_n,
-                                   'total_feelings': county_feelings_n,
-                                   'feels': county_feel})
-            county_people_n = 0
-            county_feelings_n = 0
-
-            # counties.append({'name': county, 'total_people': county_people, 'total_feelings': county_feelings,
-            #                  'feels': county_feel})
-
-            counties[country_code] = counties_array
-            # county_feel = {}
-            # mongo.db.stats.insert(
-            #     {'name': county, 'total_people': county_people, 'total_feelings': county_feelings,
-            #      'feels': county_feel})
-
-            # mongo.db.stats.insert(
-            #     counties[country_code])
-
-            country_feel[day] = {'num_of_people': country_people_n,
-                                 'sum_of_feelings': country_feelings_n}
-
-        country_people[country_code] = country_people_n
-
-        country_feelings[country_code] = country_feelings_n
-
-        country_people_n = 0
-        country_feelings_n = 0
-
-        countries.append({'name': country_code, 'total_people': country_people[country_code],
-                          'total_feelings': country_feelings[country_code],
-                          'feels': country_feel})
-
-        country_feel = {}
-
-        # mongo.db.stats.insert({'name': country_code, 'total_people': country_people, 'total_feelings': country_feelings,
-        #                       'feels': county_feel})
-
-        world_people += country_people[country_code]
-        world_feelings += country_feelings[country_code]
-
-        world_feel[day] = {'num_of_people': world_people,
-                           'sum_of_feelings': world_feelings}
-
-    world.append({'name': 'world', 'total_people': total_people, 'total_feelings': total_feelings,
-                  'feels': world_feel})
-
-    counter += 1
-    return jsonify(counties)
-    # mongo.db.stats.insert({"world": world, 'total_people': total_people, 'total_feelings': country_feelings,
-    #                           'feels': county_feel})
-
-    # mongo.db.country_feel.insert({"country_code": country_code, 'feels': feels, 'total_people': total_people,
-    # 'total_feelings': total_feelings})
-    counter += 1
-    total_people = 0
-    total_feelings = 0
-    current_people = 0
-    current_feelings = 0
-
-    # for item in world_data:
-    # mongo.db.world_feel.insert(world_data[item][item])
-
-    return jsonify(counties)
-
-
-@factory_bp.route('/create_countries_data3')
-def countries_data3():
-    from app import mongo
-
-    total_people = 0
-    total_feelings = 0
-
-    counter = 0
-
-    world_people = 0
-    world_feelings = 0
-
-    world = []
-    world_feel = {}
-
-    country_people = {}
-    country_feelings = {}
-    country_people_n = 0
-    country_feelings_n = 0
-
-    countries = []
-    country_feel = {}
-
-    county_people = {}
-    county_feelings = {}
-    county_people_n = 0
-    county_feelings_n = 0
-
-    counties = []
-    county_feel = {}
-
-    feels = {}
-    feels_cc = {}
-    feels_world = {}
-    county_feels = {}
-    country_feels = {}
-    world_feels = {}
-
-    _county = {}
-    _country = {}
-    _world = {}
-    num_of_ = []
-    all_counties = []
-    stats = []
-    # return dumps(cc_with_counties().keys())
-
-    for contry_c, value in countryListAlpha2.items():
-
-        country_code = contry_c.lower()
-
-        for county in cc_with_counties()[country_code]:
-
-            for i in range(1, 4):
-                day = str((datetime.datetime.now() - datetime.timedelta(days=4 - i)).strftime("%F"))
-                num_of_people = random.randint(1, 1001)
-                feelings = num_of_people * random.randint(1, 100)
-
-                if county not in all_counties:
-                    feels[day] = {'num_of_people': num_of_people, 'sum_of_feelings': feelings}
-                    county_feels[county] = {'num_of_people': county_people_n, 'sum_of_feelings': county_feelings_n,
-                                            'county_feels': feels}
-                    counter += num_of_people
-                    county_people_n += num_of_people
-                    county_feelings_n += feelings
-                    country_people_n += num_of_people
-                    country_feelings_n += feelings
-                    world_people += num_of_people
-                    world_feelings += feelings
-
-                    total_people += num_of_people
-                    total_feelings += feelings
-
-                    num_of_.append('county_people ' + county + '  ' + str(county_people_n))
-                    stats.append({'cl': county, 'county_day': feels})
-                    county_people_n = 0
-
-                    all_counties.append(county)
-
-        country_feels[country_code] = {'num_of_people': country_people_n, 'sum_of_feelings': country_feelings_n,
-                                       'country_feels': feels_cc}
-        feels_cc[day] = {'num_of_people': country_people_n, 'sum_of_feelings': country_feelings_n}
-        num_of_.append('country_people ' + country_code + '  ' + str(country_people_n))
-        stats.append({'cc': country_code, 'country_day': feels_cc})
-        country_people_n = 0
-        country_feelings_n = 0
-
-    num_of_.append('world_people ' + str(world_people))
-    feels_world[day] = {'num_of_people': world_people, 'sum_of_feelings': world_feelings}
-    stats.append({'cc': 'world', 'world_day': feels_world})
-    world_feels = {'num_of_people': total_people, 'sum_of_feelings': total_feelings, 'world_feels': feels_world
-                   }
-    return jsonify(num_of_, stats)
 
 
 @factory_bp.route('/create_users')
@@ -861,6 +633,7 @@ def create_users():
     country_users = {}
     users = []
     posts = []
+    counter = 0
     i_feel_arr = [
         ['very', 'good'],
         ['little', 'bit', 'tired'],
@@ -909,8 +682,7 @@ def create_users():
         'Everyone has at least a few things they do incredibly well. Find ways to do those things more often. You\'ll be a lot happier.And probably a lot more successful.',
         'Make choices that are right for you. Say things you really want to say to the people who most need to hear them. Express your feelings. Stop and smell a few roses. Make friends, and stay in touch with them.'
     ]
-    for key, value in countryListAlpha2.items():
-        country_code = key.lower()
+    for cc in cc_with_counties():
 
         for i in range(1, 11):
             for e in range(1, random.randint(3, 9)):
@@ -924,14 +696,16 @@ def create_users():
                     'likes': random.randint(0, 77),
                     'feel': random.randint(1, 100)
                 })
-            users.append({'country_code': country_code,
-                          'country': get_country_name(country_code),
-                          'name': 'user_' + country_code + '_' + str(i),
-                          'email': 'user_' + country_code + '_' + str(i) + '_@globi.com',
+            counter += 1
+            users.append({'cc': cc,
+                          'cl': random.choice(cc_with_counties()[cc]),
+
+                          'name': 'user_' + cc + '_' + str(i),
+                          'email': 'user_' + cc + '_' + str(i) + '_@globi.com',
                           'password': generate_password_hash('password'),
                           'created_at': datetime.datetime.now(),
                           'last_login': datetime.datetime.now(),
-                          'last_feel': random.randint(1, 100),
+                          'last_feel': 0,
                           'user_feel': {
                               (datetime.datetime.now() - datetime.timedelta(days=10)).strftime("%F"): random.randint(1,
                                                                                                                      100),
@@ -962,9 +736,10 @@ def create_users():
             posts = []
         mongo.db.users.insert_many(users)
         users = []
-        # return dumps(users)
+        # return 'users inserted '+ str(counter)
 
         # country_users[country_code] = users
+    return 'users inserted ' + str(counter)
 
 
 """
@@ -1054,7 +829,7 @@ def get_country_name(c_code):
         countries = {}
         from app import mongo
 
-        all_countries = mongo.db.countries.find()
+        all_countries = mongo.db.country_names.find()
         for country in all_countries:
             countries[country['cc']] = country['name']
 
@@ -1065,6 +840,268 @@ def get_country_name(c_code):
     return countries[c_code]
 
 
+@factory_bp.route('/insert_country_name')
+def insert_country_name():
+
+    countries_ = {'ad': "Andorra",
+'ae': "دولة الإمارات العربية المتحدة | United Arab Emirates",
+'af': "د افغانستان اسلامي جمهوریت | Afghanistan",
+'ag': "Antigua and Barbuda",
+'ai': "Anguilla",
+'al': "Shqipëria | Albania",
+'am': "Հայաստան | Armenia",
+'ao': "Angola",
+'ar': "Argentina",
+'as': "American Samoa",
+'at': "Österreich | Austria",
+'au': "Australia",
+'aw': "Aruba",
+'az': "Azərbaycan | Azerbaijan",
+'ba': "Bosna i Hercegovina | Bosnia and Herzegovina",
+'bb': "Barbados",
+'bd': "গণপ্রজাতন্ত্রী বাংলাদেশ | Bangladesh",
+'be': "België | Belgium",
+'bf': "Burkina Faso",
+'bg': "България | Bulgaria",
+'bh': "مملكة البحرين | Bahrain",
+'bi': "Burundi",
+'bj': "Bénin | Benin",
+'bm': "Bermuda",
+'bn': "بروني دارالسلام | Brunei",
+'bo': "Bulivya | Bolivia",
+'bq': "Caribisch Nederland | Caribbean Netherlands",
+'br': "Brasil",
+'bs': "The Bahamas",
+'bt': "Druk Yul | Bhutan",
+'bw': "Botswana",
+'by': "Беларусь | Belarus",
+'bz': "Belice | Belize",
+'ca': "Canada",
+'cd': "République Démocratique du Congo",
+'cf': "République centrafricaine | Central African Republic",
+'cg': "Congo",
+'ch': "Suisse | Switzerland",
+'ci': "Côte d'Ivoire",
+'ck': "Kūki Āirani | Cook Islands",
+'cl': "Chile",
+'cm': "Cameroun",
+'cn': "中國 | China",
+'co': "Colombia",
+'cr': "Costa Rica",
+'cu': "Cuba",
+'cv': "Cabo Verde | Cape Verde",
+'cw': "Curaçao",
+'cy': "Κύπρος | Kıbrıs | Cyprus",
+'cz': "Česko | Czech Republic",
+'de': "Deutschland | Germany",
+'dj': "Djibouti",
+'dk': "Danmark | Denmark",
+'dm': "Dominique | Dominica",
+'do': "República Dominicana | Dominican Republic",
+'dz': "الجزائر | Algeria",
+'ec': "Ecuador",
+'ee': "Eesti | Estonia",
+'eg': "مصر | Egypt",
+'eh': "Western Sahara",
+'er': "إرتريا | Eritrea",
+'es': "España | Spain",
+'et': "የኢትዮጵያ ፌዴራላዊ ዴሞክራሲያዊ ሪፐብሊክ | Ethiopia",
+'fi': "Suomi | Finland",
+'fj': "Matanitu ko Viti | Fiji",
+'fk': "Falkland Islands",
+'fm': "Federated States of Micronesia",
+'fo': "Faroe Islands",
+'fr': "France",
+'ga': "Gabon",
+'gb': "United Kingdom",
+'gd': "Grenada",
+'ge': "საქართველო | Georgia",
+'gf': "Guyane | French Guiana",
+'gg': "Guernesey",
+'gh': "Ghana",
+'gi': "Gibraltar",
+'gl': "Greenland",
+'gm': "The Gambia",
+'gn': "Guinée | Guinea",
+'gp': "Guadalupe",
+'gq': "Guinée Équatoriale | Equatorial Guinea",
+'gr': "Ελλάδα | Greece",
+'gt': "Guatemala",
+'gu': "Guåhan | Guam",
+'gw': "Guiné-Bissau",
+'gy': "Guyana",
+'hk': "全港 | Hong Kong",
+'hn': "Honduras",
+'hr': "Hrvatska | Croatia",
+'ht': "Ayiti | Haiti",
+'hu': "Magyarország | Hungary",
+'id': "Indonesia",
+'ie': "Éire | Ireland",
+'il': "יִשְרָאֵל | Israel",
+'im': "Isle of Man",
+'in': "भारत गणराज्य | India",
+'iq': "العرا | Iraq",
+'ir': "ایران | Iran",
+'is': "Ísland | Iceland",
+'it': "Italia | Italy",
+'je': "Jersey",
+'jm': "Jamaica",
+'jo': "الأردن | Jordan",
+'jp': "日本国 | Japan",
+'ke': "Kenya",
+'kg': "Кыргызстан | Kyrgyzstan",
+'kh': "Prâteh Kampuchea | Cambodia",
+'ki': "Kiribati",
+'km': "زر_القمر_ | Comoros",
+'kn': "Saint Kitts and Nevis",
+'kp': "조선민주주의인민공화국 | North Korea",
+'kr': "대한민국 | South Korea",
+'kw': "دولة الكويت | Kuwait",
+'ky': "Cayman Islands",
+'kz': "Казахстан | Kazakhstan",
+'la': "Laos",
+'lb': "لُبْنَان | Lebanon",
+'lc': "Saint Lucia",
+'li': "Liechtenstein",
+'lk': "இலங்கை | Sri Lanka",
+'lr': "Liberia",
+'ls': "Lesotho",
+'lt': "Lietuva | Lithuania",
+'lu': "Lëtzebuerg | Luxembourg",
+'lv': "Latvija | Latvia",
+'ly': "ليبيا | Libya",
+'ma': "المغرب | Morocco",
+'mc': "Múnegu | Monaco",
+'md': "Moldova",
+'me': "Црна Гора | Montenegro",
+'mg': "Madagasikara | Madagascar",
+'mh': "Aolepān Aorōkin M̧ajeļ | Marshall Islands",
+'mk': "Македонија | Macedonia",
+'ml': "Mali",
+'mm': "Burma | Myanmar",
+'mn': "Монгол улс | Mongolia",
+'mo': "澳门特别行政区 | Macau Special Administrative Region",
+'mp': "Northern Mariana Islands",
+'mq': "Martinique",
+'mr': "موريتانياة | Mauritania",
+'ms': "Montserrat",
+'mt': "Malta",
+'mu': "Repiblik Moris | Mauritius",
+'mv': "ދިވެހިރާއްޖޭގެ ޖުމްހޫރިއްޔާ | Maldives",
+'mw': "Malawi",
+'mx': "México",
+'my': "ماليزيا | Malaysia",
+'mz': "Moçambique | Mozambique",
+'na': "Namibia",
+'nc': "Nouvelle-Calédonie | New Caledonia",
+'ne': "Niger",
+'nf': "Norfolk Island",
+'ng': "Nigeria",
+'ni': "Nicaragua",
+'nl': "Nederland | Netherlands",
+'no': "Norge | Norway",
+'np': "नेपाल | Nepal",
+'nr': "Naoero | Nauru",
+'nu': "Niuē",
+'nz': "Aotearoa | New Zealand",
+'om': "سلطنة عُمان | Oman",
+'pa': "Panamá | Panama",
+'pe': "Perú | Peru",
+'pf': "Polynésie française | French Polynesia",
+'pg': "Papua Niugini | Papua New Guinea",
+'ph': "Pilipinas | Philippines",
+'pk': "پاکِستان | Pakistan",
+'pl': "Polska | Poland",
+'pm': "Saint Pierre and Miquelon",
+'pn': "Pitkern Ailen | Pitcairn Islands",
+'pr': "Puerto Rico",
+'ps': "فلسطين المحتلة | Palestinian territories",
+'pt': "Portugal",
+'pw': "Belau | Palau",
+'py': "Paraguay",
+'qa': "دولة قطر | Qatar",
+'re': "Réunion",
+'ro': "România",
+'rs': "Србија | Serbia",
+'ru': "Russia | Росси́я",
+'rw': "Rwanda",
+'sa': "المملكة العربية السعودية | Saudi Arabia",
+'sb': "Solomon Islands",
+'sc': "Repiblik Sesel | Seychelles",
+'sd': "السودان | Sudan",
+'se': "Sverige | Sweden",
+'sg': "Singapore",
+'sh': "Saint Helena, Ascension and Tristan da Cunha",
+'si': "Slovenija | Slovenia",
+'sk': "Slovensko | Slovakia",
+'sl': "Sierra Leone",
+'sm': "San Marino",
+'sn': "Sénégal",
+'so': "Soomaaliya | Somalia",
+'sr': "Suriname",
+'ss': "South Sudan",
+'st': "São Tomé e Príncipe",
+'sv': "El Salvador",
+'sx': "St. Maarten | Sint Maarten",
+'sy': "سورية | Syria",
+'sz': "Swatini | Swaziland",
+'tc': "Turks and Caicos Islands",
+'td': "تشاد | Chad",
+'tg': "Togo",
+'th': "ราชอาณาจักรไทย | Thailand",
+'tj': "Ҷумҳурии Тоҷикистон | Tajikistan",
+'tk': "Tokelau",
+'tl': "Timor Leste | East Timor",
+'tm': "Türkmenistan | Turkmenistan",
+'tn': "تونس | Tunisia",
+'to': "Tonga",
+'tr': "Türkiye | Turkey",
+'tt': "Trinidad and Tobago",
+'tv': "Tuvalu",
+'tw': "臺灣 | Taiwan",
+'tz': "Tanzania",
+'ua': "Україна | Ukraine",
+'ug': "Uganda",
+'us': "United States",
+'uy': "Uruguay",
+'uz': "Oʻzbekiston Respublikasi | Uzbekistan",
+'vc': "Saint Vincent and the Grenadines",
+'ve': "Venezuela",
+'vg': "British Virgin Islands",
+'vi': "United States Virgin Islands",
+'vn': "Việt Nam | Vietnam",
+'vu': "Vanuatu",
+'wf': "Territoire des îles Wallis et Futuna | Wallis and Futuna",
+'ws': "Malo Sa oloto Tuto atasi | Samoa",
+'ye': "اليَمَن | Yemen",
+'yt': "Mayotte",
+'za': "South Africa",
+'zm': "Zambia",
+'zw': "Zimbabwe",}
+    from app import mongo
+
+    for cc in countries_:
+        mongo.db.country_names.insert({'cc': cc, 'name': countries_[cc]})
+
+@factory_bp.route('/missing')
+def missing():
+    from app import mongo
+    w_map_names = mongo.db.country_names.find({},{'_id':0,'cc':1})
+    s_map_names = list(mongo.db.c_maps.find({},{'_id':0,'cc':1}))
+    world_ccs=[]
+    map_ccs = []
+    for cc in s_map_names:
+        map_ccs.append(cc['cc'])
+    for cc2 in w_map_names:
+        world_ccs.append(cc2['cc'])
+
+
+    return dumps(list(set(map_ccs) - set(world_ccs))  )
+
+countryListAlpha3 = {"SD": "Sudan",
+                     "MA": "Morocco",
+
+                     }
 countryListAlpha2 = {"CA": "Canada",
                      "AF": "Afghanistan",
                      "AL": "Albania",

@@ -198,7 +198,7 @@
                 country_name = data.country_name
                 counties = data.counties
 
-                console.log(counties)
+
 
                 /*to prevent old graph on hover*/
                 clear_canvas()
@@ -212,7 +212,7 @@
             });
     }
 
-    function render_chart(chart_canvas, chart_for, feels, c_labels, B_colors, num_of_countries, num_of_days, location_name) {
+    function render_chart(chart_canvas, chart_for, feels, c_labels, B_colors, num_of_countries, num_of_days, location_name ) {
 
 
         var chart = new Chart(chart_canvas, {
@@ -233,7 +233,7 @@
                 legend: {display: false},
                 title: {
                     display: true,
-                    text: chart_for === 'countries' ? `Top ${num_of_countries} countries ` : `${chart_for === 'world' ? 'World' : location_name}   feel past ${num_of_days} days `
+                    text: chart_for === 'countries' ? `Top ${num_of_countries} countries ` : `${chart_for === 'world' ? 'World' : location_name.replace(/\__/g, ' | ').replace(/\_/g, ' ')}   feel past ${num_of_days} days `
                 }
             }
         });
@@ -272,8 +272,7 @@
         /*CHANGING APPEARANCE OF BUTTONS*/
         $(`[data-chart_type=${oposite_charts[current]}]`).addClass('opaque');
         $(`[data-chart_type=${current}]`).removeClass('opaque');
-        console.log(oposite_charts[current])
-        console.log(current)
+
         /*DISPLAYING, HIDING CHARTS CONTROLS*/
 
         $('#' + current).removeClass('d-none')

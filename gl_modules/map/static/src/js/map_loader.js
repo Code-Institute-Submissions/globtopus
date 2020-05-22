@@ -5,7 +5,8 @@
         var people
         var paths = $('path')
         var svg_map = 'world'
-
+       var countries=[]
+        var counter = 0
         /*IF WE ARE ON LANDING PAGE, WE WILL LOAD FEELINGS DATA INTO
         * #THE MAP , AND APPLY DIFFERENT COLOR TO COUNTRIES,
         * ACCORDING TO THEIR FEELING RATING. OTHERWISE, WE ARE ON SIGN UP PAGE AND WE DON'T NEED
@@ -29,6 +30,11 @@
                         var feel = country_feels[$(this).attr('id')]
                         var c_name = $(this).data('cn2') ? $(this).data('cn2') : $(this).data('cn')
                         var cc = $(this).attr('id')
+                        if(countries.indexOf($(this).data('cn')) !== -1) doubles.push($(this).data('cn'))
+
+                        countries["'"+cc+"'"  ]= c_name+","
+
+
                         $(this).data('feel', feel)
 
                         if (feel < 20) {
@@ -168,7 +174,7 @@
             /*WE WILL LOAD SELECTED COUNTRY MAP AND ADD SELECTED COUNTRY TO INPUT FIELD*/
             if (level === 'country') {
                 $('#country_name').val(location)
-                $('#country_code').val(cc)
+                $('#cc').val(cc)
                 $('#r_all').html('')
 
                 /*LOADING DIMENSIONS OF THE MAP WITH LOCATIONS NAMES FROM DB AND
@@ -274,7 +280,7 @@
 
                 /*WE WILL CHANGE COLOR OF SELECTED LOCATION*/
                 $("[data-location='" + location + "']").attr('fill', '#20B2AA')
-                 if (screen.width < 768) $('.globi_logo').get(0).scrollIntoView(1, 'slow')
+                if (screen.width < 768) $('.globi_logo').get(0).scrollIntoView(1, 'slow')
 
             }
             swal.close()

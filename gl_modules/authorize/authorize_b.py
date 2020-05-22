@@ -1,3 +1,4 @@
+from bson.json_util import dumps
 from flask import Blueprint, render_template, redirect, url_for, request, flash, session
 
 import datetime
@@ -5,7 +6,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from gl_modules.shared.sanitize import sanitize
 from gl_modules.shared.today import today_f
-from gl_modules.shared.update_feel import update_country_feel, update_world_feel
+from gl_modules.shared.update_feel import update_country_feel, update_world_feel, update_county_feel
 from gl_modules.user.user_b import feelists
 
 authorize_bp = Blueprint('authorize_bp', __name__,
@@ -74,7 +75,8 @@ def login():
         user_name = user_to_check['name']
 
         last_login = user_to_check['last_login']
-        country_code = user_to_check['country_code']
+        country_code = user_to_check['cc']
+        county_name = user_to_check['cl']
         last_feel = user_to_check['last_feel']
         my_glob = user_to_check['my_globs'] if 'my_globs' in user_to_check else []
         my_likes = user_to_check['likes'] if 'likes' in user_to_check else []
@@ -126,10 +128,17 @@ def login():
 
             increase_people = 1
 
+        feel = int(user['user_feel']) - int(last_feel )
+
+
+        """
+            update_county_feel(mongo, country_code,county_name, people, feeling) 
+        """
+        update_county_feel(mongo, country_code, county_name, increase_people, feel)
         """updating country feel"""
-        update_country_feel(mongo, country_code, increase_people, int(user['user_feel']) - int(last_feel ))
+        update_country_feel(mongo, country_code, increase_people, feel)
         """updating world feel"""
-        update_world_feel(mongo, increase_people, int(user['user_feel']) - int(last_feel ) )
+        update_world_feel(mongo, increase_people, feel )
 
         session['user_feel'] = user['user_feel']
 
@@ -157,7 +166,7 @@ def register():
     #     flash('Please select how you feel!')
     #     return redirect(url_for('authorize_bp.sign_up'))
 
-    if new_user['country_code'] == '':
+    if new_user['cc'] == '':
         sticky_form(new_user)
 
         flash('Please select location on the map!')
@@ -194,10 +203,11 @@ def register():
         new_user['password'] = generate_password_hash(new_user['password'])
         new_user['created_at'] = datetime.datetime.now()
         new_user['last_login'] = datetime.datetime.now()
-        new_user['last_feel'] = 100
+        new_user['last_feel'] = 0
         new_user['likes'] = []
         new_user['flags'] = []
         new_user['user_feel'] = {datetime.datetime.now().strftime("%F"): 0}
+        del new_user['country']
         mongo.db.users.insert_one(new_user)
 
         #mongo.db.users.insert_one(new_user)
@@ -226,14 +236,14 @@ def session_user(form_data, register=False):
     if register:
         session['user_name'] = form_data['name']
         session['last_login'] = form_data['last_login']
-        session['user_country_code'] = form_data['country_code']
+        session['user_country_code'] = form_data['cc']
         session['user_feel'] = form_data['user_feel']
 
 
 def sticky_form(form_data):
-    session['form_country_code'] = form_data['country_code']
+    session['form_country_code'] = form_data['cc']
     session['form_country'] = form_data['country']
-    session['form_county'] = form_data['county']
+    session['form_county'] = form_data['cl']
     session['form_email'] = form_data['email']
     session['form_name'] = form_data['name']
-    session['form_location'] = form_data['country'] + '-' + form_data['county']
+

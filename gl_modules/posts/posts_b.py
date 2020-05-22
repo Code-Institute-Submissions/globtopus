@@ -118,10 +118,11 @@ def search():
                                 {"posts.because": {"$in": q}}
                                 ],
                         "$and": [
-                            {"country_code": cc},
+                            {"cc": cc},
 
 
-                        ]}}
+                        ]
+            }}
             ,
             {"$sort": {"posts.created_at": -1}},
             {"$limit": 20}
@@ -133,7 +134,7 @@ def search():
 
             {"$unwind": '$posts'},
             {"$match": {"$or": [
-                                {"country_code": cc},
+                                {"cc": cc},
                                 {"posts.i_feel": {"$in": q}},  # q is array
                                 {"posts.because": {"$in": q}}
                                 ],
@@ -295,19 +296,20 @@ def user_posts():
     from app import mongo
     user = mongo.db.users.find_one({"_id": ObjectId(user_id)})
     user_posts = []
-    for post in user['posts']:
-        user_posts.append({
-            'name': user['name'],
-            'i_feel': post['i_feel'],
-            'because': post['because'],
-            'action': post['action'],
-            'created_at': post['created_at'].strftime("%F"),
-            'post_id': post['post_id'],
-            'likes': post['likes'] if 'likes' in post else 0,
-            'flags': post['flags'] if 'flags' in post else 0,
-            'additions': post['additions'] if 'additions' in post else 0,
+    if 'posts' in user:
+        for post in user['posts']:
+            user_posts.append({
+                'name': user['name'],
+                'i_feel': post['i_feel'],
+                'because': post['because'],
+                'action': post['action'],
+                'created_at': post['created_at'].strftime("%F"),
+                'post_id': post['post_id'],
+                'likes': post['likes'] if 'likes' in post else 0,
+                'flags': post['flags'] if 'flags' in post else 0,
+                'additions': post['additions'] if 'additions' in post else 0,
 
-        })
+            })
 
     return jsonify(user_posts=user_posts)
 

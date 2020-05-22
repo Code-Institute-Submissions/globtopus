@@ -2,6 +2,8 @@ import datetime
 import random
 from json import dump
 
+from bson.json_util import dumps
+
 from gl_modules.factory.factory_b import get_country_name, cc_with_counties
 from flask import Blueprint, request, jsonify
 
@@ -61,10 +63,13 @@ def charts_data():
                 {"$limit": num_of_countries}
             ]
         )
+
         for feel in country_feel:
+
             countries.append(get_country_name(feel['country_code']))
             country_codes.append(feel['country_code'])
             feels.append(str(round(feel['total'], 2)))
+
 
         return jsonify(feels=feels, labels=countries, B_colors=get_colors(num_of_countries),
                        country_codes=country_codes)
