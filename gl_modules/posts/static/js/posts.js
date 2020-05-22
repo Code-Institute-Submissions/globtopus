@@ -8,6 +8,16 @@
 * */
 $(function () {
 
+    /*GETTING LATEST POSTS ON INITIAL PAGE LOAD,
+    * IF WE ARE ON COUNTRY PAGE, WE WILL RENDER
+    * POSTS FROM THAT COUNTRY, IF ON LANDING PAGE
+    * POSTS FROM THE WORLD
+    *
+    * TO DO: GET POSTS ACCORDING TO BROWSER LANGUAGE,
+    *       ADD LANGUAGE TO USER OBJECT AND POST ITSELF*/
+
+
+    latest_posts($('#c_search').data('cc') ? $('#c_search').data('cc') : '')
 
     $('#search,#c_search').on('click', function () {
 
@@ -20,14 +30,12 @@ $(function () {
 
             function (data) {
 
-                var search_results = data.result
-                var authorized_user = data.authorized_user
 
                 var results = $("#search_results").html('');
                 if (screen.width < 768) results.get(0).scrollIntoView();
 
                 /*WE HAVE NO RESULTS*/
-                if (search_results.length === 0) {
+                if (data.result.length === 0) {
 
                     results.append(` 
                 <h4 class="smaller_h"> There are no actions for how you feeling now :
@@ -38,132 +46,46 @@ $(function () {
                 /*WE HAVE RESULTS*/
                 else {
 
-                    var counter = 1
-                    /*APPENDING SEARCH RESULTS*/
-                    $.each(search_results, function (key, post) {
 
-
-                        results.append(`
-
-                    <div class="row mb-2 border_blue_l pt-2">
-                     <!--APPENDING  ACTION,-->
-                        <div class="col-md-8 pb-2">
-                                <span >I feel :</span>  
-                               <span class="text-info" >${post.i_feel.join(' ')}  </span>
-                               <span >because :</span>
-                               <span  class="text-info">${post.because.join(' ')}  </span> <br>
-                        
-                              <span>${post.action}</span> 
-                            <br>
-                            <i  data-id="${post.id}"  data-action="likes"
-                            class="fas fa-heart float-right ml-3 gl_action" title="like it!" >
-                            <span id="likes_${post.id}" >&nbsp;${post.likes}</span> </i> 
-          
-                            <i   data-id="${post.id}"  data-action="additions"
-                            class="fas fa-plus float-right ml-3 add_to_feelist" title="add to your feelist!">
-                            <span id="additions_${post.id}" ></span>
-                            </i>
-                            <i  data-id="${post.id}"  data-action="flags"
-                            class="far fa-flag float-right ml-3 gl_action" title="report as inappropriate">
-                             <span id="flags_${post.id}" ></span>
-                                    </i>
-                        </div>
-                            <!--INFO ABOUT GLOBBER-->
-                        <div class="col-md-4 ">
-                        
-                            <img class="avatar" src="assets/dist/images/avatars/${counter % 38}.png"/>
-                            <a href="/user/${post.user_id}" class="user">
-                             ${post.name}  ${post.user_feel} 
-                             </a> 
-                              <span class="float-right remove_from_glob blue removed_from_glob${post.user_id}
-                             ${post.in_my_glob === 1 ? '' : 'd-none'}" 
-                             data-user_id="${post.user_id}" 
-                             data-user_name="${post.name}"
-                             data-user_action="removed_from_glob"
-                             title="Remove me from your glob !">
-                             <i class="fas fa-user-minus"></i>
-                             </span>
-                             <span class="float-right add_to_glob blue added_to_glob${post.user_id}
-                            ${post.in_my_glob !== 1 ? '' : 'd-none'}" 
-                             data-user_id="${post.user_id}" 
-                             data-user_name="${post.name}"
-                              data-user_action="added_to_glob"
-                             title="Add me to your glob !">
-                             <i class="fas fa-user-plus"></i>
-                             </span>
-                             <br>
-                             <span class="action_response_r${post.user_id}">${post.created_at}</span>
-                              <span class="action_response_a${post.user_id}"></span>
-                              <hr class="p-0 m-1">
-                              
-                                
-
-                        </div>
-                        
-                    </div>
-
-
-                `)
-                        counter++
-                    })
+                    render_posts(data.result)
                 }
 
 
                 /*APPENDING EVENT LISTENERS AFTER RENDERING SEARCH RESULTS
                 * AFTER AJAX CALL*/
+                add_listeners(data.authorized_user,data.feelists)
 
-                /*BUTTON + WHEN USER WANTS TO ADD ACTION TO HIS FEELIST WE WILL
-                * FIRE ALERT WITH HIS FEELISTS INTO WHICH HE CAN ADD
-                * THIS ACTION, OR HE HAS OPTION OF CREATING NEW FEELIST
-                * AND ADD ACTION TO NEW FEELIST*/
-                $('.add_to_feelist').on('click', function () {
-
-                    add_to_feelist($(this), authorized_user, Object.keys(data.feelists))
-                })
-
-                /*BY CLICKING ON HEARTH ICON TO LIKE OR FLAG ICON TO FLAG
-                * ACTION AS INAPPROPRIATE WE WILL UPDATE DB*/
-                $('.gl_action').on('click', function () {
-
-                    post_action($(this), authorized_user);
-                })
-
-                /*USER CAN ADD ANOTHER USER INTO HIS GLOB TO SEE POSTS FROM THIS USER*/
-                $('.add_to_glob,.remove_from_glob').on('click', function () {
-
-
-                    globe_action($(this), authorized_user)
-                })
 
             });
 
 
     });
 
+
     /*APPENDING EVENT LISTENERS ON PUBLIC USER PAGE
                * NOT AJAX CALL*/
     if (window.location.pathname.includes('/user/')) {
-         $.getJSON('/is_authorized',{},function (is_authorized) {
-              var authorized_user = is_authorized.user
-             var feelists = is_authorized.feelists
-             console.log(authorized_user)
-        $('.add_to_feelist').on('click', function () {
+        $.getJSON('/is_authorized', {}, function (is_authorized) {
+            var authorized_user = is_authorized.user
+            var feelists = is_authorized.feelists
 
-            add_to_feelist($(this), authorized_user, Object.keys(feelists))
-        })
+            $('.add_to_feelist').on('click', function () {
 
-        /*BY CLICKING ON HEARTH ICON TO LIKE OR FLAG ICON TO FLAG
-        * ACTION AS INAPPROPRIATE WE WILL UPDATE DB*/
-        $('.gl_action').on('click', function () {
+                add_to_feelist($(this), authorized_user, Object.keys(feelists))
+            })
 
-            post_action($(this), authorized_user);
-        })
+            /*BY CLICKING ON HEARTH ICON TO LIKE OR FLAG ICON TO FLAG
+            * ACTION AS INAPPROPRIATE WE WILL UPDATE DB*/
+            $('.gl_action').on('click', function () {
 
-        /*USER CAN ADD ANOTHER USER INTO HIS GLOB TO SEE POSTS FROM THIS USER*/
-        $('.add_to_glob,.remove_from_glob').on('click', function () {
+                post_action($(this), authorized_user);
+            })
 
-            globe_action($(this), authorized_user)
-        })
+            /*USER CAN ADD ANOTHER USER INTO HIS GLOB TO SEE POSTS FROM THIS USER*/
+            $('.add_to_glob,.remove_from_glob').on('click', function () {
+
+                globe_action($(this), authorized_user)
+            })
         })
 
 
@@ -198,13 +120,13 @@ $(function () {
                         $('.added_to_glob' + user_id).addClass('d-none')
                         $('.removed_from_glob' + user_id).removeClass('d-none')
 
-                        happy_toast( `${user_name} was added!`)
+                        happy_toast(`${user_name} was added!`)
 
                     } else if (response.text === 'success' && user_action === 'removed_from_glob') {
                         $('.added_to_glob' + user_id).removeClass('d-none')
                         $('.removed_from_glob' + user_id).addClass('d-none')
 
-                         sad_toast( `${user_name} was removed!`)
+                        sad_toast(`${user_name} was removed!`)
 
                     }
 
@@ -288,18 +210,16 @@ $(function () {
                     else {
 
                         var action_el = $('#' + action + '_' + post_id)
-                        if(action === 'likes'){
-                             action_el.text(parseInt(action_el.text()) + 1)
-                            .addClass('blue bg-warning p-1')
-                            .prop('disabled', 'disabled')
+                        if (action === 'likes') {
+                            action_el.text(parseInt(action_el.text()) + 1)
+                                .addClass('blue bg-warning p-1')
+                                .prop('disabled', 'disabled')
                         }
 
 
-
-
-                         happy_toast( `${action === 'likes'
-                                ? `liked` : `${action === 'flags' ? `flagged` : `added`}`
-                            }!`)
+                        happy_toast(`${action === 'likes'
+                            ? `liked` : `${action === 'flags' ? `flagged` : `added`}`
+                        }!`)
 
                     }
 
@@ -397,7 +317,7 @@ $(function () {
         })
         /*BY CLICKING ON save BUTTON HE CAN SAVE ACTION TO HIS FEELIST*/
         $('.save_feelist').on('click', function () {
-            post_action($(this),authorized_user);
+            post_action($(this), authorized_user);
 
         })
 
@@ -409,20 +329,127 @@ $(function () {
         })
     }
 
-    function happy_toast(message)
-    {
-         Toast.fire({
-                            html: ` <img  src="/assets/dist/images/happy.png"/>
+    function happy_toast(message) {
+        Toast.fire({
+            html: ` <img  src="/assets/dist/images/happy.png"/>
                                                     <p class="text-success">${message}</h4> `
-                        })
+        })
     }
 
-    function sad_toast(message)
-    {
-         Toast.fire({
-                            html: ` <img  src="/assets/dist/images/sad.png"/>
+    function sad_toast(message) {
+        Toast.fire({
+            html: ` <img  src="/assets/dist/images/sad.png"/>
                                                     <p class="text-danger">${message}</h4> `
-                        })
+        })
+    }
+
+    function render_posts(posts) {
+        var counter = 1
+        $.each(posts, function (key, post) {
+
+
+            $("#search_results").append(`
+
+                    <div class="row mb-2 border_blue_l pt-2">
+                     <!--APPENDING  ACTION,-->
+                        <div class="col-md-8 pb-2">
+                                <span >I feel :</span>  
+                               <span class="text-info" >${post.i_feel.join(' ')}  </span>
+                               <span >because :</span>
+                               <span  class="text-info">${post.because.join(' ')}  </span> <br>
+                        
+                              <span>${post.action}</span> 
+                            <br>
+                            <i  data-id="${post.id}"  data-action="likes"
+                            class="fas fa-heart float-right ml-3 gl_action" title="like it!" >
+                            <span id="likes_${post.id}" >&nbsp;${post.likes}</span> </i> 
+          
+                            <i   data-id="${post.id}"  data-action="additions"
+                            class="fas fa-plus float-right ml-3 add_to_feelist" title="add to your feelist!">
+                            <span id="additions_${post.id}" ></span>
+                            </i>
+                            <i  data-id="${post.id}"  data-action="flags"
+                            class="far fa-flag float-right ml-3 gl_action" title="report as inappropriate">
+                             <span id="flags_${post.id}" ></span>
+                                    </i>
+                        </div>
+                            <!--INFO ABOUT GLOBBER-->
+                        <div class="col-md-4 ">
+                        
+                            <img class="avatar" src="assets/dist/images/avatars/${counter % 38}.png"/>
+                            <a href="/user/${post.user_id}" class="user">
+                             ${post.name}  ${post.user_feel} 
+                             </a> 
+                              <span class="float-right remove_from_glob blue removed_from_glob${post.user_id}
+                             ${post.in_my_glob === 1 ? '' : 'd-none'}" 
+                             data-user_id="${post.user_id}" 
+                             data-user_name="${post.name}"
+                             data-user_action="removed_from_glob"
+                             title="Remove me from your glob !">
+                             <i class="fas fa-user-minus"></i>
+                             </span>
+                             <span class="float-right add_to_glob blue added_to_glob${post.user_id}
+                            ${post.in_my_glob !== 1 ? '' : 'd-none'}" 
+                             data-user_id="${post.user_id}" 
+                             data-user_name="${post.name}"
+                              data-user_action="added_to_glob"
+                             title="Add me to your glob !">
+                             <i class="fas fa-user-plus"></i>
+                             </span>
+                             <br>
+                             <span class="action_response_r${post.user_id}">${post.created_at}</span>
+                              <span class="action_response_a${post.user_id}"></span>
+                              <hr class="p-0 m-1">
+                        </div>
+                    </div>
+
+
+                `)
+
+            counter++
+        })
+    }
+
+    function latest_posts(cc) {
+
+        $('#post_search').removeClass('d-none');
+        $.getJSON('/_search',
+            {
+                q: '',
+                cc: cc
+            },
+            function (latest) {
+
+                render_posts(latest.result)
+                add_listeners(latest.authorized_user,latest.feelists)
+            })
+    }
+
+    /*APPENDING EVENT LISTENERS AFTER RENDERING SEARCH RESULTS
+    * AFTER AJAX CALL*/
+    function add_listeners(authorized_user, feelists) {
+        /*BUTTON + WHEN USER WANTS TO ADD ACTION TO HIS FEELIST WE WILL
+               * FIRE ALERT WITH HIS FEELISTS INTO WHICH HE CAN ADD
+               * THIS ACTION, OR HE HAS OPTION OF CREATING NEW FEELIST
+               * AND ADD ACTION TO NEW FEELIST*/
+        $('.add_to_feelist').on('click', function () {
+
+            add_to_feelist($(this), authorized_user, Object.keys(feelists))
+        })
+
+        /*BY CLICKING ON HEARTH ICON TO LIKE OR FLAG ICON TO FLAG
+        * ACTION AS INAPPROPRIATE WE WILL UPDATE DB*/
+        $('.gl_action').on('click', function () {
+
+            post_action($(this), authorized_user);
+        })
+
+        /*USER CAN ADD ANOTHER USER INTO HIS GLOB TO SEE POSTS FROM THIS USER*/
+        $('.add_to_glob,.remove_from_glob').on('click', function () {
+
+
+            globe_action($(this), authorized_user)
+        })
     }
 });
 

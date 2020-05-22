@@ -39,7 +39,7 @@
 
 
                 <!--SLIDER WITH TEXT AREAS FOR INPUTING HOW DOES USER FEELS-->
-                <div class="col-lg-4 int_steps  parent mr-2 p-2  align-content-around flex-wrap d-none feel_form  d-md-block" id="how_do_you_feel">
+                <div class="col-lg-4 int_steps  parent mr-2 p-2  align-content-around flex-wrap  feel_form d-none d-md-block" id="how_do_you_feel">
                     <div class="col-md-12"><h4 class="smaller_h text-center">How do you feel?</h4></div>
                     <div class="col-md-12">
                         <input type="text" class="form-control border_bottom_only mb-1 form_label" form="user_feel" id="one"
@@ -58,7 +58,7 @@
                          </div>
                 </div>
                 <!--STEPS TO FEEL THIS WAY OR BETTER-->
-                <div class="col int_steps p-2 parent  align-content-around flex-wrap feel_form d-none feel_form d-md-block" id="what_do_you_do">
+                <div class="col int_steps p-2 parent  align-content-around flex-wrap feel_form  feel_form d-none d-md-block" id="what_do_you_do">
                     <div class="col-md-12">
                         <h4 class="smaller_h one_thing text-center">What is the one thing that you will do
                             <span id="better" class=" text-center ">to feel better?</span>
@@ -94,9 +94,11 @@
         </div>
     </form>
 </section>
+
 <section id="post_search" class="mt-2 landing_interaction d-none">
     {{ search_box() }}
     <div id="search_results">
+
     </div>
 </section>
 <section id="map_search" class="mt-2 landing_interaction d-none">

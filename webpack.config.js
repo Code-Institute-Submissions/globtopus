@@ -39,7 +39,7 @@ var landing = Object.assign ( {}, config, {
 
 	entry  : [
 
-		'./gl_modules/landing/static/src/js/show_search.js',
+		'./gl_modules/landing/static/src/js/landing.js',
 		'./gl_modules/shared/static/js/feel_meter.js',
 		'./gl_modules/shared/static/js/form_label.js',
 		'./gl_modules/posts/static/js/posts.js',
@@ -59,6 +59,7 @@ var user = Object.assign ( {}, config, {
 
 	entry  : [
 		'./gl_modules/user/static/src/js/user.js',
+		'./gl_modules/posts/static/js/posts.js',
 	],
 	output : {
 		path     : path.resolve ( __dirname, dist ),

@@ -27,6 +27,8 @@ $(function () {
         if (screen.width < 768) map_search.get(0).scrollIntoView(1, 'slow')
 
     })
+
+
 })
 
 

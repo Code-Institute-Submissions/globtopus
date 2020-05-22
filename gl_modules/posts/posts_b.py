@@ -99,6 +99,7 @@ def search():
     cc = request.args.get('cc', 0, type=str)
 
     results = []
+    search_results=[]
     from app import mongo
 
     """SEARCHING DB FOR WORDS USER TYPES IN SEARCH BOX IN 
@@ -108,6 +109,10 @@ def search():
     
     AND WE WILL DISPLAY i_feel and because VALUES ALONG 
     ACTIONS GLOBBERS TOOK TO FEEL THAT WAY OR BETTER"""
+
+    """
+       WE HAVE QUERY STRING AND COUNTRY CODE 
+    """
     if cc and q :
         search_results = mongo.db.users.aggregate([
 
@@ -128,7 +133,22 @@ def search():
             {"$limit": 20}
 
         ])
+        """
+           INITIAL PAGE LOAD ON LANDING.HTML 
+        """
+    elif cc == '' and q == []:
 
+        search_results = mongo.db.users.aggregate([
+
+            {"$unwind": '$posts'},
+
+            {"$sort": {"posts.created_at": -1}},
+            {"$limit": 20}
+
+        ])
+        """
+           INITIAL LOAD ON COUNTRY PAGE 
+        """
     elif cc != '':
         search_results = mongo.db.users.aggregate([
 
@@ -145,7 +165,11 @@ def search():
 
         ])
 
-    else:
+
+        """
+            SEARCH ON LANDING PAGE
+        """
+    elif q != []:
 
         search_results = mongo.db.users.aggregate([
 
@@ -160,7 +184,8 @@ def search():
             {"$limit": 20}
 
         ])
-    #return dumps(search_results)
+
+
     for result in search_results:
         results.append(
             {

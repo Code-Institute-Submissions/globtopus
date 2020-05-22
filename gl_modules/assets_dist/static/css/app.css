@@ -17,7 +17,17 @@ h2, h3, h4 {
   letter-spacing: 4px;
   color: #0e4963;
 }
+.user_mobile_nav{
+  font-size: 0.7em;
+  padding: 5px;
+}
 
+#globber_list_mobile,#list_of_feelists_mobile{
+  overflow: auto;
+max-height: 100px;
+
+
+}
 .country_name {
   font-family: Oswald, sans-serif;
   letter-spacing: 4px;

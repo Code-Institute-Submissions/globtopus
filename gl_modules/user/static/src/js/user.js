@@ -1,5 +1,5 @@
 (function () {
-   const Toast = Swal.mixin({
+    const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
@@ -33,13 +33,14 @@
         }
     });
 
-    $('#my_feelist').on('click', function () {
+    $('.my_feelist').on('click', function () {
 
 
-        if ($('#list_of_feelists').text().replace(/\s/g, "") ===''){
-              $('.user_interaction').addClass('d-none')
-              $('#feelists').removeClass('d-none')
-}
+        if ($('#list_of_feelists').text().replace(/\s/g, "") === '') {
+            $('.user_interaction').addClass('d-none')
+            $('#feelists').removeClass('d-none')
+            $('#globber_list_mobile').removeClass('collapse')
+        }
     })
     $('.feelist').on('click', function () {
 
@@ -51,7 +52,7 @@
 
             function (response) {
 
-              if (response.f_actions) {
+                if (response.f_actions) {
 
                     render_posts($('#feelists'),
                         response.f_actions,
@@ -165,18 +166,17 @@
 
     })
 
-    $('#my_glob').on('click', function () {
+    $('.my_glob').on('click', function () {
 
-        var glober_list = $('#list_of_globers')
+        var glober_list = $('.list_of_globers')
 
 
         $.getJSON('/my_glob',
             {},
             function (data) {
 
-                if(data.my_glob.length === 0)
-                {
-                     $('.user_interaction').addClass('d-none')
+                if (data.my_glob.length === 0) {
+                    $('.user_interaction').addClass('d-none')
                     $('#glob').removeClass('d-none')
                 }
                 glober_list.html('')
@@ -185,7 +185,9 @@
                                             data-glober_id="${glober.id}" data-glober_name="${glober.name}">${glober.name}</li>`)
                 })
 
-
+                glober_list.prepend(`
+                    <span class="p-1 text-light"><i class="fas fa-user-friends"></i> &nbsp;My globe</span>`)
+                glober_list.append(` <br>`)
                 $('.glober').on('click', function () {
 
                     var glober_name = $(this).data('glober_name')
@@ -212,8 +214,8 @@
 
                                 Swal.fire({
                                     html: `     <img  src="assets/dist/images/sad.png"/>
-                                    <h4 class="danger_title">Remove ${glober_name} from your globe?</h4>
-                                   `,
+                                            <h4 class="danger_title">Remove ${glober_name} from your globe?</h4>
+                                           `,
 
                                     showCancelButton: true,
                                     buttonsStyling: false,
@@ -227,42 +229,43 @@
                                 }).then((result) => {
                                     if (result.value) {
                                         $.getJSON('/glob_action',
-                                    {
-                                        user_id: $(this).data('glober_id'),
-                                        user_action: 'removed_from_glob'
-                                    },
-                                    function (response) {
-                                        if (response.text === 'success') {
-                                            $('#glob').html('')
-                                            Toast.fire({html: ` <img  src="assets/dist/images/happy.png"/>
-                                                    <p class="text-success">${glober_name} was removed !</h4> `})
+                                            {
+                                                user_id: $(this).data('glober_id'),
+                                                user_action: 'removed_from_glob'
+                                            },
+                                            function (response) {
+                                                if (response.text === 'success') {
+                                                    $('#glob').html('')
+                                                    Toast.fire({
+                                                        html: ` <img  src="assets/dist/images/happy.png"/>
+                                                            <p class="text-success">${glober_name} was removed !</h4> `
+                                                    })
 
-                                        }
-                                    })
+                                                }
+                                            })
                                     }
                                 })
 
                             })
                         })
+
+                    $('#user').get(0).scrollIntoView()
                 })
             })
 
 
     })
 
-    $('#my_posts').on('click', function () {
+    $('.my_posts').on('click', function () {
 
 
         $.getJSON('/user_posts',
             {user_id: $(this).data('user_id')},
             function (response) {
-             if(response.user_posts.length === 0)
-                {
-                     $('.user_interaction').addClass('d-none')
+                if (response.user_posts.length === 0) {
+                    $('.user_interaction').addClass('d-none')
                     $('#posts').removeClass('d-none')
-                }
-
-               else if (response.user_posts) {
+                } else if (response.user_posts) {
                     render_posts($('#posts'),
                         response.user_posts,
                         "My Posts",
@@ -418,17 +421,15 @@
             })
     })
 
-    $('#my_fav').on('click', function () {
+    $('.my_fav').on('click', function () {
 
         $.getJSON('/my_fav_posts',
             {},
             function (response) {
-            if(response.my_favs.length === 0)
-                {
-                     $('.user_interaction').addClass('d-none')
+                if (response.my_favs.length === 0) {
+                    $('.user_interaction').addClass('d-none')
                     $('#favourites').removeClass('d-none')
-                }
-                else if (response.my_favs) {
+                } else if (response.my_favs) {
                     render_posts($('#favourites'),
                         response.my_favs,
                         "My Favourites",
