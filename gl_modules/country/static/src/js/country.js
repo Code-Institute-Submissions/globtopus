@@ -62,6 +62,8 @@
 
 
             })
+
+
             $('#r_100,#r_80,#r_60,#r_40,#r_20,#r_all').append(`<br>`)
             new_map += `</svg> <div class="row no-gutters">
                 <div class="col-md-6  text-center border_green border_bottom_only p-2">

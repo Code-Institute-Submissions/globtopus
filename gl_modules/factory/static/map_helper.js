@@ -407,7 +407,7 @@ $('#send_to_db').on('click', function () {
                     function (Svg) {
                         var c_c = Svg.c_c
 
-                        var new_map = ` <svg xmlns="http://www.w3.org/2000/svg" id="country_map" x="0" y="0" baseProfile="tiny" viewBox="0 -100 1600 840" xml:space="preserve">`
+                        var new_map = ` <svg xmlns="http://www.w3.org/2000/svg" id="country_map" x="0" y="0" baseProfile="tiny" viewBox="0 0 660 447" xml:space="preserve">`
 
                         var locations = ''
 

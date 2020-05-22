@@ -44,6 +44,7 @@ var landing = Object.assign ( {}, config, {
 		'./gl_modules/shared/static/js/form_label.js',
 		'./gl_modules/posts/static/js/posts.js',
 		'./gl_modules/charts/static/js/charts.js',
+		'./gl_modules/map/static/src/js/map_loader.js',
 
 
 
@@ -97,9 +98,11 @@ var sign_up = Object.assign ( {}, config, {
 	entry  : [
 
 
-		'./gl_modules/authorize/static/src/js/get_location.js',
+		'./gl_modules/authorize/static/src/js/form_check.js',
 		'./gl_modules/shared/static/js/feel_meter.js',
 		'./gl_modules/shared/static/js/form_label.js',
+
+		'./gl_modules/map/static/src/js/map_loader.js',
 
 	],
 	output : {

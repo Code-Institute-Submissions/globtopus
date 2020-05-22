@@ -13,8 +13,10 @@ country_bp = Blueprint('country_bp', __name__,
 
 @country_bp.route('<country_code>', methods=['GET'])
 def country(country_code):
-    from app import mongo
 
+
+    from app import mongo
+    #return dumps(country_code)
     posts = []
     search_results = mongo.db.users.aggregate([
 
