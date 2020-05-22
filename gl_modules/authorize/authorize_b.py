@@ -74,7 +74,7 @@ def login():
         user_name = user_to_check['name']
 
         last_login = user_to_check['last_login']
-        country_code = user_to_check['country_code']
+        country_code = user_to_check['cc']
         last_feel = user_to_check['last_feel']
         my_glob = user_to_check['my_globs'] if 'my_globs' in user_to_check else []
         my_likes = user_to_check['likes'] if 'likes' in user_to_check else []
