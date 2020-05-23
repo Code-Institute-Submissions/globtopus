@@ -82,18 +82,19 @@ var public_user = Object.assign ( {}, config, {
 	watch  : true
 } );
 
-// var admin = Object.assign ( {}, config, {
-//
-// 	entry  : [
-// 		'./static_old/src/js/user.js',
-//
-// 	],
-// 	output : {
-// 		path     : path.resolve ( __dirname, 'static_old/dist/js' ),
-// 		filename : "admin.js"
-// 	},
-// 	watch  : true
-// } );
+var admin = Object.assign ( {}, config, {
+
+	entry  : [
+		'./gl_modules/admin/static/js/admin.js',
+
+
+	],
+	output : {
+		path     : path.resolve ( __dirname, dist ),
+		filename : "admin.js"
+	},
+	watch  : true
+} );
 
 var sign_up = Object.assign ( {}, config, {
 
@@ -136,6 +137,6 @@ var sign_in = Object.assign ( {}, config, {
 // Return Array of Configurations
 module.exports = [
 
-	landing, user,  sign_in, sign_up, country,public_user
+	landing, user,  sign_in, sign_up, country,public_user,admin
 
 ];

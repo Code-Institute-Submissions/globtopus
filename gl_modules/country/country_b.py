@@ -3,7 +3,7 @@ import random
 from bson.json_util import dumps
 from flask import Blueprint, render_template, jsonify, session, request
 
-from gl_modules.factory.factory_b import get_country_name
+from gl_modules.factory.factory_b import get_country_name, cc_with_counties
 
 country_bp = Blueprint('country_bp', __name__,
                        template_folder='templates',
@@ -16,7 +16,7 @@ def country(country_code):
 
 
     from app import mongo
-    #return dumps(country_code)
+
     posts = []
     search_results = mongo.db.users.aggregate([
 

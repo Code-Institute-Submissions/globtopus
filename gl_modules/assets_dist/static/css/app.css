@@ -34,7 +34,11 @@ max-height: 100px;
   color: #0e4963;
   font-size: 1.4em;
 }
-
+h4.error{
+   font-size: 2em;
+  font-family: 'Exo 2', sans-serif;
+  color: rgba(23, 113, 153, 0.55);
+}
 h4.feelist_title {
   text-transform: none;
 }
@@ -157,7 +161,7 @@ h4.danger_title {
   font-size: 1em;
   font-family: Oswald, sans-serif;
   letter-spacing: 4px;
-  padding-right: 55px;
+
 }
 
 #feeling_holder.sign_up {
@@ -175,7 +179,7 @@ h4.danger_title {
 .child_at_bottom {
   position: absolute;
   bottom: 0;
-  margin: 10px 0 0 10px;
+
 }
 
 .initial_interaction {
@@ -538,7 +542,9 @@ a:hover {
   background-size: 12%;
   background-position: center center;
 }
-
+.user_heart.post{
+   background-size: 80%;
+}
 /*REMOVING CARET FROM DROPDOWN UNDER USER ICON IN THE TOP RIGHT CORNER OF NAVIGATION*/
 .caret-off::before {
   display: none;
@@ -627,6 +633,10 @@ a:hover {
   .initial_interaction.user {
     font-size: 1.5em;
   }
+  h4.error{
+   font-size: 1em;
+
+}
 }
 
 /*SMALLER SIZES FOR PROGRESS STEPS */

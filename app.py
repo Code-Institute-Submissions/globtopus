@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, render_template
 from flask_pymongo import PyMongo
 
 app = Flask(__name__)
@@ -21,6 +21,8 @@ import gl_modules.charts.charts_b as charts_m
 import gl_modules.factory.factory_b as factory_m
 import gl_modules.map.map_b as map_m
 import gl_modules.country.country_b as country_m
+import gl_modules.admin.admin_b as admin_m
+import gl_modules.errors.errors_b as errors_m
 
 app.register_blueprint(landing_m.landing_bp, url_prefix='/')
 app.register_blueprint(user_m.user_bp, url_prefix='/')
@@ -31,8 +33,15 @@ app.register_blueprint(posts_m.posts_bp, url_prefix='/')
 app.register_blueprint(charts_m.charts_bp, url_prefix='/')
 app.register_blueprint(factory_m.factory_bp, url_prefix='/')
 app.register_blueprint(map_m.map_bp, url_prefix='/')
+app.register_blueprint(admin_m.admin_bp, url_prefix='/')
+app.register_blueprint(errors_m.errors_bp, url_prefix='/')
 app.register_blueprint(country_m.country_bp, url_prefix='/')
 
+
+
+@app.errorhandler(Exception)
+def basic_error(e):
+    return render_template('errors/error.html',e=e)
 
 if __name__ == '__main__':
     app.run(

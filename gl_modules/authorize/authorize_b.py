@@ -18,8 +18,6 @@ authorize_bp = Blueprint('authorize_bp', __name__,
 
 @authorize_bp.route('/sign_up')
 def sign_up():
-
-
     return render_template('authorize/sign_up.html')
 
 
@@ -51,7 +49,7 @@ def login():
     #
     #         user_feelists[feelist['name']] = feelist['post_ids']
 
-    #return dumps(user_feelists)
+    # return dumps(user_feelists)
     if user['user_feel'] == '':
         """remembering user email and displaying it 
         in the form or redirect, so that user doesn't have to type 
@@ -62,12 +60,14 @@ def login():
 
         return redirect(url_for('authorize_bp.sign_in'))
 
-
     user_password = user_to_check['password']
     user_email = user_to_check['email']
 
     """if we have user with those credentials we will log user """
     if check_password_hash(user_password, user['password']) and user_email == user['email']:
+
+
+
 
         db_feelists = user_to_check['my_feelists'] if 'my_feelists' in user_to_check else []
         user['last_login'] = datetime.datetime.now()
@@ -78,8 +78,6 @@ def login():
         cl = user_to_check['cl']
 
         feeling = int(user['user_feel']) - int(user_to_check['last_feel'])
-
-
 
         my_glob = user_to_check['my_globs'] if 'my_globs' in user_to_check else []
         my_likes = user_to_check['likes'] if 'likes' in user_to_check else []
@@ -109,7 +107,6 @@ def login():
 
         session_user(user)
 
-
         """IF CURRENTLY LOGGED IN USER ALREADY SET HIS FEELING FOR THE DAY WE WILL NOT INCREASE 
         NUMBER OF PEOPLE IN world_feel and country_feel COLECTIONS , 
         WE WILL ONLY RECALCULATE FEELINGS 
@@ -133,17 +130,21 @@ def login():
 
             increase_people = 1
 
-
-
         """updating country feel"""
-        update_county_feel(mongo, country_code,cl, increase_people, feeling)
+        update_county_feel(mongo, country_code, cl, increase_people, feeling)
 
         """updating country feel"""
         update_country_feel(mongo, country_code, increase_people, feeling)
         """updating world feel"""
-        update_world_feel(mongo, increase_people, feeling )
+        update_world_feel(mongo, increase_people, feeling)
 
         session['user_feel'] = user['user_feel']
+        """
+           REDIRECT ADMIN TO ADMIN DASHBOARD 
+        """
+        if user['email'] == 'marcel@globi.com' and check_password_hash(user_password, user['password']):
+            session['authorized_admin'] = True
+            return redirect(url_for('admin_bp.admin'))
 
         return redirect(url_for('user_bp.user'))
     else:
@@ -188,12 +189,11 @@ def register():
 
     else:
 
-
         """we will register user and set his id into session 
         redirect to user dashboard and change nav to logout instead of login | sign up"""
         session.clear()
 
-       # new user
+        # new user
         user_name_split = new_user['name'].split(' ')
         user_name = ''
         counter = 0
@@ -210,12 +210,12 @@ def register():
         new_user['likes'] = []
         new_user['flags'] = []
         new_user['user_feel'] = {datetime.datetime.now().strftime("%F"): 0}
-        new_user['cl'] =  new_user['cl'].replace(' | ','__').replace(' ','_')
+        new_user['cl'] = new_user['cl'].replace(' | ', '__').replace(' ', '_')
         del new_user['country']
         mongo.db.users.insert_one(new_user)
 
-        #mongo.db.users.insert_one(new_user)
-        flash('Thank you for signing up '+ new_user['name']+'. You can log in now !')
+        # mongo.db.users.insert_one(new_user)
+        flash('Thank you for signing up ' + new_user['name'] + '. You can log in now !')
         return redirect(url_for('authorize_bp.sign_in'))
 
 
@@ -240,14 +240,13 @@ def session_user(form_data, register=False):
     if register:
         session['user_name'] = form_data['name']
         session['last_login'] = form_data['last_login']
-        session['user_country_code'] = form_data['country_code']
+        session['user_country_code'] = form_data['cc']
         session['user_feel'] = form_data['user_feel']
 
 
 def sticky_form(form_data):
-    session['form_country_code'] = form_data['country_code']
+    session['form_country_code'] = form_data['cc']
     session['form_country'] = form_data['country']
-    session['form_county'] = form_data['county']
+    session['form_county'] = form_data['cl']
     session['form_email'] = form_data['email']
     session['form_name'] = form_data['name']
-    session['form_location'] = form_data['country'] + '-' + form_data['county']

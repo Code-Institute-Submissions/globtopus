@@ -13,7 +13,7 @@
         <div class=" interaction-holder" data-cy="user_interaction">
             <div class="row ">
                 <!--GLOBE WITH FEELING-->
-                <div class="col-lg-4 d-flex justify-content-center align-items-center parent mr-2  int_steps"
+                <div class="col d-flex justify-content-center  ml-1 mr-1 p-2 mt-1 align-items-center parent  int_steps"
                      id="hearth">
                     <h4 class="child_at_top smaller_h text-center">This is how we feel</h4>{{ db }}
                     <div>
@@ -21,9 +21,11 @@
                             <h1 id="feel" class="feel_out"> {{world_feel}}</h1>
                         </div>
                     </div>
-                    <div class="child_at_bottom mb-1 ">
+
+                    <div class="child_at_bottom ">
                         <p class="text-center">{{wf_full}}</p>
-                        <span id="map" class="gl_button " title="see the map"><i
+                        <div class="">
+                             <span id="map" class="gl_button " title="see the map"><i
                                 class="fas fa-globe"></i>&nbsp;map</span>
                         <span id="charts" data-num_of_days=10 data-chart_for="world" class="gl_button chart" data-location="World" title="see the chart"><i
                                 class="far fa-chart-bar"></i>&nbsp;chart
@@ -31,7 +33,9 @@
                         <span id="posts" class="gl_button " title="type how you feel..."><i
                                 class="far fa-heart"></i>&nbsp;posts</span>
 
-                        <span id="write_post" class="gl_button mt-3  d-md-none"><i class="fas fa-pencil-alt"></i>&nbsp;write</span>
+                        <span id="write_post" class="gl_button   d-md-none"><i class="fas fa-pencil-alt"></i>&nbsp;write</span>
+                        </div>
+
                     </div>
                 </div>
 
@@ -39,12 +43,13 @@
 
 
                 <!--SLIDER WITH TEXT AREAS FOR INPUTING HOW DOES USER FEELS-->
-                <div class="col-lg-4 int_steps  parent mr-2 p-2  align-content-around flex-wrap  feel_form d-none d-md-block" id="how_do_you_feel">
+                <div class="col-lg-4 int_steps  parent ml-1 mr-1 p-2 mt-1 align-content-around flex-wrap feel_form d-none d-md-block" id="how_do_you_feel">
                     <div class="col-md-12"><h4 class="smaller_h text-center">How do you feel?</h4></div>
+                     {{ feelometer() }}
                     <div class="col-md-12">
                         <input type="text" class="form-control border_bottom_only mb-1 form_label" form="user_feel" id="one"
                                name="i_feel" required
-                               placeholder="I feel/ I feel like"
+                               placeholder="( When ) I feel/ I feel like"
                                data-cy="description">
                     </div>
                     <div class="col-md-12">
@@ -54,13 +59,14 @@
                               placeholder="Because..."
                               data-cy="description"></textarea>
 
-                    {{ feelometer() }}
+
                          </div>
                 </div>
                 <!--STEPS TO FEEL THIS WAY OR BETTER-->
-                <div class="col int_steps p-2 parent  align-content-around flex-wrap feel_form  feel_form d-none d-md-block" id="what_do_you_do">
+                <div class="col-lg-4 int_steps  parent  ml-1 mr-1 p-2 mt-1 align-content-around flex-wrap feel_form  feel_form d-none d-md-block"
+                     id="what_do_you_do">
                     <div class="col-md-12">
-                        <h4 class="smaller_h one_thing text-center">What is the one thing that you will do
+                        <h4 class="smaller_h one_thing text-center">What is the one thing that you do
                             <span id="better" class=" text-center ">to feel better?</span>
                             <span id="this_or_better" class=" text-center d-none">to feel this way or better ?</span>
                         </h4>
@@ -71,7 +77,7 @@
                               name="action"
                               id="action"
                               class="form-control ___ mb-2 border_bottom_only form_label"
-                              placeholder="One thing that you do..."
+                              placeholder="One thing that I do, ( recommend doing ) is..."
                               required
                     ></textarea>
                     </div>

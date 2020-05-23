@@ -1,12 +1,9 @@
-(function () {
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
+import {Toast} from "../../../../shared/static/js/swal_toast";
 
-    })
+(function () {
+
+
+
 
     var days = $('#days').data('days').slice(0, -1).split('_');
     var feelings = $('#feelings').data('feelings').slice(0, -1).split('_');
@@ -43,7 +40,7 @@
         }
     })
     $('.feelist').on('click', function () {
-
+        scroll_to_top()
         var f_name = $(this).data('f_name')
         $.getJSON('/_my_feelist', {
                 f_name: f_name
@@ -110,6 +107,8 @@
 
 
                 })
+
+
                 $('.delete_feelist').on('click', function () {
                     var f_name = $(this).data('f_name')
 
@@ -249,7 +248,7 @@
                             })
                         })
 
-                    $('#user').get(0).scrollIntoView()
+                     scroll_to_top()
                 })
             })
 
@@ -446,6 +445,8 @@
 
     $('.my_fav').on('click', function () {
 
+        scroll_to_top()
+
         $.getJSON('/my_fav_posts',
             {},
             function (response) {
@@ -605,6 +606,11 @@
                                 </div>
                             </div>`)
         })
+    }
+
+    function scroll_to_top()
+    {
+        $('#user').get(0).scrollIntoView()
     }
 
     $('.user_heart').on('click', function () {

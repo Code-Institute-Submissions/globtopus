@@ -15,6 +15,7 @@
     *       2. COUNTRIES TOP 10,30,ALL...*/
     $('.chart').on('click', function () {
 
+        if (screen.width < 768) $('.chart').get(0).scrollIntoView(1, 'slow')
         /*HIDE WRITE YOUR FEELING FORM*/
         $('.feel_form').addClass('d-none')
         /*USER VISUAL FEEDBACK AS TO WHAT CHART IS DISPLAYED*/
@@ -27,7 +28,7 @@
         /*DIV F0R DISPLAYING CHARTS*/
         $('#chart_search').removeClass('d-none')
         /*SCROLLING TO THE DIV ON MOBILE DEVICES*/
-        if (screen.width < 768) $('#bottom_of_chart').get(0).scrollIntoView()
+
         /*CLEARING ANY PREVIOUSLY DISPLAYED COUNTRIES*/
         list_of_locations.html('')
 
@@ -240,7 +241,7 @@
         });
 
         chart.render()
-        if (screen.width < 768) $('#chart_holder').get(0).scrollIntoView()
+
     }
 
     function clear_canvas() {

@@ -1,3 +1,6 @@
+import {Toast} from "../../../shared/static/js/swal_toast";
+
+
 /*FUNCTIONS FOR SEARCH AND INTERACTION WITH POSTS
 *
 * USER CAN:
@@ -92,14 +95,7 @@ $(function () {
     }
 
 
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'middle-end',
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
 
-    })
 
     /*ADDING OR REMOVING USER FROM MyGlobe*/
     function globe_action($_this, authorized_user) {
@@ -155,12 +151,16 @@ $(function () {
         var post_id = $_this.data('id')
         var action = $_this.data('action')
 
-        var feelist_name = $("input[name='feelist']:checked").data('feelist');
-        var new_feelist = $("input[name='feelist']:checked").data('new_feelist');
+        var checked_feelist = $("input[name='feelist']:checked")
+        var feelist_name = checked_feelist.data('feelist');
+        var new_feelist = checked_feelist.data('new_feelist');
 
-        if (!authorized_user) {
-            please_login()
-        }
+        /*USER FEEDBACK ON CHOOSING THE ACTION*/
+        if(action === 'flags')  $_this.addClass('text-warning')
+        if(action === 'likes') $_this.addClass('text-danger')
+
+        if (!authorized_user)  please_login()
+
         /*WHEN USER ADDING ACTION TO HIS FEELIST AND HE DOESN'T SELECT ANY FEELIST
         * OR HE CHECKS NEW FEELIST BUT DOESN'T TYPE IN NEW FEELIST NAME
         * WE WILL NOT PROCEED , BUT NOTIFY HIM THAT HE NEEDS TO SELECT FEELIST*/
@@ -345,21 +345,25 @@ $(function () {
 
     function render_posts(posts) {
         var counter = 1
+
         $.each(posts, function (key, post) {
 
 
-            $("#search_results").append(`
+                $("#search_results").append(`
 
                     <div class="row mb-2 border_blue_l pt-2">
-                     <!--APPENDING  ACTION,-->
-                        <div class="col-md-8 pb-2">
-                                <span >I feel :</span>  
+                     
+                     <div class="col-md-8 pb-2">
+                      <span >(When) I feel :</span>  
                                <span class="text-info" >${post.i_feel.join(' ')}  </span>
                                <span >because :</span>
                                <span  class="text-info">${post.because.join(' ')}  </span> <br>
                         
                               <span>${post.action}</span> 
                             <br>
+                     ${post.flags === 0 ? ` 
+                               
+                            
                             <i  data-id="${post.id}"  data-action="likes"
                             class="fas fa-heart float-right ml-3 gl_action" title="like it!" >
                             <span id="likes_${post.id}" >&nbsp;${post.likes}</span> </i> 
@@ -372,13 +376,16 @@ $(function () {
                             class="far fa-flag float-right ml-3 gl_action" title="report as inappropriate">
                              <span id="flags_${post.id}" ></span>
                                     </i>
-                        </div>
+                        `:` <i class="fas fa-exclamation-circle float-right ml-3 text-warning" title="like it!" >
+                            <span id="likes_${post.id}" >under review</span> </i> ` }
+                     </div>
+                      
                             <!--INFO ABOUT GLOBBER-->
                         <div class="col-md-4 ">
                         
                             <img class="avatar" src="assets/dist/images/avatars/${counter % 38}.png"/>
                             <a href="/user/${post.user_id}" class="user">
-                             ${post.name}  ${post.user_feel} 
+                           <span > ${post.name}</span>   <span class="user_heart post p-2 m-1">${post.user_feel}</span>  
                              </a> 
                               <span class="float-right remove_from_glob blue removed_from_glob${post.user_id}
                              ${post.in_my_glob === 1 ? '' : 'd-none'}" 
@@ -397,14 +404,16 @@ $(function () {
                              <i class="fas fa-user-plus"></i>
                              </span>
                              <br>
-                             <span class="action_response_r${post.user_id}">${post.created_at}</span>
-                              <span class="action_response_a${post.user_id}"></span>
+                             <span >${post.created_at}</span>
+                              <span ></span>
                               <hr class="p-0 m-1">
                         </div>
                     </div>
 
 
                 `)
+
+
 
             counter++
         })

@@ -1,7 +1,9 @@
 /*FUNCTIONALITY TO SHOW USER FEELINGS ON SLIDE RANGE
 * AND TO CHANGE TEXT ABOVE ACTIONS PART OF THE FORM
 * IF FEELINGS < 51 OR >= 51*/
-
+ $('#slider_result')
+                .css('background',"url('assets/dist/images/happy.png')")
+                .css('background-repeat', 'no-repeat')
 function feelometer () {
 
 
@@ -15,7 +17,7 @@ function feelometer () {
         if(feelings > 51){
             $('#this_or_better').removeClass('d-none');
             $('#better').addClass('d-none');
-            $('#slider_result')
+            $('#slider_result').html('')
                 .css('background',"url('assets/dist/images/happy.png')")
                 .css('background-repeat', 'no-repeat')
 
@@ -24,7 +26,7 @@ function feelometer () {
         else{
              $('#this_or_better').addClass('d-none');
              $('#better').removeClass('d-none');
-             $('#slider_result')
+             $('#slider_result').html('')
                 .css('background',"url('assets/dist/images/sad.png')")
                 .css('background-repeat', 'no-repeat')
         }

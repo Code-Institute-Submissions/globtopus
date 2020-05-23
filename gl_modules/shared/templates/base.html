@@ -100,14 +100,10 @@
             {% macro feelometer() -%}
             <!--feelometer-->
             <div class="form-group ">
-                <div class="col-auto">
-                    <label for="feeling_holder">Select how you feel</label>
+                <div class="col-auto text-center">
+                    <label for="feeling_holder" class=" text-center">Move slider  <i class="fas fa-heart text-danger"></i> to select how you feel</label>
                     <div class="input-group mb-2">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text bg-transparent no_border" >
-                                <i class="fas fa-heart text-danger"></i>
-                            </div>
-                        </div>
+
 
                         <input type="text" class="form-control  border_bottom_only bg-transparent  text-center text-wrap"
                                id="feeling_holder" name="user_feel"
@@ -121,7 +117,7 @@
                 </div>
                 <div class="">
                     <label class="sr-only" for="feeling">feeling</label>
-                    <div class="input-group mb-2 d-flex  justify-content-between align-items-center border_blue_l p-2 " id="feelosmeter_bgr">
+                    <div class="input-group mb-2 d-flex  justify-content-between align-items-center border_blue_l p-2 ">
 
                         <input type="range" min="1" max="100"
                                class="custom-range slider" id="feeling">

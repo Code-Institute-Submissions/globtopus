@@ -151,9 +151,7 @@ def search():
                                 ],
                         "$and": [
                             {"cc": cc},
-
-
-                        ]
+                         ]
             }}
             ,
             {"$sort": {"posts.created_at": -1}},
@@ -419,3 +417,28 @@ def delete_post():
 
     )
     return jsonify(deleted='deleted')
+
+@posts_bp.route('/return_flaged_post')
+def return_flaged_post():
+    from app import mongo
+    post_id = request.args.get('post_id', 0, type=str)
+    mongo.db.users.update(
+        { "posts.post_id": post_id},
+        {"$set": {"posts.$.flags": 0}}
+    )
+
+    return jsonify(returned_back='returned')
+
+@posts_bp.route('/delete_flaged_post')
+def delete_flaged_post():
+    from app import mongo
+    post_id = request.args.get('post_id', 0, type=str)
+    user_id = request.args.get('user_id', 0, type=str)
+    mongo.db.users.update(
+        {'_id': ObjectId(user_id)},
+        {"$pull": {"posts": {"post_id": post_id}}}
+
+    )
+    return jsonify(deleted='deleted')
+
+

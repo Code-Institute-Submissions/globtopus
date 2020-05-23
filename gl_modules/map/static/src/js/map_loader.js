@@ -345,15 +345,16 @@
                     <span class="blue"> total globers : </span> <span class="smaller_h"> 
                       ${new Intl.NumberFormat(navigator.language).format($(this).data('people'))} 
                      </span>
-                    <hr>
+                  
                      <span class="smaller_h user_heart country d-flex justify-content-center align-items-center"> 
                         ${new Intl.NumberFormat(navigator.language).format($(this).data('feel'))} </span>
                       
-                        <hr>
+                       <br>
                          <a  href="/${$(this).attr('id')}" id='${$(this).attr('id')}' class="gl_button green text-center p-3 text-wrap" >
-                        <span class="smaller_h">EXPLORE MORE</span>
+                        <span class="smaller_h pb-3">EXPLORE MORE</span>
                        
                         </a>
+                        <hr>
                 `)
                     });
         }
