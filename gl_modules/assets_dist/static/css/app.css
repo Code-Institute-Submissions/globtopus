@@ -249,7 +249,17 @@ img.avatar {
   top: 0;
   margin: 10px 0 0 10px;
 }
-
+.new_post{
+   background-color: #177199;
+  color: whitesmoke;
+  font-family: "Lato", sans-serif;
+   cursor: pointer;
+  border: 1px solid #177199;
+  white-space: nowrap;
+  font-size: 0.95em;
+  padding-left: 2px;
+  padding-right: 2px;
+}
 .gl_button {
   background-color: #177199;
   color: whitesmoke;

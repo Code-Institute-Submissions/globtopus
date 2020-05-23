@@ -326,41 +326,8 @@
 
                     Swal.fire(
                         {
-                            html: ` <div class="col-md-12"><h4 class="smaller_h text-center blue">Edit your post</h4></div>
-                                    <hr class="bg_blue">
-                                    <div class="col-md-12">
-                                        <label for="i_feel" ><small>I feel/feel like</small></label>
-                                        <input type="text" class="form-control border_bottom_only mb-1 form_label" form="user_feel" id="i_feel"
-                                               name="i_feel" required
-                                               placeholder="I feel/ I feel like"
-                                               data-cy="description"
-                                               value="${i_feel}">
-                                   
-                                    <label for="because" ><small>Because...</small></label>
-                                    <textarea class="form-control border_bottom_only form_label" form="user_feel" id="because"
-                                      maxlength="200"
-                                      name="because" required
-                                      placeholder="Because..."
-                                      data-cy="description" >${because}</textarea>
-
-                                        <label for="action" ><small>One thing that you do...</small></label>
-                                        <textarea form="user_feel"
-                                                  rows="5"
-                                                  name="action"
-                                                  id="action"
-                                                  class="form-control ___ mb-2 border_bottom_only form_label"
-                                                  placeholder="One thing that you do..."
-                                                  required
-                                                 
-                                        >${action}</textarea>
-                                       
-                                        
-                                        <button class="gl_button col-md-12 p-2 bg_blue" 
-                                        id="update_post"
-                                        data-post_id="${post_id}"
-                                        >Update post</button>
-                                        </div>
-                                        `,
+                            title:post_id,
+                            html: post_action('edit', i_feel, because, action, post_id),
                             showConfirmButton: false
 
                         }
@@ -417,9 +384,65 @@
                     })
                 })
 
+                $('#new_post').on('click', function () {
+                    Swal.fire(
+                        {
+                            html: post_action('create'),
+                            showConfirmButton: false
+
+                        }
+                    )
+                    $('#create_post').on('click', function () {
+
+                        if($('#i_feel').val() ==='' || $('#because').val() === '' || $('#action').val() === '')
+                        {
+                            $('#post_error').removeClass('d-none')
+                        }
+                        else
+                        {
+                           $.getJSON('/new_post',
+                            {
+
+                                i_feel: $('#i_feel').val(),
+                                because: $('#because').val(),
+                                action: $('#action').val(),
+                            },
+                            function (response) {
+
+                                if (response.created === 'created') {
+                                    swal.close()
+
+                                    Toast.fire({
+
+
+                                        html: ` <img  src="assets/dist/images/happy.png"/>
+                                                <p class="text-success">Your post was succesfully created!</h4> 
+                                       `,
+                                    })
+                                    window.location.reload()
+
+                                } else {
+
+
+                                    Toast.fire({
+
+                                        html: ` <img  src="assets/dist/images/sad.png"/>
+                                                    <p class="text-danger">Your post was not created, please try later!</h4> 
+                                       `,
+                                    })
+
+                                }
+
+                            })
+                        }
+
+
+                    })
+                })
 
             })
     })
+
 
     $('.my_fav').on('click', function () {
 
@@ -486,17 +509,58 @@
             })
     })
 
+    function post_action(what, i_feel, because, action, post_id) {
+        return ` <div class="col-md-12"><h4 class="smaller_h text-center blue">${what === 'edit' ? 'Edit' : 'Create'}   your post</h4></div>
+                                    <hr class="bg_blue">
+                                    <div class="col-md-12">
+                                        <label for="i_feel" ><small>I feel/feel like</small></label>
+                                        <input type="text" class="form-control border_bottom_only mb-1 form_label" form="user_feel" id="i_feel"
+                                               name="i_feel" required
+                                               placeholder="I feel/ I feel like"
+                                               data-cy="description"
+                                               value="${what === 'edit' ? i_feel : ''}">
+                                   
+                                    <label for="because" ><small>Because...</small></label>
+                                    <textarea class="form-control border_bottom_only form_label" form="user_feel" id="because"
+                                      maxlength="200"
+                                      name="because" required
+                                      placeholder="Because..."
+                                      data-cy="description" >${what === 'edit' ? because : ''}</textarea>
+
+                                        <label for="action" ><small>One thing that you do...</small></label>
+                                        <textarea form="user_feel"
+                                                  rows="5"
+                                                  name="action"
+                                                  id="action"
+                                                  class="form-control ___ mb-2 border_bottom_only form_label"
+                                                  placeholder="One thing that you do..."
+                                                  required
+                                                 
+                                        >${what === 'edit' ? action : ''}</textarea>
+                                       
+                                        <div class="border-danger text-danger d-none" id="post_error">All fields must be filled!</div>
+                                        <button class="gl_button col-md-12 p-2 bg_blue" 
+                                        id="${what === 'edit' ? 'update_post' : 'create_post'}"
+                                        data-post_id="${what === 'edit' ? post_id : ''}"
+                                        >${what === 'edit' ? 'Update post' : 'Create post'}</button>
+                                        </div>
+                                        `
+    }
 
     function render_posts(div, posts, title, single_user, controls, delete_class, f_name = null) {
 
         $('.user_interaction').addClass('d-none')
-        div.removeClass('d-none').html('').append(`<h4 class="feelist_title">${title} 
+        div.removeClass('d-none').html('').append(`<span class="feelist_title">${title} 
         ${delete_class === 'delete_action' ? `<small  class="float-right delete_feelist" title="Delete feelist?" data-f_name="${f_name}">
                  <i class="far fa-trash-alt"></i></small>` : `${delete_class === '' ?
-            `<small  class="float-right " id="remove_from_globe" title="Remove from globe?" data-glober_id="${sessionStorage.getItem('glober_id')}">
-                 <i class="far fa-trash-alt"></i></small>` : ``}`}</h4>`)
+            `<small  class="float-right " id="remove_from_globe" title="Remove from globe?" 
+                    data-glober_id="${sessionStorage.getItem('glober_id')}">
+                 <i class="far fa-trash-alt"></i></small>` : `<small class="float-right new_post" id="new_post">
+                    <i class="fas fa-pen-alt"></i></small>`}`}</span>`)
+
 
         $.each(posts, function (key, post) {
+
             div.append(`<div class="row mb-1" id="${post.post_id}">
                                 <div class="col-md-4 border_blue_l p-2 d-flex justify-content-around">
                                     <img class="avatar" src="assets/dist/images/avatars/${single_user ? 1 : Math.ceil(Math.random() * 10)}.png"/>
@@ -536,6 +600,87 @@
                             </div>`)
         })
     }
+
+    $('.user_heart').on('click', function () {
+       swal.fire({
+
+           html:`
+            <div class="form-group ">
+                <div class="col-auto">
+                    <label for="feeling_holder">Select how you feel</label>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text bg-transparent no_border" >
+                                <i class="fas fa-heart text-danger"></i>
+                            </div>
+                        </div>
+
+                        <input type="text" class="form-control  border_bottom_only bg-transparent  text-center text-wrap"
+                               id="feeling_holder" name="user_feel"
+                               placeholder="?" readonly required>
+                        <div class="input-group-prepend">
+                            <div class="input-group-text bg-transparent no_border p-4" id="slider_result">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="">
+                    <label class="sr-only" for="feeling">feeling</label>
+                    <div class="input-group mb-2 d-flex  justify-content-between align-items-center border_blue_l p-2 ">
+
+                        <input type="range" min="1" max="100"
+                               class="custom-range slider" id="feeling">
+
+                    </div>
+                </div>
+            </div>
+            <span class="gl_button" id="update_feeling">update</span>
+           `,
+           showConfirmButton:false
+       })
+      $('#feeling').on('change', function () {
+
+        var feelings = this.value;
+
+        $('#feeling_holder').val(feelings);
+
+        if(feelings > 51){
+
+            $('#slider_result')
+                .css('background',"url('assets/dist/images/happy.png')")
+                .css('background-repeat', 'no-repeat')
+        }
+        else{
+             $('#slider_result')
+                .css('background',"url('assets/dist/images/sad.png')")
+                .css('background-repeat', 'no-repeat')
+        }
+    })
+        $('#update_feeling').on('click', function () {
+            $.getJSON('/update_user_feeling',{
+                feeling:$('#feeling_holder').val()
+            },
+                function (response) {
+
+                    if(response.updated === 'updated'){
+                         Toast.fire({
+                            html: `<img  src="assets/dist/images/happy.png"/><p class="text-success">You're updated!</h4> 
+                                       `,
+                                        })
+                    }
+                    else
+                    {
+                         Toast.fire({
+                            html: `<img  src="assets/dist/images/sad.png"/><p class="text-success">You're not updated!</h4> 
+                                       `,
+                                        })
+                    }
+
+                })
+
+        })
+    })
 
 })()
 

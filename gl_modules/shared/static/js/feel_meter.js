@@ -2,7 +2,7 @@
 * AND TO CHANGE TEXT ABOVE ACTIONS PART OF THE FORM
 * IF FEELINGS < 51 OR >= 51*/
 
-(function () {
+function feelometer () {
 
 
 
@@ -28,7 +28,8 @@
                 .css('background',"url('assets/dist/images/sad.png')")
                 .css('background-repeat', 'no-repeat')
         }
-    });
-})();
+    })
 
+ }
+ feelometer ()
 /*assets/dist/images/avatars/${counter % 38}.png*/

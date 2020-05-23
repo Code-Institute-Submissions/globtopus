@@ -17,8 +17,35 @@ posts_bp = Blueprint('posts_bp', __name__,
 MATCHED BY THE WAY HE FEELS AT THE MOMENT AND HE CAN SEE ACTIONS 
 OTHER GLOBBERS TOOK WHEN THEY FELT THE SAME WAY
 
-TO DO : ADD OPTION OF SELECTING COUNTRY FROM WHICH USER GETS GLOBS"""
+TO DO : ADD OPTION OF SELECTING COUNTRY FROM WHICH USER GETS POSTS"""
+@posts_bp.route('/new_post')
+def new_post():
+    i_feel = request.args.get('i_feel', 0, type=str)
+    because = request.args.get('because', 0, type=str)
+    action = request.args.get('action', 0, type=str)
 
+    from app import mongo
+    """
+       ADDING NEWLY CREATED POST TO USER'S POSTS ARRAY 
+    """
+    mongo.db.users.update(
+        {"_id": ObjectId(session.get('user_id'))},
+        {
+            "$push": {
+                "posts":
+                    {"i_feel": sanitize(i_feel, 'array'),
+                     "because": sanitize(because, 'array'),
+                     "feel": session.get('user_feel'),
+                     "action": action,
+                     "post_id": str(ObjectId()),
+                     "created_at": datetime.datetime.now(),
+                     }
+
+            }
+        }, True
+    )
+
+    return jsonify(created='created')
 
 @posts_bp.route('/create_post', methods=['POST'])
 def create_post():
@@ -319,22 +346,38 @@ def actions():
 def user_posts():
     user_id = request.args.get('user_id', 0, type=str)
     from app import mongo
-    user = mongo.db.users.find_one({"_id": ObjectId(user_id)})
-    user_posts = []
-    if 'posts' in user:
-        for post in user['posts']:
-            user_posts.append({
-                'name': user['name'],
-                'i_feel': post['i_feel'],
-                'because': post['because'],
-                'action': post['action'],
-                'created_at': post['created_at'].strftime("%F"),
-                'post_id': post['post_id'],
-                'likes': post['likes'] if 'likes' in post else 0,
-                'flags': post['flags'] if 'flags' in post else 0,
-                'additions': post['additions'] if 'additions' in post else 0,
 
-            })
+
+    user = mongo.db.users.aggregate([
+
+        {"$unwind": '$posts'},
+        {"$match": {"_id": ObjectId(user_id)}}
+        ,
+        {"$sort": {"posts.created_at": -1}},
+
+
+    ])
+
+    user_posts = []
+
+    for post in user:
+        user_posts.append(
+            {
+                'post_id': str(post['posts']['post_id']),
+                'name': str(post['name']),
+                'in_my_glob': 1 if 'added_me' in post and session.get('user_id') in post['added_me'] else 0,
+                'user_id': str(post['_id']),
+                'user_feel': int(post['posts']['feel']),
+                'i_feel': (post['posts']['i_feel']),
+                'because': (post['posts']['because']),
+                'action': str(post['posts']['action']),
+                'created_at': post['posts']['created_at'],
+                'likes': post['posts']['likes'] if 'likes' in post['posts'] else 0,
+                'additions': post['posts']['additions'] if 'additions' in post['posts'] else 0,
+                'flags': post['posts']['flags'] if 'flags' in post['posts'] else 0
+
+            }
+        )
 
     return jsonify(user_posts=user_posts)
 

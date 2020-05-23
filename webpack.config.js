@@ -58,6 +58,7 @@ var landing = Object.assign ( {}, config, {
 var user = Object.assign ( {}, config, {
 
 	entry  : [
+		'./gl_modules/shared/static/js/feel_meter.js',
 		'./gl_modules/user/static/src/js/user.js',
 		'./gl_modules/posts/static/js/posts.js',
 	],

@@ -4,6 +4,9 @@ from bson import ObjectId
 from flask import Blueprint, render_template, session, jsonify, request
 from bson.json_util import dumps
 
+from gl_modules.shared.today import today_f
+from gl_modules.shared.update_feel import update_county_feel, update_world_feel, update_country_feel
+
 user_bp = Blueprint('user_bp', __name__,
                     template_folder='templates',
                     static_folder='static', static_url_path='assets/user')
@@ -40,6 +43,33 @@ def user():
 def is_authorized():
     return jsonify(user=True if session.get('authorized_user') else False,feelists=session.get('my_feelists') if session.get('my_feelists') else {})
 
+@user_bp.route('/update_user_feeling')
+def update_user_feeling():
+    feeling = request.args.get('feeling', 0, type=int)
+
+    from app import mongo
+    mongo.db.users.update({"_id": ObjectId(session.get('user_id'))},
+                          {"$set": {"user_feel": feeling}})
+
+    mongo.db.users.update(
+        {"_id": ObjectId(session.get('user_id'))},
+        {"$set": {
+
+            'last_feel': feeling,
+            'user_feel.' + today_f(): feeling}},
+        upsert=True
+    )
+
+    """
+              UPDATING COUNTY FEELINGS 
+           """
+    update_county_feel(mongo, session.get('user_country_code'), session.get('user_cl'), 0, int(feeling) - int(session.get('last_feel')))
+    """updating country feel"""
+    update_country_feel(mongo, session.get('user_country_code'), 0, int(feeling) - int(session.get('last_feel')))
+    """updating world feel"""
+    update_world_feel(mongo, 0, int(feeling) - int(session.get('last_feel')))
+
+    return jsonify(updated='updated')
 
 @user_bp.route('_my_feelist', methods=['POST', 'GET'])
 def my_feelist():
