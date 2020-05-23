@@ -48,9 +48,9 @@ def update_user_feeling():
     feeling = request.args.get('feeling', 0, type=int)
 
     from app import mongo
-    mongo.db.users.update({"_id": ObjectId(session.get('user_id'))},
-                          {"$set": {"user_feel": feeling}})
 
+    session['last_feel'] = feeling
+    session['user_feel'] = feeling
     mongo.db.users.update(
         {"_id": ObjectId(session.get('user_id'))},
         {"$set": {

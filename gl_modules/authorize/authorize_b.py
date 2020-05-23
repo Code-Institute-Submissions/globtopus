@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from gl_modules.shared.sanitize import sanitize
 from gl_modules.shared.today import today_f
-from gl_modules.shared.update_feel import update_country_feel, update_world_feel
+from gl_modules.shared.update_feel import update_country_feel, update_world_feel, update_county_feel
 from gl_modules.user.user_b import feelists
 
 authorize_bp = Blueprint('authorize_bp', __name__,
@@ -75,7 +75,11 @@ def login():
 
         last_login = user_to_check['last_login']
         country_code = user_to_check['cc']
+        cl = user_to_check['cl']
         last_feel = user_to_check['last_feel']
+
+
+
         my_glob = user_to_check['my_globs'] if 'my_globs' in user_to_check else []
         my_likes = user_to_check['likes'] if 'likes' in user_to_check else []
         user_id = str(user_to_check['_id'])
@@ -95,10 +99,12 @@ def login():
         session['user_name'] = user_name
         session['last_login'] = last_login
         session['user_country_code'] = country_code
+        session['user_cl'] = cl
         session['my_feelists'] = user_feelists
         session['user_id'] = user_id
         session['my_globs'] = my_glob
         session['my_likes'] = my_likes
+        session['last_feel'] = user['user_feel']
 
         session_user(user)
 
@@ -125,6 +131,8 @@ def login():
             )
 
             increase_people = 1
+            """updating country feel"""
+        update_county_feel(mongo, country_code,cl, increase_people, int(user['user_feel']) - int(last_feel))
 
         """updating country feel"""
         update_country_feel(mongo, country_code, increase_people, int(user['user_feel']) - int(last_feel ))

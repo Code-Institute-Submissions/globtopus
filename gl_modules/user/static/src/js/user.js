@@ -668,6 +668,7 @@
                             html: `<img  src="assets/dist/images/happy.png"/><p class="text-success">You're updated!</h4> 
                                        `,
                                         })
+                        window.location.reload()
                     }
                     else
                     {
