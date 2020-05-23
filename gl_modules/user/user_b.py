@@ -49,8 +49,7 @@ def update_user_feeling():
 
     from app import mongo
 
-    session['last_feel'] = feeling
-    session['user_feel'] = feeling
+
     mongo.db.users.update(
         {"_id": ObjectId(session.get('user_id'))},
         {"$set": {
@@ -64,10 +63,14 @@ def update_user_feeling():
               UPDATING COUNTY FEELINGS 
            """
     update_county_feel(mongo, session.get('user_country_code'), session.get('user_cl'), 0, int(feeling) - int(session.get('last_feel')))
+
     """updating country feel"""
     update_country_feel(mongo, session.get('user_country_code'), 0, int(feeling) - int(session.get('last_feel')))
     """updating world feel"""
     update_world_feel(mongo, 0, int(feeling) - int(session.get('last_feel')))
+
+    session['last_feel'] = feeling
+    session['user_feel'] = feeling
 
     return jsonify(updated='updated')
 

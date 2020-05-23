@@ -76,7 +76,8 @@ def login():
         last_login = user_to_check['last_login']
         country_code = user_to_check['cc']
         cl = user_to_check['cl']
-        last_feel = user_to_check['last_feel']
+
+        feeling = int(user['user_feel']) - int(user_to_check['last_feel'])
 
 
 
@@ -131,13 +132,16 @@ def login():
             )
 
             increase_people = 1
-            """updating country feel"""
-        update_county_feel(mongo, country_code,cl, increase_people, int(user['user_feel']) - int(last_feel))
+
+
 
         """updating country feel"""
-        update_country_feel(mongo, country_code, increase_people, int(user['user_feel']) - int(last_feel ))
+        update_county_feel(mongo, country_code,cl, increase_people, feeling)
+
+        """updating country feel"""
+        update_country_feel(mongo, country_code, increase_people, feeling)
         """updating world feel"""
-        update_world_feel(mongo, increase_people, int(user['user_feel']) - int(last_feel ) )
+        update_world_feel(mongo, increase_people, feeling )
 
         session['user_feel'] = user['user_feel']
 
@@ -206,6 +210,8 @@ def register():
         new_user['likes'] = []
         new_user['flags'] = []
         new_user['user_feel'] = {datetime.datetime.now().strftime("%F"): 0}
+        new_user['cl'] =  new_user['cl'].replace(' | ','__').replace(' ','_')
+        del new_user['country']
         mongo.db.users.insert_one(new_user)
 
         #mongo.db.users.insert_one(new_user)

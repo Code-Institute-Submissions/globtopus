@@ -543,7 +543,7 @@
                                         id="${what === 'edit' ? 'update_post' : 'create_post'}"
                                         data-post_id="${what === 'edit' ? post_id : ''}"
                                         >${what === 'edit' ? 'Update post' : 'Create post'}</button>
-                                        </div>
+                                        </div> <button class="gl_button danger" onclick="swal.close()">cancel</button>
                                         `
     }
 
@@ -551,12 +551,18 @@
 
         $('.user_interaction').addClass('d-none')
         div.removeClass('d-none').html('').append(`<span class="feelist_title">${title} 
+
         ${delete_class === 'delete_action' ? `<small  class="float-right delete_feelist" title="Delete feelist?" data-f_name="${f_name}">
-                 <i class="far fa-trash-alt"></i></small>` : `${delete_class === '' ?
+                 <i class="far fa-trash-alt"></i></small>` :
+            
+            `${delete_class === '' ?
             `<small  class="float-right " id="remove_from_globe" title="Remove from globe?" 
                     data-glober_id="${sessionStorage.getItem('glober_id')}">
-                 <i class="far fa-trash-alt"></i></small>` : `<small class="float-right new_post" id="new_post">
-                    <i class="fas fa-pen-alt"></i></small>`}`}</span>`)
+                 <i class="far fa-trash-alt"></i></small>` : 
+                
+                `${delete_class === 'delete_post' ? `<small class="float-right new_post" id="new_post">
+                    <i class="fas fa-pen-alt"></i>&nbsp;new</small>`:`` }`}`}</span>`)
+
 
 
         $.each(posts, function (key, post) {
@@ -635,7 +641,7 @@
                     </div>
                 </div>
             </div>
-            <span class="gl_button" id="update_feeling">update</span>
+            <span class="gl_button" id="update_feeling">update</span><button class="gl_button danger" onclick="swal.close()">cancel</button>
            `,
            showConfirmButton:false
        })

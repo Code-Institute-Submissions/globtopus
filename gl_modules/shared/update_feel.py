@@ -1,5 +1,7 @@
 import datetime
 
+from bson.json_util import dumps
+
 from gl_modules.shared.today import today_f
 
 
@@ -17,8 +19,8 @@ def update_world_feel(mongo, people, feeling):
         {"day": datetime.datetime.now().strftime("%F")},
         {"$inc":
             {
-                "num_of_people": people,
-                "sum_of_feelings": feeling}}
+                "num_of_people": int(people) ,
+                "sum_of_feelings": int(feeling) ,}}
         ,
         upsert=True
     )
@@ -36,10 +38,10 @@ def update_country_feel(mongo, country_code, people, feeling):
         {"country_code": country_code},
         {"$inc":
             {
-                "feels." + today + ".num_of_people": people,
-                "feels." + today + ".sum_of_feelings": feeling,
-                "total_people": people,
-                "total_feelings": feeling
+                "feels." + today + ".num_of_people": int(people) ,
+                "feels." + today + ".sum_of_feelings": int(feeling) ,
+                "total_people": int(people) ,
+                "total_feelings": int(feeling) ,
             },
         }
         ,
@@ -58,10 +60,10 @@ def update_county_feel(mongo, country_code,county_name, people, feeling):
         {"cc": country_code,'cl':county_name},
         {"$inc":
             {
-                "feels." + today + ".num_of_people": people,
-                "feels." + today + ".sum_of_feelings": feeling,
-                "total_people": people,
-                "total_feelings": feeling
+                "feels." + today + ".num_of_people": int(people) ,
+                "feels." + today + ".sum_of_feelings": int(feeling) ,
+                "total_people": int(people) ,
+                "total_feelings": int(feeling) ,
             },
         }
         ,
