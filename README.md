@@ -18,53 +18,54 @@ It is my desire to know how does the world feel like, and whether we can help ea
 
 - [Inspiration](#inspiration)
 - [User Experience](#User-Experience)
-	- [User story](#User-story)
-	
-		- [Public user](#Public-user)
-		- [Logged in user](#Logged-in-user)
-		- [Admin](#Admin)
-		
-	- [Step by step guides](#Step-by-step-guides)
-	
-	    - [Create an account](#Create-an-account)
-	    - [Search for posts](#Search-for-posts)
-		- [Create post](#Create-post)	
-		- [Edit post](#Edit-post)
-		- [Delete post](#Delete-post)
-		- [Add user to your globe](#Add-user-to-your-globe)
-		- [Delete user from globe](#Delete-user-from-globe)
-		- [Flag the post as inappropriate](#Flag-the-post-as-inappropriate)
-		- [Add post to your favourites](#Add-post-to-your-favourites)
-		- [Remove post from favourites](#Remove-post-from-favourites)
-		- [Add post to your feelist](#Add-post-to-your-feelist)
-		- [Remove post from your feelist](#Remove-post-from-your-feelist)
-		- [Delete your feelist](#Delete-your-feelist)
-		- [Search the map](#Search-the-map)
-		- [See the charts](#See-the-charts)
-		- [Country page](#Country-page)
-		- [Public user page](#Public-user-page)
-		- [Admin](#Admin)
-		
-		
-		
+   - [User story](#User-story)
+   
+      - [Public user](#Public-user)
+      - [Logged in user](#Logged-in-user)
+      - [Admin](#Admin)
+      
+   - [Step by step guides](#Step-by-step-guides)
+   
+       - [Create an account](#Create-an-account)
+       - [Search for posts](#Search-for-posts)
+      - [Create post](#Create-post)  
+      - [Edit post](#Edit-post)
+      - [Delete post](#Delete-post)
+      - [Add user to your globe](#Add-user-to-your-globe)
+      - [Delete user from globe](#Delete-user-from-globe)
+      - [Flag the post as inappropriate](#Flag-the-post-as-inappropriate)
+      - [Add post to your favorites](#Add-post-to-your-favorites)
+      - [Remove post from favorites](#Remove-post-from-favorites)
+      - [Add post to your feelist](#Add-post-to-your-feelist)
+      - [Remove post from your feelist](#Remove-post-from-your-feelist)
+      - [Delete your feelist](#Delete-your-feelist)
+      - [Search the map](#Search-the-map)
+      - [See the charts](#See-the-charts)
+      - [Country page](#Country-page)
+      - [Public user page](#Public-user-page)
+      - [Admin](#Admin)
+      
+      
+      
 - [Wireframes](#Wireframes)
 - [Colors](#Colors)
-	
+   
 - [Technologies](#technologies)
 
-	- [cypress.io](#cypressio)
-	- [webpack](#webpack)
-	- [sweetalert.js](#sweetalert)
-	- [simple-jQuery-translator](#simple-jQuery-translator)
-	- [javascript,HTML,CSS](#javascriptHTMLCSS)
-	- [Python,Flask](#PythonFlask)
-	- [MongoDB](#MongoDB)
-	
+   - [cypress.io](#cypressio)
+   - [webpack](#webpack)
+   - [sweetalert.js](#sweetalert)
+   - [simple-jQuery-translator](#simple-jQuery-translator)
+   - [javascript,HTML,CSS](#javascriptHTMLCSS)
+   - [Python,Flask](#PythonFlask)
+   - [MongoDB](#MongoDB)
+   
 
-- [Features](#Features)		
+- [Features](#Features)       
 - [Testing](#testing)
 - [Version Control](#Version-Control)
 - [Deployment](#deployment)
+- [Difficulties](#Difficulties)
 - [Future Features](#future-features)
 - [Browser support](#Browser-support)
 - [Acknowledgements](#Acknowledgements)
@@ -85,7 +86,7 @@ It is my desire to know how does the world feel like, and whether we can help ea
         -  see the progress of the world, country and county/state on the chart
         -  see the top countries and countries grouped by feelings
         -  see the individual country and counties/states progress on the chart
-        -  search for and read posts worldwide and countrywide
+        -  Search for and read posts worldwide and countrywide
         -  create account
         -  use the site on any device
        
@@ -126,11 +127,11 @@ It is my desire to know how does the world feel like, and whether we can help ea
   
   Here guides for interactions with the application.
   
-  > mobile version of user dashboard
+  > mobile version of the user dashboard
 
   <img src="https://raw.githubusercontent.com/marcelkolarcik/globtopus/master/gl_modules/assets_dist/static/readme_images/mobile.gif"  alt="https://globtopus.herokuapp.com/">
 
- > mobile version of user dashboard
+ > desktop version of the user dashboard
     
   <img src="https://raw.githubusercontent.com/marcelkolarcik/globtopus/master/gl_modules/assets_dist/static/readme_images/desktop.gif"  alt="https://globtopus.herokuapp.com/">
 
@@ -165,8 +166,7 @@ a confirmation dialog will appear and you can select if you want to delete the p
 alert whether the delete was successful or not.
 
 - #### Add user to your globe
-    To add a user to your globe, search for the posts as above, every post has an icon of user with plus or minus sign, if you want to add a user to your globe, simply click on the user with a plus icon
-, when added, you will see the confirmation popup, and the icon will change to the user with a minus sign. 
+    To add a user to your globe, search for the posts as above, every post has an icon of user with plus or minus sign, if you want to add a user to your globe, simply click on the user with a plus icon, when added, you will see the confirmation popup, and the icon will change to the user with a minus sign. 
 - #### Delete user from globe
     To delete a user from your globe, you have two options. First: if you search for the posts and the post has a user icon with a minus sign, you can click on it and the user
 will be removed. Second: from within your dashboard, when you click on my globe link on the left navigation or bottom navigation when on mobile, list of users
@@ -174,16 +174,16 @@ in your globe will appear, then click on the user you want to remove, you will s
 dialog will pop-up, click on yes to delete or no to cancel.
 
 - #### Flag the post as inappropriate
-    To flag the post as inappropriate, click on the flag icon under the post you think is inappropriate.
+    To flag, the post as inappropriate, click on the flag icon under the post you think is inappropriate.
 
-- #### Add post to your favourites
-    To add post to your favorites, click on the hearth icon under the post you like.
-- #### Remove post from favourites
-    To remove post from favorites, from within your dashboard, click on my favorites link on the left navigation or bottom navigation when on mobile, and your favorite posts will appear, then click on the trash icon on the right side to remove it from your favorites. Click on that icon and a confirmation
+- #### Add post to your favorites
+    To add post to your favorites, click on the heart icon under the post you like.
+- #### Remove post from favorites
+    To remove posts from favorites, from within your dashboard, click on my favorites link on the left navigation or bottom navigation when on mobile, and your favorite posts will appear, then click on the trash icon on the right side to remove it from your favorites. Click on that icon and a confirmation
 a dialog will pop-up, click on yes to delete, or no to cancel
 - #### Add post to your feelist
     To add post to your feelist, search for the posts as above, every post has an icon of the plus sign to it, click on it. If you don't have any feelists yet, you
-will see create new feelist input text field and radio button next to it, so select that radio button and type in your new feelist's name and click on save. If you
+will see create a new feelist input text field and radio button next to it, so select that radio button and type in your new feelist's name and click on save. If you
 have created some feelists already, you will have the option to add post to existing feelist or you can create a new one. Just select one of the existing or create new feelist and click the appropriate radio button next to the feelist you are adding the post to and click on save.
 - #### Remove post from your feelist
     To remove a post from your feelist, from within your dashboard, when you click on my feelists link on the left navigation or bottom navigation when on mobile, list of feelists
@@ -216,7 +216,7 @@ of that country for the past 10 days, and again oval buttons will appear above t
 and you can click on them and see the progress for 30,90,180,360 days. You can search for the posts in that country as above.
    
 - #### Public user page
-  When you click on user name from within the post, you will be redirected to the public user page, where you will see all posts from that user,
+  When you click on the user name from within the post, you will be redirected to the public user page, where you will see all posts from that user,
 and when you are logged in, you can add the posts to your favorites, feelists, add users to your globe.
 
 
@@ -230,19 +230,19 @@ no to cancel the action.
     
 - ### Wireframes  
    
-	 I used pencil and paper to draw initial wireframe design ...
-	 The initial drawings can be found here
-	 [Wireframes](WIREFRAMES.md)
-	 
+    I used pencil and paper to draw an initial wireframe design ...
+    The initial drawings can be found here
+    [Wireframes](WIREFRAMES.md)
+    
  - ### Colors 
  
- 	I decided on a very light color scheme, with a touch of green for div borders, blue for the buttons, and red hearth image with .7 opacity.
+   I decided on a very light color scheme, with a touch of green for div borders, blue for the buttons, and red hearth image with .7 opacity.
  as I want users to feel light when interact with the site.
     
    
     
     ```css
-	  .border_green {
+     .border_green {
           border: solid 1px rgba(111, 227, 0, 1);
         }
         .gl_button {
@@ -333,7 +333,7 @@ So that webpack will compile and will start to watch my code for changes and wil
   However, as I've learned and still learning about javascript and jQuery, maps became useful again.
   
   So I am hardcoding world map in the HTML file, and as for the country maps, I have deconstructed them down to id and d attributes,
-which I am storing in mongoDB database, and recreating and adding them to DOM with javascript on the country page load, Adding fill attribute
+which I am storing in MongoDB database, and recreating and adding them to DOM with javascript on the country page load, Adding fill attribute
 according to country feelings data from DB and I am adding country/county names and classes for interactions.
 I tried to load world map from DB but it takes around 5 seconds to load it, so I decide to hardcode it in, for much better response
 time.
@@ -352,21 +352,20 @@ therefore might not be accurate.
      sweetalert2
       </a>
       
-I am using sweetalert2, because it allows me to customize my alerts to my users with my HTML code, which means that alerts
- can be matched with colors and styles and feels with the rest of application, which will in my opinion,
-  provide much smoother and more pleasant experience for the users. 
+I am using sweetalert2 because it allows me to customize my alerts to my users with my HTML code, which means that alerts
+ can be matched with colors and styles and feels with the rest of the application, which will in my opinion,
+  provide a much smoother and more pleasant experience for the users. 
   
   
       
 
 ### simple-jQuery-translator
 
- > Simple jQuery translator for translating text, title of element, placeholder for input fields and 
- alt attribute for images. If you need to include variables, simple-jQuery-translator can handle it as well.
+ > Simple jQuery translator for translating text, the title of an element, placeholder for input fields, and alt attribute for images. If you need to include variables, simple-jQuery-translator can handle it as well.
  
- During the development of wake-up-happy application, I wanted to have website translated to several languages.
- I didn't find any package that would solve my problem completely, so I tried to write my own translating script and 
- simple-jQuery-translator is result of my tries...
+ During the development of wake-up-happy application, I wanted to have a website translated into several languages.
+ I didn't find any package that would solve my problem completely, so I tried to write my translating script and 
+ simple-jQuery-translator is a result of my tries...
  
  
  ### javascript,HTML,CSS
@@ -383,17 +382,16 @@ I am using sweetalert2, because it allows me to customize my alerts to my users 
     
 ### Python,Flask
    - Python 
-   >    Python is an interpreted, object-oriented, high-level programming language with dynamic semantics. Its high-level built in data structures, combined with dynamic typing and dynamic binding, make it very attractive for Rapid Application Development, as well as for use as a scripting or glue language to connect existing components together.
+   >    Python is an interpreted, object-oriented, high-level programming language with dynamic semantics. It's high-level built-in data structures, combined with dynamic typing and dynamic binding, make it very attractive for Rapid Application Development, as well as for use as a scripting or glue language to connect existing components.
    
    - Flask
-   >    Flask is a micro web framework written in Python. It is classified as a microframework because it does not require particular 
-       tools or libraries.It has no database abstraction layer, form validation,
+   >    Flask is a micro web framework written in Python. It is classified as a microframework because it does not require particular tools or libraries. It has no database abstraction layer, form validation,
        or any other components where pre-existing third-party libraries provide common functions. 
        However, Flask supports extensions that can add application features as if they were implemented in Flask itself.
        Applications that use the Flask framework include Pinterest and LinkedIn.
-	
-	
-	    
+   
+   
+       
 ### MongoDB
    - MongoDB 
    >   MongoDB is a document database with the scalability and flexibility that you want with the querying and indexing that you need
@@ -402,14 +400,14 @@ I am using sweetalert2, because it allows me to customize my alerts to my users 
  
  - ### Public user 
  
- Public user  can :
+ A public user  can :
     
        -  see how does the world feel like
        -  see how do world countries feel like on the map, differentiated by color
        -  see the progress of the world, country and county/state on the chart
        -  see the top countries and countries grouped by feelings
        -  see the individual country and counties/states progress on the chart
-       -  search for and read posts worldwide and countrywide
+       -  Search for and read posts worldwide and countrywide
        -  create account
        -  use the site on any device
              
@@ -464,8 +462,8 @@ Admin can :
   
    ## Version Control
    
-   During development, I was creating new branch for every new feature I wanted to create, or update existing feature,
-   then I would merge it with master branch and then create new branch again to create new feature again.
+   During development, I was creating a new branch for every new feature I wanted to create or update an existing feature,
+   then I would merge it with the master branch and then create a new branch again to create new features again.
    
    To create new branch: 
    
@@ -477,7 +475,7 @@ Admin can :
    
 > develop some code, add, commit, push, repeat...;-)
 
-To merge branch with master:
+To merge the branch with the master:
  ```cl
    $ git checkout master
    $ git merge new-branch
@@ -496,7 +494,7 @@ To merge branch with master:
   - SIGN_UP_MAP
   - USER_PAGE
   
-  I did my best to name each commit in a way, that development process is clear.
+  I did my best to name each commit in a way, that the development process is clear.
   ## Deployment
   
   At the start of development, I created GitHub repository and as I develop my app locally in PyCharm I created a folder on my local machine,
@@ -542,7 +540,7 @@ Then I created a virtual environment by
   $ py -3 -m venv venv
    ```
 
-The purpose of Python virtual environments is to create an isolated environment for Python projects. This means that each project can have its own dependencies, regardless of what dependencies every other project has.
+The purpose of Python virtual environments is to create an isolated environment for Python projects. This means that each project can have its dependencies, regardless of what dependencies every other project has.
   
  Then I installed flask by 
  
@@ -584,10 +582,8 @@ And then in the virtual environment, I start flask by typing
 
    ```
 
-I am using flask Blueprint to organize my code.The basic concept of blueprints is that they record 
-operations to execute when registered on an application. Flask associates view functions with 
-blueprints when dispatching requests and generating URLs from one endpoint to another.
-I've learnt about blueprint at https://flask.palletsprojects.com/en/1.1.x/blueprints/.
+I am using flask Blueprint to organize my code. The basic concept of blueprints is that they record operations to execute when registered on an application. Flask associates view functions with blueprints when dispatching requests and generating URLs from one endpoint to another.
+I've learned about blueprint at https://flask.palletsprojects.com/en/1.1.x/blueprints/.
 
 To be able to connect to MongoDB I created an account on MongoDB and created a new cluster by clicking on
 create a new cluster button selecting cloud provider AWS and region Ireland with a free tier.
@@ -596,7 +592,7 @@ on the connect button in my sandbox. Then a popup will appear and I select Conne
 had node.js installed on my local machine already. And I copied the link to connect to DB from there. I changed the user name and password.
 
 I also set Heroku to deploy from my GitHub repository. I first pushed my code to GitHub using GitHub remote, then I pushed code
-to Heroku using Heroku remote and then I Heroku I set the app to deploy from the master branch on GitHub, by clicking on deploy on Heroku app
+to Heroku using Heroku remote and then in Heroku, I set the app to deploy from the master branch on GitHub, by clicking on deploy on Heroku app
 and selecting deployment method as Github and by selecting repository I wanted to deploy from. And from this point Heroku would
 automatically deploy my app whenever I push new code to my master branch.
 
@@ -605,10 +601,86 @@ to test it. I can do it by clicking on deploy in navigation and scrolling to the
  
 Deploying to Heroku also allows me to test my application on multiple devices. 
   
-  
-  
-  
-  
+ # Difficulties 
+ 
+ I struggled for a while with a circular import problem in Python, when I was importing mongo from app
+ at the top of the file. 
+ 
+ ```python
+from app import mongo
+```
+
+I found a solution to import it inside a function, and that resolved my problem
+
+ ```python
+def search():
+    from app import mongo
+```
+
+I couldn't figure out how to get request data in python file when doing post ajax call using this code:
+
+```js
+$.ajax({
+url:'/_url',
+data:{data:data},
+type:POST,
+success: function(  response ) {
+/*do staff...*/
+  return
+},
+error: function(error) {
+/*handle error...*/
+  return
+}
+})
+                
+```
+I could do POST requests without sending data from js.
+
+```python
+#  data = request.args.get('data', 0, type=str)
+```
+was not getting it, so I ended up doing GET ajax calls using this code
+```js
+$.getJSON('/_url',
+{data:data},
+function( response ){
+/*do staff...*/
+  return
+}
+
+)
+
+```
+ and when I was using this method, I was able to get data in python file with 
+ 
+ ```python
+#  data = request.args.get('data', 0, type=str)
+```
+
+One gotcha when rendering DOM elements with jQuery was, that even thou I had event listeners
+for the classes that newly rendered elements had, they weren't interactive in any way.
+So I've learned that when rendering new elements to DOM, event listeners must be applied
+right after they are rendered to have interaction with them, otherwise they won't be interactive!
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ # Future Features
+ 
+ As for the near future, I would like to implement signing in with Google and Facebook, to allow users quick and easy
+access to the site.
+
+Allow users to upload their avatars.
+
+Send a welcome email to every new user.
+
+When the user is flagging a post, to require his reason for flagging it. 
   
   
   
@@ -648,3 +720,6 @@ https://docs.mongodb.com/, https://realpython.com/, https://flask.palletsproject
 
 
  
+
+
+
