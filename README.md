@@ -128,11 +128,11 @@ It is my desire to know how does the world feel like, and whether we can help ea
   
   > mobile version of user dashboard
 
-  <img src="https://raw.githubusercontent.com/marcelkolarcik/globtopus/master/gl_modules/assets_dist/static/readme_images/mobile.gif.png"  alt="https://globtopus.herokuapp.com/">
+  <img src="https://raw.githubusercontent.com/marcelkolarcik/globtopus/master/gl_modules/assets_dist/static/readme_images/mobile.gif"  alt="https://globtopus.herokuapp.com/">
 
  > mobile version of user dashboard
     
-  <img src="https://raw.githubusercontent.com/marcelkolarcik/globtopus/master/gl_modules/assets_dist/static/readme_images/desktop.gif.png"  alt="https://globtopus.herokuapp.com/">
+  <img src="https://raw.githubusercontent.com/marcelkolarcik/globtopus/master/gl_modules/assets_dist/static/readme_images/desktop.gif"  alt="https://globtopus.herokuapp.com/">
 
 
    - #### Create an account
