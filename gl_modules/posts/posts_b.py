@@ -231,9 +231,17 @@ def search():
         )
 
     """RETURNING SEARCH RESULTS TO USER, IF HE IS LOGGED IN HE CAN INTERACT WITH THEM"""
+    #return dumps(mongo.db.users.find_one({"_id": ObjectId(session.get('user_id'))}))
+    user_feelists = {}
+    if session.get('authorized_user'):
+        user = mongo.db.users.find_one({"_id": ObjectId(session.get('user_id'))})
+        if 'my_feelists' in user:
+            user_feelists = feelists(
+                mongo.db.users.find_one({"_id": ObjectId(session.get('user_id'))})['my_feelists'])
+
 
     return jsonify(result=results,
-                   feelists=session.get('my_feelists') if session.get('my_feelists') else {},
+                   feelists=user_feelists if user_feelists else {},
                    authorized_user=True if session.get('authorized_user') else False)
 
 
@@ -337,7 +345,8 @@ def actions():
             upsert=True
         )
     session['my_likes'] = mongo.db.users.find_one({'_id': ObjectId(session.get('user_id'))})['likes']
-    return jsonify(result=post_id, dumps=dumps(session.get('my_likes')))
+
+    return jsonify(result=post_id)
 
 
 @posts_bp.route('/user_posts')

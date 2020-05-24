@@ -20,7 +20,7 @@ $(function () {
     *       ADD LANGUAGE TO USER OBJECT AND POST ITSELF*/
 
 
-    latest_posts($('#c_search').data('cc') ? $('#c_search').data('cc') : '')
+
 
     $('#search,#c_search').on('click', function () {
 
@@ -224,6 +224,8 @@ $(function () {
                     }
 
                 });
+
+             window.location.reload()
         }
 
 
@@ -318,6 +320,7 @@ $(function () {
         /*BY CLICKING ON save BUTTON HE CAN SAVE ACTION TO HIS FEELIST*/
         $('.save_feelist').on('click', function () {
             post_action($(this), authorized_user);
+
 
         })
 
@@ -460,6 +463,8 @@ $(function () {
             globe_action($(this), authorized_user)
         })
     }
+
+     latest_posts($('#c_search').data('cc') ? $('#c_search').data('cc') : '')
 });
 
 

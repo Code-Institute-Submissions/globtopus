@@ -39,9 +39,9 @@ app.register_blueprint(country_m.country_bp, url_prefix='/')
 
 
 
-@app.errorhandler(Exception)
-def basic_error(e):
-    return render_template('errors/error.html',e=e)
+# @app.errorhandler(Exception)
+# def basic_error(e):
+#     return render_template('errors/error.html',e=e)
 
 if __name__ == '__main__':
     app.run(
