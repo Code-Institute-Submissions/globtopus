@@ -125,6 +125,15 @@ It is my desire to know how does the world feel like, and whether we can help ea
   - ### Step by step guides
   
   Here guides for interactions with the application.
+  
+  > mobile version of user dashboard
+
+  <img src="https://raw.githubusercontent.com/marcelkolarcik/globtopus/master/gl_modules/assets_dist/static/readme_images/mobile.gif.png"  alt="https://globtopus.herokuapp.com/">
+
+ > mobile version of user dashboard
+    
+  <img src="https://raw.githubusercontent.com/marcelkolarcik/globtopus/master/gl_modules/assets_dist/static/readme_images/desktop.gif.png"  alt="https://globtopus.herokuapp.com/">
+
 
    - #### Create an account
         
