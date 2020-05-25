@@ -93,6 +93,7 @@ def my_feelist():
         f_actions.append({
             'name': post['name'],
             'i_feel': post['posts']['i_feel'],
+            'image_id': str(post['image_id']),
             'because': post['posts']['because'],
             'action': post['posts']['action'],
             'created_at': post['posts']['created_at'].strftime("%F"),
@@ -210,9 +211,9 @@ def public_user(user_id):
 
     user = mongo.db.users.find_one({'_id': ObjectId(user_id)},
                                    {'password': 0, 'email': 0, 'user_feel': 0, 'added_me': 0})
-    user_posts = []
 
-    return render_template('user/public_user.html', user=user, user_posts=user['posts'])
+    filename = 'images/avatars/'+str(user['image_id'])+'.png'
+    return render_template('user/public_user.html', user=user, user_posts=user['posts'],filename=filename)
 
 
 def feelists(db_feelists):

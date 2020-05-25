@@ -9,7 +9,7 @@ scroll_into_view()
 
     })
  /*CLICKING ON write BUTTON UNDER THE GLOBE TO SEE FORM ON MOBILE DEVICES*/
-    $('#write_post').on('click', function () {
+    $('.write_post').on('click', function () {
         $('.feel_form').removeClass('d-none')
         $('.landing_interaction').addClass('d-none')
        scroll_into_view()

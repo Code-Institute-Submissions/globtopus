@@ -20,8 +20,6 @@ $(function () {
     *       ADD LANGUAGE TO USER OBJECT AND POST ITSELF*/
 
 
-
-
     $('#search,#c_search').on('click', function () {
 
         /*AJAX REQUEST TO GET RESULTS*/
@@ -40,15 +38,20 @@ $(function () {
                 /*WE HAVE NO RESULTS*/
                 if (data.result.length === 0) {
 
-                    results.append(` 
-                <h4 class="smaller_h"> There are no actions for how you feeling now :
+                    results.prepend(` 
+                <p class=" feelist_title text-center"> There are no results for how you feeling now! <br>
+                Be first to write post about : <br>
                     <span class="blue">${$('input[name="search_field"]').val()}</span>  
                     
-                    </h4>`)
+                    </p>
+                        `)
+
+                    $('.first_post').removeClass('d-none')
+
                 }
                 /*WE HAVE RESULTS*/
                 else {
-
+                    $('.first_post').addClass('d-none')
 
                     render_posts(data.result)
                 }
@@ -56,7 +59,7 @@ $(function () {
 
                 /*APPENDING EVENT LISTENERS AFTER RENDERING SEARCH RESULTS
                 * AFTER AJAX CALL*/
-                add_listeners(data.authorized_user,data.feelists)
+                add_listeners(data.authorized_user, data.feelists)
 
 
             });
@@ -93,8 +96,6 @@ $(function () {
 
 
     }
-
-
 
 
     /*ADDING OR REMOVING USER FROM MyGlobe*/
@@ -155,11 +156,9 @@ $(function () {
         var feelist_name = checked_feelist.data('feelist');
         var new_feelist = checked_feelist.data('new_feelist');
 
-        /*USER FEEDBACK ON CHOOSING THE ACTION*/
-        if(action === 'flags')  $_this.addClass('text-warning')
-        if(action === 'likes') $_this.addClass('text-danger')
 
-        if (!authorized_user)  please_login()
+
+        if (!authorized_user) please_login()
 
         /*WHEN USER ADDING ACTION TO HIS FEELIST AND HE DOESN'T SELECT ANY FEELIST
         * OR HE CHECKS NEW FEELIST BUT DOESN'T TYPE IN NEW FEELIST NAME
@@ -224,8 +223,10 @@ $(function () {
                     }
 
                 });
-
-             window.location.reload()
+        /*USER FEEDBACK ON CHOOSING THE ACTION*/
+        if (action === 'flags') $_this.addClass('text-warning')
+        if (action === 'likes') $_this.addClass('text-danger')
+        if (action === 'additions') window.location.reload()
         }
 
 
@@ -352,7 +353,7 @@ $(function () {
         $.each(posts, function (key, post) {
 
 
-                $("#search_results").append(`
+            $("#search_results").append(`
 
                     <div class="row mb-2 border_blue_l pt-2">
                      
@@ -379,14 +380,14 @@ $(function () {
                             class="far fa-flag float-right ml-3 gl_action" title="report as inappropriate">
                              <span id="flags_${post.id}" ></span>
                                     </i>
-                        `:` <i class="fas fa-exclamation-circle float-right ml-3 text-warning" title="like it!" >
-                            <span id="likes_${post.id}" >under review</span> </i> ` }
+                        ` : ` <i class="fas fa-exclamation-circle float-right ml-3 text-warning" title="like it!" >
+                            <span id="likes_${post.id}" >under review</span> </i> `}
                      </div>
                       
                             <!--INFO ABOUT GLOBBER-->
                         <div class="col-md-4 ">
                         
-                            <img class="avatar" src="assets/dist/images/avatars/${counter % 38}.png"/>
+                            <img class="avatar" src="assets/dist/images/avatars/${post.image_id}.png"/>
                             <a href="/user/${post.user_id}" class="user">
                            <span > ${post.name}</span>   <span class="user_heart post p-2 m-1">${post.user_feel}</span>  
                              </a> 
@@ -417,7 +418,6 @@ $(function () {
                 `)
 
 
-
             counter++
         })
     }
@@ -433,7 +433,7 @@ $(function () {
             function (latest) {
 
                 render_posts(latest.result)
-                add_listeners(latest.authorized_user,latest.feelists)
+                add_listeners(latest.authorized_user, latest.feelists)
             })
     }
 
@@ -464,7 +464,7 @@ $(function () {
         })
     }
 
-     latest_posts($('#c_search').data('cc') ? $('#c_search').data('cc') : '')
+    latest_posts($('#c_search').data('cc') ? $('#c_search').data('cc') : '')
 });
 
 

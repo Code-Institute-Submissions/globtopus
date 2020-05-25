@@ -570,7 +570,7 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
 
             div.append(`<div class="row mb-1" id="${post.post_id}">
                                 <div class="col-md-4 border_blue_l p-2 d-flex justify-content-around">
-                                    <img class="avatar" src="assets/dist/images/avatars/${single_user ? 1 : Math.ceil(Math.random() * 10)}.png"/>
+                                    <img class="avatar" src="assets/dist/images/avatars/${post.image_id}.png"/>
                                     <div>
                                         <div class="d-flex justify-content-center"><a href="/user/${post.user_id}" class="user">${post.name}</a></div>
                                         <div class="d-flex justify-content-center"><small class="text-muted">${post.created_at}</small></div>

@@ -1,3 +1,5 @@
+import random
+
 from flask import Blueprint, render_template, redirect, url_for, request, flash, session
 
 import datetime
@@ -40,7 +42,7 @@ def login():
     user_to_check = mongo.db.users.find_one({"email": user['email']})
     if not user_to_check:
         session['form_email'] = user['email']
-        flash('We have no user with those credentials')
+        flash('We have no user with those credentials','flash_error')
 
         return redirect(url_for('authorize_bp.sign_in'))
 
@@ -56,7 +58,7 @@ def login():
         it again"""
         session['form_email'] = user['email']
 
-        flash('Please select how you feel!')
+        flash('Please select how you feel!','flash_error')
 
         return redirect(url_for('authorize_bp.sign_in'))
 
@@ -149,7 +151,7 @@ def login():
         return redirect(url_for('user_bp.user'))
     else:
         session['form_email'] = user['email']
-        flash('Please provide valid email and password')
+        flash('Please provide valid email and password','flash_error')
         return redirect(url_for('authorize_bp.sign_in'))
 
 
@@ -173,19 +175,25 @@ def register():
     if new_user['cc'] == '':
         sticky_form(new_user)
 
-        flash('Please select location on the map!')
+        flash('Please select location on the map!','flash_error')
 
         return redirect(url_for('authorize_bp.sign_up'))
     """if we have user with this email, we will not register user"""
     from app import mongo
-    if list(mongo.db.users.find({"email": user_email})):
+    if list(mongo.db.users.find({"name": new_user['name']})):
 
-        flash(user_email + ' :  is already registered')
+        flash(new_user['name'] + ' :  is already taken, please select different user name','flash_error')
 
         sticky_form(new_user)
 
         return redirect(url_for('authorize_bp.sign_up'))
+    elif list(mongo.db.users.find({"email": user_email})):
 
+        flash( user_email + ' :  is already registered, please select different email','flash_error')
+
+        sticky_form(new_user)
+
+        return redirect(url_for('authorize_bp.sign_up'))
 
     else:
 
@@ -206,7 +214,8 @@ def register():
         new_user['password'] = generate_password_hash(new_user['password'])
         new_user['created_at'] = datetime.datetime.now()
         new_user['last_login'] = datetime.datetime.now()
-        new_user['last_feel'] = 100
+        new_user['last_feel'] = 0
+        new_user['image_id'] = random.randint(0, 38)
         new_user['likes'] = []
         new_user['flags'] = []
         new_user['user_feel'] = {datetime.datetime.now().strftime("%F"): 0}
@@ -215,7 +224,7 @@ def register():
         mongo.db.users.insert_one(new_user)
 
         # mongo.db.users.insert_one(new_user)
-        flash('Thank you for signing up ' + new_user['name'] + '. You can log in now !')
+        flash('Thank you for signing up ' + new_user['name'] + '. You can log in now !','flash_success')
         return redirect(url_for('authorize_bp.sign_in'))
 
 

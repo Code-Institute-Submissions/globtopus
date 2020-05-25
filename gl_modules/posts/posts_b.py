@@ -52,7 +52,7 @@ def create_post():
     """INSERTING INTO FEELS TABLE"""
     form_data = request.form.to_dict()
     if form_data['user_feel'] == '':
-        flash('Please select how you feel!')
+        flash('Please select how you feel!','flash_error')
 
         return redirect(url_for('landing_bp.index'))
 
@@ -94,7 +94,7 @@ def create_post():
                         int(form_data['user_feel']) - int(session.get('user_feel')))
     session['user_feel'] = form_data["user_feel"]
 
-    flash('Thank you ' + session.get('user_name'))
+    flash('Thank you ' + session.get('user_name'),'flash_success')
     return redirect(url_for('landing_bp.index'))
 
 
@@ -216,6 +216,7 @@ def search():
             {
                 'id': str(result['posts']['post_id']),
                 'name': str(result['name']),
+                'image_id': str(result['image_id']),
                 'in_my_glob': 1 if 'added_me' in result and session.get('user_id') in result['added_me'] else 0,
                 'user_id': str(result['_id']),
                 'user_feel': int(result['posts']['feel']),
@@ -376,6 +377,7 @@ def user_posts():
                 'user_id': str(post['_id']),
                 'user_feel': int(post['posts']['feel']),
                 'i_feel': (post['posts']['i_feel']),
+                'image_id': str(post['image_id']),
                 'because': (post['posts']['because']),
                 'action': str(post['posts']['action']),
                 'created_at': post['posts']['created_at'],
@@ -404,6 +406,7 @@ def my_fav():
         favs.append({'name': fav['name'],
                      'i_feel': fav['posts']['i_feel'],
                      'because': fav['posts']['because'],
+                     'image_id': str(fav['image_id']),
                      'action': fav['posts']['action'],
                      'created_at': fav['posts']['created_at'].strftime("%F"),
                      'post_id': fav['posts']['post_id'],

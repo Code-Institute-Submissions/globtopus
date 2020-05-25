@@ -709,7 +709,7 @@ I have used
 <a href="https://w3.org" title="w3.org">https://w3.org</a> 
 https://docs.mongodb.com/, https://realpython.com/, https://flask.palletsprojects.com/en/1.1.x/
  for learning new things and I have used some of the code suggestions form the sites in my project.
- All of which is commented in comments.
+  All of which are commented on in comments.
 
  
  

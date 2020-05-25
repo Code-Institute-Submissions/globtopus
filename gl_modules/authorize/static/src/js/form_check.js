@@ -14,6 +14,7 @@ $('#country_name,#county_name').on('click', function () {
 })
 
 $('#sign_up').on('click', function (e) {
+    console.log('country',$('#country_name').html(), 'county', $('#county_name').val())
     if ($('#country_name').val() === '')
     {
         e.preventDefault()

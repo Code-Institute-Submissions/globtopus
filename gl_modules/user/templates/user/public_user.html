@@ -5,8 +5,8 @@
         <div class="row">
             <div class="col-md-4">
                 <span class="user_page user_heart d-flex justify-content-center align-items-center">{{user['last_feel']}}</span>
-                <img class="avatar" src="{{url_for('assets_dist_bp.static', filename='images/avatars/3.png')}}"/>
-                    {{user['name']}}
+                <img class="avatar" src="{{url_for('assets_dist_bp.static', filename=filename)}}"/>
+                    {{user['name']}} {{user['image_id']}}
 
                  <ul class="list-group">
                     <li class="list-group-item no_border ">last active : <small> {{user['last_login']}}</small></li>

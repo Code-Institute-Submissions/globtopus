@@ -16,7 +16,7 @@
                 </div>
                 <input type="text" class="form-control form-control-lg border_bottom_only bg-transparent form_label"
                        readonly required name="country"
-                       id="country_name" placeholder="{{session['form_country'] or 'Please choose your Country on the map'}}"
+                       id="country_name"  value="{{session['form_country']}}" placeholder="{{session['form_country'] or 'Please choose your Country on the map'}}"
                 >
             </div>
         </div>
@@ -28,7 +28,7 @@
                     <div class="input-group-text bg-transparent border_bottom_only"><i class="fas fa-map-marker-alt"></i></div>
                 </div>
                 <input type="text" required class="form-control form-control-lg border_bottom_only bg-transparent form_label"
-                       id="county_name" readonly  name="cl"
+                       id="county_name" readonly  name="cl" value="{{session['form_county']}}" readonly
                        placeholder="{{session['form_county'] or 'Please choose your state / county'}}"
                 >
             </div>

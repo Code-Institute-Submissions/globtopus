@@ -644,7 +644,7 @@ def create_users():
         ['exited'],
         ['angry'],
         ['joyful'],
-        ['surprised'],
+        ['surprised'], ['great'],
 
     ]
     because_arr = [
@@ -687,7 +687,7 @@ def create_users():
         for i in range(1, 11):
             for e in range(1, random.randint(3, 9)):
                 posts.append({
-                    'i_feel': i_feel_arr[random.randint(0, 9)],
+                    'i_feel': i_feel_arr[random.randint(0, 10)],
                     'because': because_arr[random.randint(0, 9)],
                     'action': action_arr[random.randint(0, 16)],
                     'post_id': str(ObjectId()),
@@ -702,6 +702,7 @@ def create_users():
 
                           'name': 'user_' + cc + '_' + str(i),
                           'email': 'user_' + cc + '_' + str(i) + '_@globi.com',
+                          'image_id': random.randint(0, 38),
                           'password': generate_password_hash('password'),
                           'created_at': datetime.datetime.now(),
                           'last_login': datetime.datetime.now(),
