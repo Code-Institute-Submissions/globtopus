@@ -156,7 +156,7 @@ def login():
 
 
 """register new user"""
-á
+
 
 @authorize_bp.route('/register', methods=['POST'])
 def register():
