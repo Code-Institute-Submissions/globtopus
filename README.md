@@ -440,7 +440,47 @@ Admin can :
        -  remove the inappropriate post or return it to search results if I think that post is not inappropriate
        -  use the site on any device
 
+- ### Custom Error page
+
+I have created custom error pages, one general for 404,500 errors and one for 403 error when an unauthorized user would
+be trying to access /admin page.
+Custom error pages enable me to customize the pages that are displayed when an error occurs. 
+Not only do they make your website more professional, but they can also save us from losing visits to our site.
+ If a visitor they see a helpful error page, they may continue to stay because they can simply click a 
+ link to go to another page within our site.
  
+- ### Text search
+As I wanted users to be able to search the site for the posts where query string would match "I feel" and "because" parts
+of the posts, other user posted, I was considering to create 
+text index, but as per documentation, not all languages are supported, so I decided to split "I feel" and "because" parts
+,sanitize each word first and then store it into DB as array, so then when user searches for strings I am performing
+this query to find the posts that would be match
+
+```python
+search_results = mongo.db.users.aggregate([
+
+            {"$unwind": '$posts'},
+            {"$match": {"$or": [
+
+                                {"posts.i_feel": {"$in": q}},  # q is array
+                                {"posts.because": {"$in": q}}
+                                ],
+                        "$and": [
+                            {"cc": cc},
+                         ]
+            }}
+            ,
+            {"$sort": {"posts.created_at": -1}},
+            {"$limit": 20}
+
+        ])
+``` 
+- ### DB data
+
+As I wanted to be able to see how the site would look like, once it is in full swing, I populated DB with random data
+for total world data, country data, and county data, I have also created 10 users per country. The code is in factory_b.py
+So that when the user is searching on the country page, he will get results from that country only. He can of course search for the posts
+on landing and he will get results worldwide.
  
  ## Testing
  
@@ -662,6 +702,24 @@ One gotcha when rendering DOM elements with jQuery was, that even thou I had eve
 for the classes that newly rendered elements had, they weren't interactive in any way.
 So I've learned that when rendering new elements to DOM, event listeners must be applied
 right after they are rendered to have interaction with them, otherwise they won't be interactive!
+
+
+I couldn't figure out how to add variable in jinja templating language to filename in html,
+```html
+<img class="avatar" src="{{url_for('assets_dist_bp.static', filename=images/avatars/'+str(user['image_id'])+'.png')}}"/>
+```
+so i just created filename in python and passed it to view, and that was working.
+```python
+#filename = 'images/avatars/'+str(user['image_id'])+'.png'
+
+```
+
+```html
+ <img class="avatar" src="{{url_for('assets_dist_bp.static', filename=filename)}}"/>
+```
+
+
+
  
  
  
