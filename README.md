@@ -739,6 +739,8 @@ Allow users to upload their avatars.
 Send a welcome email to every new user.
 
 When the user is flagging a post, to require his reason for flagging it. 
+
+Create paginations for search results
   
   
   
