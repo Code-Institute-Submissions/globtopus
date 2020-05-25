@@ -39,12 +39,11 @@ app.register_blueprint(country_m.country_bp, url_prefix='/')
 
 
 
-# @app.errorhandler(Exception)
-# def basic_error(e):
-#     return render_template('errors/error.html',e=e)
+
 
 if __name__ == '__main__':
     app.run(
         port=os.environ.get('PORT'),
         host=os.environ.get('IP'),
+        uri=os.environ.get('MONGO_URI'),
         debug=True)
