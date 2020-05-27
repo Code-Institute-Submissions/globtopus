@@ -43,5 +43,5 @@ if __name__ == '__main__':
     app.run(
         port=os.environ.get('PORT'),
         host=os.environ.get('IP'),
-        uri=os.environ.get('MONGO_URI'),
+
         debug=True)
