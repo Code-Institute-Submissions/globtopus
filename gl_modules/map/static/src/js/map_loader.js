@@ -116,12 +116,13 @@
 
             /*IF WE ARE ON SIGN UP PAGE, WE NEED TO ADD LOCATION NAME TO INPUT FIELD*/
             if (feel === 'sign_up') {
-                return `<span class="list-group-item no_padding">
+                return `<span class="list-group-item no_padding"  >
                              <a 
                              href="#"
                                 title="click to select"
                                 class="locations_list select_location" 
                                 data-cc="${cc}"
+                               
                                 data-location="${c_name}"
                                 data-level="${level}">
                                 
@@ -192,7 +193,7 @@
                     </div>
                         <span class="reload d-flex justify-content-around" title="reload map"><i class="fas fa-redo  pt-1" ></i></span>
                 </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" id="country_map" x="0" y="0" 
+                        <svg xmlns="http://www.w3.org/2000/svg" id="country_map" data-cy="country_map" x="0" y="0" 
                         baseProfile="tiny" viewBox="0 0 660 447" xml:space="preserve">`
 
 
@@ -206,7 +207,7 @@
                             $('#r_all').append(select_location_link(county, 'sign_up', cc, 'county'))
 
 
-                            new_map += `<path id="${county}" 
+                            new_map += `<path data-cy="${county}" id="${county}" 
                                 title="click to select"
                                 class="locations_list select_location" 
                                

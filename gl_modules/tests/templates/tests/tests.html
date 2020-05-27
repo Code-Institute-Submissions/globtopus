@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% block content %}
+<section id="tests">
+    <div class="container">
+        <div class="d-flex justify-content-center col-md-6 offset-md-3 ">
+            <p class="text-center initial_interaction font-weight-bold">
+               Python Testing</p>
+        </div>
+        <div class="row">
+            <div class="col-md-12" id="description">
+                <p class="test initial_interaction text-center">
+                    To test the application create 2 users, and one post per user. <br> Once you click on
+                    <span class="btn feelist_title text-center text-light flash_success  p-3">Run tests</span>
+                    button bellow the test names,
+                    we will run tests described bellow. After succesfull test you can log in as first user and check if the tests were
+                    correctly passed.
+                </p>
+
+                 <form action="" id="test_form" class="col-md-12">
+                <div class="row mt-3 no-gutters">
+
+                    <div class="col-md-6 card">
+                        <div class="card-header bg_blue p-0">
+                            <h4 class="feelist_title text-center text-light">First user</h4>
+                        </div>
+                        <div class="card-body">
+                            <input type="text" class="form-control border_bottom_only form_label"
+                                   id="username_1" name="username_1"
+                                   placeholder="user name 1"
+                                   required>
+                            <input type="email" class="form-control border_bottom_only form_label"
+                                   id="useremail_1" name="useremail_1"
+                                   placeholder="user email 1"
+                                   required>
+                            <input type="password" class="form-control border_bottom_only form_label"
+                                   id="password_1" name="password_1"
+                                   placeholder="password 1"
+                                   required>
+                            <div class="card-header p-0 bg-transparent">
+                                <h4 class="feelist_title text-center blue">Create one post</h4>
+                            </div>
+                            <input type="text" class="form-control border_bottom_only form_label"
+                                   id="i_feel_1" name="i_feel_1"
+                                   placeholder="( When ) I feel/ I feel like"
+                                   required>
+                            <textarea class="form-control border_bottom_only form_label" id="because_1"
+                                      maxlength="200"
+                                      name="because_1"
+                                      required
+                                      placeholder="Because..."
+                            ></textarea>
+                            <textarea
+                                    rows="3"
+                                    name="action_1"
+                                    id="action_1"
+                                    class="form-control ___ mb-2 border_bottom_only form_label"
+                                    placeholder="One thing that I do, ( recommend doing ) is..."
+                                    required
+                            ></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6 card">
+                        <div class="card-header bg_blue p-0">
+                            <h4 class="feelist_title text-center text-light">Second user</h4>
+                        </div>
+                        <div class="card-body">
+                            <input type="text" class="form-control border_bottom_only form_label"
+                                   id="username_2" name="username_2"
+                                   placeholder="user name 2"
+                                   required>
+                            <input type="email" class="form-control border_bottom_only form_label"
+                                   id="useremail_2" name="useremail_2"
+                                   placeholder="user email 2"
+                                   required>
+                            <input type="password" class="form-control border_bottom_only form_label"
+                                   id="password_2" name="password_2"
+                                   placeholder="password 2"
+                                   required>
+                            <div class="card-header p-0 bg-transparent">
+                                <h4 class="feelist_title text-center blue">Create one post</h4>
+                            </div>
+                            <input type="text" class="form-control border_bottom_only form_label"
+                                   id="i_feel_2" name="i_feel_2"
+                                   placeholder="( When ) I feel/ I feel like"
+                                   required>
+                            <textarea class="form-control border_bottom_only form_label" id="because_2"
+                                      maxlength="200"
+                                      name="because_2"
+                                      required
+                                      placeholder="Because..."
+                            ></textarea>
+                            <textarea
+                                    rows="3"
+                                    name="action_2"
+                                    id="action_2"
+                                    class="form-control ___ mb-2 border_bottom_only form_label"
+                                    placeholder="One thing that I do, ( recommend doing ) is..."
+                                    required
+                            ></textarea>
+                        </div>
+                    </div>
+
+                </div>
+                      </form>
+                <div class="row no-gutters">
+                    <div class="col-md-12 bg_blue">
+                        <h4 class="feelist_title text-center text-light" id="test">Tests</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <ul class="list-group">
+                            <li class="list-group-item blue">
+                                 <h4 class="feelist_title text-center blue">test name</h4>
+                            </li>
+                            <li class="list-group-item">
+                                user_1_created :
+                            </li>
+                            <li class="list-group-item">
+                                user_2_created :
+                            </li>
+                            <li class="list-group-item">
+                                user_1_post_created :
+                            </li>
+                            <li class="list-group-item">
+                                user_2_post_created :
+                            </li>
+                            <li class="list-group-item">
+                                user_2_added_to_globe :
+                            </li>
+                            <li class="list-group-item">
+                                user_2_added_to_feelist :
+                            </li>
+                             <li class="list-group-item">
+                                user_2_post_in_favorites :
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <ul class="list-group">
+                            <li class="list-group-item blue">
+                                 <h4 class="feelist_title text-center blue">results</h4>
+                            </li>
+                            <li class="list-group-item initial_interaction testing" id="user_1_created">
+                                waiting for results...
+                            </li>
+                            <li class="list-group-item initial_interaction testing" id="user_2_created">
+                                waiting for results...
+                            </li>
+                            <li class="list-group-item initial_interaction testing" id="user_1_post_created">
+                                waiting for results...
+                            </li>
+                             <li class="list-group-item initial_interaction testing" id="user_2_post_created">
+                                waiting for results...
+                            </li>
+                            <li class="list-group-item initial_interaction testing" id="user_2_added_to_globe">
+                                waiting for results...
+                            </li>
+                            <li class="list-group-item initial_interaction testing" id="user_2_added_to_feelist">
+                                waiting for results...
+                            </li>
+                            <li class="list-group-item initial_interaction testing" id="user_2_post_in_favorites">
+                                waiting for results...
+                            </li>
+                        </ul>
+                    </div>
+
+                     <div class="col-md-12 text-center mt-1" id="testing">
+                        <h4 class="btn feelist_title text-center text-light flash_success  p-3" id="run_tests">Run tests</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="footer">
+
+</section>
+{% endblock%}
+{% block js %}
+<script src="{{url_for('tests_bp.static', filename='tests.js')}}"></script>
+<script src="{{url_for('shared_bp.static', filename='js/form_label.js')}}"></script>
+<script src="{{url_for('shared_bp.static', filename='js/feel_meter.js')}}"></script>
+{% endblock %}

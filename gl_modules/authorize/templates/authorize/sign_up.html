@@ -44,7 +44,7 @@
                         <div class="input-group-text bg-transparent border_bottom_only"><i class="fas fa-user"></i></i>
                         </div>
                     </div>
-                    <input type="text" data-label=1 class="form-control form-control-lg border_bottom_only form_label"
+                    <input data-cy="username" type="text" data-label=1 class="form-control form-control-lg border_bottom_only form_label"
                            id="name" name="name"
                            placeholder="username"
                            required value="{{session['form_name']}}">
@@ -56,7 +56,7 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text bg-transparent border_bottom_only"><i class="fas fa-at"></i></div>
                     </div>
-                    <input type="email" data-label=1 class="form-control form-control-lg border_bottom_only form_label"
+                    <input data-cy="email" type="email" data-label=1 class="form-control form-control-lg border_bottom_only form_label"
                            id="email" name="email"
                            placeholder="Email" required value="{{session['form_email']}}">
                 </div>
@@ -69,14 +69,14 @@
                             <i class="fas fa-globe"></i>
                         </div>
                     </div>
-                    <input type="password" data-label=1
+                    <input data-cy="password" type="password" data-label=1
                            class="form-control form-control-lg border_bottom_only form_label" id="password"
                            placeholder="Password" name="password" required>
                 </div>
             </div>
             <!--feelometer-->
             <div class="mt-5">
-                <button class="btn bg_blue text-light pt-3 pb-3 pr-5 pl-5 float-right smaller_h" id="sign_up"
+                <button data-cy="sign_up" class="btn bg_blue text-light pt-3 pb-3 pr-5 pl-5 float-right smaller_h" id="sign_up"
                         title="Have a great day!">Sign up!
                 </button>
             </div>
@@ -89,7 +89,7 @@
                         <span id="current">Hover over map to see country name here, scroll, drag or double click to navigate
                        </span>
                     </div>
-                    <div  data-range="all" title="see the list"
+                    <div data-cy="all" data-range="all" title="see the list"
                             class="col-md-6 p-2 show_list text-center border_green border_bottom_only d-flex justify-content-around align-items-center">
                         <span><i class="fas fa-list"></i></span><br>
                         <span>or select location from the list</span>
@@ -97,13 +97,13 @@
                     </div>
 
                 </div>
-                <div id="svg_map">
+                <div id="svg_map" data-cy="svg_map">
                       {{ world_map() }}
                 </div>
 
 
             </div>
-            <div class="col-md-12 range d-none" id="r_all"><h4 class="feelist_title">Countries all</h4></div>
+            <div  class="col-md-12 range d-none" id="r_all"><h4 class="feelist_title">Countries all</h4></div>
 
         </div>
     </div>

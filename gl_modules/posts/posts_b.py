@@ -28,12 +28,14 @@ def new_post():
     """
        ADDING NEWLY CREATED POST TO USER'S POSTS ARRAY 
     """
+
     mongo.db.users.update(
         {"_id": ObjectId(session.get('user_id'))},
         {
             "$push": {
                 "posts":
-                    {"i_feel": sanitize(i_feel, 'array'),
+                    {
+                     "i_feel": sanitize(i_feel, 'array'),
                      "because": sanitize(because, 'array'),
                      "feel": session.get('user_feel'),
                      "action": action,
@@ -60,6 +62,7 @@ def create_post():
     """
        ADDING NEWLY CREATED POST TO USER'S POSTS ARRAY 
     """
+
     mongo.db.users.update(
         {"_id": ObjectId(session.get('user_id'))},
         {

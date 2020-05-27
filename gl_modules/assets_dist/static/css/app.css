@@ -187,7 +187,14 @@ h4.danger_title {
   font-family: 'Exo 2', sans-serif;
   color: rgba(23, 113, 153, 0.15);
 }
-
+.initial_interaction.test{
+  font-size: 1em;
+  color: rgba(23, 113, 153, 0.75);
+}
+.initial_interaction.testing{
+  font-size: 1em;
+  color: rgba(23, 113, 153, 0.35);
+}
 .initial_interaction.user {
   font-size: 3.2em;
 }
@@ -609,6 +616,10 @@ a:hover {
   border: 1px dashed greenyellow;
   color: whitesmoke;
   background-color: #03c03c;
+}
+#run_tests:hover{
+   border: 1px solid green;
+   background-color: green;
 }
 @media screen and ( max-width: 1200px ) {
   .custom-range {

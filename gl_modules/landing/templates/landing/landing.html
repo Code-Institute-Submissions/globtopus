@@ -48,14 +48,18 @@
                      {{ feelometer() }}
                     <div class="col-md-12">
                         <input type="text" class="form-control border_bottom_only mb-1 form_label" form="user_feel" id="one"
-                               name="i_feel" required
+                               name="i_feel"
+                               data-cy="i_feel"
+                               required
                                placeholder="( When ) I feel/ I feel like"
                                data-cy="description">
                     </div>
                     <div class="col-md-12">
                     <textarea class="form-control border_bottom_only form_label" form="user_feel" id="two"
                               maxlength="200"
-                              name="because" required
+                              name="because"
+                              data-cy="because"
+                              required
                               placeholder="Because..."
                               data-cy="description"></textarea>
 
@@ -76,6 +80,7 @@
                               rows="5"
                               name="action"
                               id="action"
+                              data-cy="action"
                               class="form-control ___ mb-2 border_bottom_only form_label"
                               placeholder="One thing that I do, ( recommend doing ) is..."
                               required
@@ -85,7 +90,7 @@
 
 
                     {% if session.get('authorized_user') %}
-                    <button class="gl_button col-md-12 p-2" type="submit">submit</button>
+                    <button class="gl_button col-md-12 p-2" type="submit" data-cy="create_post">submit</button>
                     {% else %}
                     <a class="" href="{{url_for('authorize_bp.sign_in')}}">Sign in </a>
                     or
@@ -103,7 +108,7 @@
 
 <section id="post_search" class="mt-2 landing_interaction d-none text-center">
     {{ search_box() }}
-    <div id="search_results">
+    <div data-cy="search_results" id="search_results">
 
     </div>
     <span  class="gl_button write_post first_post d-none "><i class="fas fa-pencil-alt"></i>&nbsp;write</span>

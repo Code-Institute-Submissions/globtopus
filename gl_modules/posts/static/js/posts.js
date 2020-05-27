@@ -284,17 +284,17 @@ $(function () {
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text bg-transparent border_bottom_only">
-                                                    <input type="radio" data-new_feelist="true"
+                                                    <input type="radio" data-new_feelist="true" data-cy="new_feelist_check"
                                                            name="feelist" id="new" data-feelist="" >
                                                 </div>
                                             </div>
-                                           <input type="text" class="form-control border_bottom_only  form_label" 
+                                           <input type="text" class="form-control border_bottom_only  form_label"  data-cy="new_feelist_name"
                                             id="new_feelist" name="new_feelist"    placeholder="create new">
                                         </div>
             
                                     
                                 </ul>
-                                <button class="gl_button gl_action save_feelist" 
+                                <button class="gl_button gl_action save_feelist" data-cy="new_feelist_save"
                                 data-id="${post_id}" data-action=${action}
                                 
                                 >save</button>
@@ -370,13 +370,13 @@ $(function () {
                             
                             <i  data-id="${post.id}"  data-action="likes"
                             class="fas fa-heart float-right ml-3 gl_action" title="like it!" >
-                            <span id="likes_${post.id}" >&nbsp;${post.likes}</span> </i> 
+                            <span id="likes_${post.id}" data-cy="like_post${counter}">&nbsp;${post.likes}</span> </i> 
           
-                            <i   data-id="${post.id}"  data-action="additions"
+                            <i   data-id="${post.id}"  data-action="additions" data-cy="add_post${counter}"
                             class="fas fa-plus float-right ml-3 add_to_feelist" title="add to your feelist!">
                             <span id="additions_${post.id}" ></span>
                             </i>
-                            <i  data-id="${post.id}"  data-action="flags"
+                            <i  data-id="${post.id}"  data-action="flags" data-cy="flag_post${counter}"
                             class="far fa-flag float-right ml-3 gl_action" title="report as inappropriate">
                              <span id="flags_${post.id}" ></span>
                                     </i>
@@ -393,6 +393,7 @@ $(function () {
                              </a> 
                               <span class="float-right remove_from_glob blue removed_from_glob${post.user_id}
                              ${post.in_my_glob === 1 ? '' : 'd-none'}" 
+                             data-cy="remove_user${counter}"
                              data-user_id="${post.user_id}" 
                              data-user_name="${post.name}"
                              data-user_action="removed_from_glob"
@@ -402,6 +403,7 @@ $(function () {
                              <span class="float-right add_to_glob blue added_to_glob${post.user_id}
                             ${post.in_my_glob !== 1 ? '' : 'd-none'}" 
                              data-user_id="${post.user_id}" 
+                             data-cy="add_user${counter}"
                              data-user_name="${post.name}"
                               data-user_action="added_to_glob"
                              title="Add me to your glob !">

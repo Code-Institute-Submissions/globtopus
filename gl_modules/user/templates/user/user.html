@@ -10,31 +10,31 @@
                 </li>
                 <a href="{{url_for('user_bp.user')}}" class="list-group-item no_border user_nav" data-nav="my_progress">My
                     Progress</a>
-                <a class="list-group-item no_border user_nav my_glob" data-nav="my_glob"
+                <a class="list-group-item no_border user_nav my_glob" data-nav="my_glob" data-cy="my_globe"
                    data-toggle="collapse" href="#globber_list" role="button" aria-expanded="false" aria-controls="globber_list"
                 >My Globe</a>
-                <ul class="list-group collapse list_of_globers" id="globber_list">
+                <ul class="list-group collapse list_of_globers" id="globber_list" >
                 </ul>
-                <a class="list-group-item no_border user_nav my_feelist" data-nav="my_feelist"
+                <a class="list-group-item no_border user_nav my_feelist" data-nav="my_feelist" data-cy="my_feelist"
                    data-toggle="collapse" href="#list_of_feelists" role="button" aria-expanded="false" aria-controls="list_of_feelists">My
                     Feelists
                 </a>
                 <ul class="list-group collapse" id="list_of_feelists">
                     {% if session.get('my_feelists') != [] %}
                     {% for item in session.get('my_feelists') %}
-                    <li class="list-group-item no_border feelist " data-f_name="{{ item }}">{{ item }}</li>
+                    <li class="list-group-item no_border feelist" data-cy="feelist1" data-f_name="{{ item }}">{{ item }}</li>
                     {% endfor %}
                     {% endif %}
                 </ul>
-                <li class="list-group-item no_border user_nav my_fav" data-nav="my_fav"
+                <li class="list-group-item no_border user_nav my_fav" data-nav="my_fav" data-cy="my_fav"
                 >My Favourites
                 </li>
-                <li class="list-group-item no_border user_nav my_posts" data-nav="my_posts"
+                <li class="list-group-item no_border user_nav my_posts" data-nav="my_posts"  data-cy="my_posts"
                     data-user_id={{session['user_id']}}
                     data-user_name={{session['user_name']}}
                 >My Posts
                 </li>
-                <a href="{{url_for('landing_bp.index')}}" class="list-group-item no_border user_nav" data-nav="my_posts">Add
+                <a href="{{url_for('landing_bp.index')}}"  class="list-group-item no_border user_nav" data-nav="my_posts">Add
                     New Posts</a>
                 <li class="list-group-item no_border ">last login : <small> {{user.last_login}}</small></li>
             </ul>
@@ -63,7 +63,7 @@
                     </p>
                 </div>
                 <!--USER'S FEELISTS-->
-                <div class="d-none user_interaction h_aligned col-md-12" id="feelists">
+                <div class="d-none user_interaction h_aligned col-md-12" id="feelists" data-cy="u_feelists">
                     <div class="d-flex justify-content-center ">
                         <p class="text-center initial_interaction font-weight-bold">
                             You have no one in your feelist yet!</p>
@@ -80,7 +80,7 @@
                     </p>
                 </div>
                 <!--USER'S FAVOURITES-->
-                <div class="d-none user_interaction col-md-12 h_aligned " id="favourites">
+                <div class="d-none user_interaction col-md-12 h_aligned " id="favourites" >
                     <div class="d-flex justify-content-center ">
                         <p class="text-center initial_interaction font-weight-bold">
                             You have no one in your favourites yet!</p>
@@ -94,7 +94,7 @@
                     </p>
                 </div>
                 <!--USER'S POSTS-->
-                <div class=" d-none user_interaction h_aligned col-md-12" id="posts">
+                <div class=" d-none user_interaction h_aligned col-md-12" data-cy="user_posts" id="posts">
                     <div class="d-flex justify-content-center ">
                         <p class="text-center initial_interaction font-weight-bold">
                             You didn't write any posts yet!</p>

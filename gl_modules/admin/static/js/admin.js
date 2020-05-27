@@ -21,7 +21,7 @@ import {Toast} from "../../../shared/static/js/swal_toast.js";
             confirmButtonText: 'Yes!',
             cancelButtonText: 'No!',
             customClass: {
-                confirmButton: 'gl_button',
+                confirmButton: 'gl_button cy-confirm',
                 cancelButton: 'gl_button danger'
             },
         }).then((result) => {
@@ -31,7 +31,7 @@ import {Toast} from "../../../shared/static/js/swal_toast.js";
                     function (response) {
 
                         if (response.deleted === 'deleted' || response.returned_back === 'returned') {
-                            console.log(response)
+
                             $('#' + post_id).remove()
 
                             Toast.fire({
@@ -48,8 +48,8 @@ import {Toast} from "../../../shared/static/js/swal_toast.js";
                                                     <p class="text-danger">Something is wrong. <br> Please try later!</h4> 
                                        `,
                         })
-                    }
-                )
+                    })
+                 window.location.reload()
             }
         })
 

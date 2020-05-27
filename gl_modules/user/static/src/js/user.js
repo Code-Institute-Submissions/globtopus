@@ -74,7 +74,7 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
                         confirmButtonText: 'Yes!',
                         cancelButtonText: 'No!',
                         customClass: {
-                            confirmButton: 'gl_button',
+                            confirmButton: 'gl_button cy-delete-from-feelist',
                             cancelButton: 'gl_button danger'
                         },
                     }).then((result) => {
@@ -123,7 +123,7 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
                         confirmButtonText: 'Yes!',
                         cancelButtonText: 'No!',
                         customClass: {
-                            confirmButton: 'gl_button',
+                            confirmButton: 'gl_button cy-remove-feelist',
                             cancelButton: 'gl_button danger'
                         },
 
@@ -180,11 +180,11 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
                 }
                 glober_list.html('')
                 $.each(data.my_glob, function (key, glober) {
-                    glober_list.append(`<li class="list-group-item no_border glober" 
+                    glober_list.append(`<li class="list-group-item no_border glober"  data-cy="globber"
                                             data-glober_id="${glober.id}" data-glober_name="${glober.name}">${glober.name}</li>`)
                 })
 
-                glober_list.prepend(`
+                if (screen.width < 768) glober_list.prepend(`
                     <span class="p-1 text-light"><i class="fas fa-user-friends"></i> &nbsp;My globe</span>`)
                 glober_list.append(` <br>`)
                 $('.glober').on('click', function () {
@@ -222,7 +222,7 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
                                     confirmButtonText: 'Yes!',
                                     cancelButtonText: 'No!',
                                     customClass: {
-                                        confirmButton: 'gl_button',
+                                        confirmButton: 'gl_button cy-remove-globber',
                                         cancelButton: 'gl_button danger'
                                     },
                                 }).then((result) => {
@@ -288,7 +288,7 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
                         confirmButtonText: 'Yes!',
                         cancelButtonText: 'No!',
                         customClass: {
-                            confirmButton: 'gl_button',
+                            confirmButton: 'gl_button cy-delete-post',
                             cancelButton: 'gl_button danger'
                         },
                     }).then((result) => {
@@ -383,7 +383,7 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
                     })
                 })
 
-                $('#new_post').on('click', function () {
+                $('#new_post,.new_post').on('click', function () {
                     Swal.fire(
                         {
                             html: post_action('create'),
@@ -478,7 +478,7 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
                         confirmButtonText: 'Yes!',
                         cancelButtonText: 'No!',
                         customClass: {
-                            confirmButton: 'gl_button',
+                            confirmButton: 'gl_button cy-delete-fav',
                             cancelButton: 'gl_button danger'
                         },
                     }).then((result) => {
@@ -510,29 +510,35 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
             })
     })
 
+    /*CREATE NEW ONE OR UPDATE EXISTING ONE*/
     function post_action(what, i_feel, because, action, post_id) {
         return ` <div class="col-md-12"><h4 class="smaller_h text-center blue">${what === 'edit' ? 'Edit' : 'Create'}   your post</h4></div>
                                     <hr class="bg_blue">
                                     <div class="col-md-12">
                                         <label for="i_feel" ><small>I feel/feel like</small></label>
                                         <input type="text" class="form-control border_bottom_only mb-1 form_label" form="user_feel" id="i_feel"
-                                               name="i_feel" required
+                                               name="i_feel" 
+                                               data-cy="i_feel"
+                                               required
                                                placeholder="I feel/ I feel like"
-                                               data-cy="description"
+                                              
                                                value="${what === 'edit' ? i_feel : ''}">
                                    
                                     <label for="because" ><small>Because...</small></label>
                                     <textarea class="form-control border_bottom_only form_label" form="user_feel" id="because"
                                       maxlength="200"
-                                      name="because" required
+                                      name="because" 
+                                      data-cy="because"
+                                      required
                                       placeholder="Because..."
-                                      data-cy="description" >${what === 'edit' ? because : ''}</textarea>
+                                      >${what === 'edit' ? because : ''}</textarea>
 
                                         <label for="action" ><small>One thing that you do...</small></label>
                                         <textarea form="user_feel"
                                                   rows="5"
                                                   name="action"
                                                   id="action"
+                                                  data-cy="action"
                                                   class="form-control ___ mb-2 border_bottom_only form_label"
                                                   placeholder="One thing that you do..."
                                                   required
@@ -540,7 +546,7 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
                                         >${what === 'edit' ? action : ''}</textarea>
                                        
                                         <div class="border-danger text-danger d-none" id="post_error">All fields must be filled!</div>
-                                        <button class="gl_button col-md-12 p-2 bg_blue" 
+                                        <button class="gl_button col-md-12 p-2 bg_blue"  data-cy="post_action"
                                         id="${what === 'edit' ? 'update_post' : 'create_post'}"
                                         data-post_id="${what === 'edit' ? post_id : ''}"
                                         >${what === 'edit' ? 'Update post' : 'Create post'}</button>
@@ -553,21 +559,22 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
         $('.user_interaction').addClass('d-none')
         div.removeClass('d-none').html('').append(`<span class="feelist_title">${title} 
 
-        ${delete_class === 'delete_action' ? `<small  class="float-right delete_feelist" title="Delete feelist?" data-f_name="${f_name}">
+        ${delete_class === 'delete_action' ? `<small  class="float-right delete_feelist" title="Delete feelist?" 
+                                  data-cy="delete_feelist"  data-f_name="${f_name}">
                  <i class="far fa-trash-alt"></i></small>` :
             
             `${delete_class === '' ?
-            `<small  class="float-right " id="remove_from_globe" title="Remove from globe?" 
+            `<small data-cy="remove_from_globe"  class="float-right " id="remove_from_globe" title="Remove from globe?" 
                     data-glober_id="${sessionStorage.getItem('glober_id')}">
                  <i class="far fa-trash-alt"></i></small>` : 
                 
-                `${delete_class === 'delete_post' ? `<small class="float-right new_post" id="new_post">
+                `${delete_class === 'delete_post' ? `<small data-cy="create_new_post" class="float-right new_post" id="new_post">
                     <i class="fas fa-pen-alt"></i>&nbsp;new</small>`:`` }`}`}</span>`)
 
 
-
+        var counter=0
         $.each(posts, function (key, post) {
-
+            counter++
             div.append(`<div class="row mb-1" id="${post.post_id}">
                                 <div class="col-md-4 border_blue_l p-2 d-flex justify-content-around">
                                     <img class="avatar" src="assets/dist/images/avatars/${post.image_id}.png"/>
@@ -585,18 +592,19 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
                                     <p class="card-text m-1 blue">I ... <span class="card-text action_${post.post_id}">${post.action}</span></p>
                                     <p class="card-text ">
                                     
-                                        ${controls.indexOf('delete') !== -1 ? `<small class=" ${delete_class} r-2 float-right" title="Delete?"
+                                        ${controls.indexOf('delete') !== -1 ? `<small data-cy="delete_post${counter}" class=" ${delete_class}
+                                                        r-2 float-right" title="Delete?" 
                                                data-post_id="${post.post_id}">
                                             <i class="far fa-trash-alt"></i>
                                         </small>` : ``}
                                         
-                                        ${controls.indexOf('edit') !== -1 ? `<small class="edit_post float-right mr-2" title="Edit post?"
+                                        ${controls.indexOf('edit') !== -1 ? `<small data-cy="edit_post${counter}" class="edit_post float-right mr-2" title="Edit post?"
                                                     data-post_id="${post.post_id}">
                                                    <i class="far fa-edit"></i>
                                                     
                                         </small>` : ``}  
                                         
-                                         <small class=" mr-2 float-left" title="likes"
+                                         <small class=" mr-2 float-left" title="likes" "
                                                data-post_id="${post.post_id}">
                                             <i class="fas fa-heart " >
                                                 <span>&nbsp; ${post.likes}</span> </i>
