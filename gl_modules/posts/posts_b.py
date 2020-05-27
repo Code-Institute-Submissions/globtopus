@@ -352,7 +352,7 @@ def actions():
 
     return jsonify(result=post_id)
 
-
+# cypress run --record --key ec2e89e1-2683-4b85-a02d-72df89f5c77b --spec "cypress/integration/d_remove_user_from_globe.js"
 @posts_bp.route('/user_posts')
 def user_posts():
     user_id = request.args.get('user_id', 0, type=str)

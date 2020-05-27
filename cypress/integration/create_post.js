@@ -26,29 +26,29 @@ describe('Creating new post', () => {
             cy.get('[data-cy=create_new_post]')
                 .should('be.visible')
                 .click();
-
+            cy.wait(2000)
             cy.get('[data-cy=i_feel]')
                 .type('Great').should('have.value', 'Great')
-
+cy.wait(2000)
             cy.get('[data-cy=because]')
                 .type('I am almost done with the third milestone project')
                 .should('have.value', 'I am almost done with the third milestone project')
 
-
+cy.wait(2000)
             cy.get('[data-cy=action]')
                 .type('Learn new things every day').should('have.value', 'Learn new things every day')
 
-
+cy.wait(2000)
             cy.get('[data-cy=post_action]')
                 .should('be.visible')
                 .click();
 
-
+cy.wait(2000)
             cy.wait(2000)
             cy.get('[data-cy=my_posts]')
                 .should('be.visible')
                 .click();
             cy.get('[data-cy=user_posts]').scrollIntoView()
-
+cy.wait(2000)
         })
 })

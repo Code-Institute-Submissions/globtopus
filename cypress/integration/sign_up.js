@@ -24,13 +24,14 @@ describe ( 'Creating new user', () =>
                cy.wait ( 2000 );
 
                  cy.get ( '[data-cy=username]' )
-      		.type('cypress testuser').should('have.value', 'testuser')
+      		.type('testuser').should('have.value', 'testuser')
 
 			cy.get ( '[data-cy=email]' )
       		.type('testuser@user.com').should('have.value', 'testuser@user.com')
 
 			cy.get ( '[data-cy=password]' )
       		.type('password').should('have.value', 'password')
+
 
 			cy.get ( '[data-cy=sign_up]' )
       		.should ( 'be.visible' )

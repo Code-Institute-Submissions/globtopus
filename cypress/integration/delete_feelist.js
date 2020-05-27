@@ -35,6 +35,7 @@ describe('Deleting feelist', () => {
                 .scrollIntoView()
                 .wait(1000) .click();
 
+                cy.wait(3000)
                 cy.get('.cy-remove-feelist')
                 .should('be.visible')
                 .scrollIntoView()
