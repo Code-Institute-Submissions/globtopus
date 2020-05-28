@@ -3,12 +3,7 @@
 {% endblock %}
 {% block content %}
 <section id="user_input">
-    {% for feel in feels %}
-    {{feel.num_of_people}}
-    ---
-    {{feel.sum_of_feelings}}
-    <hr>
-    {% endfor %}
+     <a class="btn btn-large btn-success" href="javascript:void(0);" onclick="javascript:introJs().start();">Show me how</a>
     <form action="{{url_for('posts_bp.create_post')}}" method="POST" id="user_feel">
         <div class=" interaction-holder" data-cy="user_interaction">
             <div class="row ">
@@ -46,7 +41,8 @@
                 <div class="col-lg-4 int_steps  parent ml-1 mr-1 p-2 mt-1 align-content-around flex-wrap feel_form d-none d-md-block" id="how_do_you_feel">
                     <div class="col-md-12"><h4 class="smaller_h text-center">How do you feel?</h4></div>
                      {{ feelometer() }}
-                    <div class="col-md-12">
+                    <div class="col-md-12" data-step="2" data-intro="Type in how you feel at the moment, or if you
+                        want to write in general, you can write in a sence of when I feel/ feel like...">
                         <input type="text" class="form-control border_bottom_only mb-1 form_label" form="user_feel" id="one"
                                name="i_feel"
                                data-cy="i_feel"
@@ -54,14 +50,14 @@
                                placeholder="( When ) I feel/ I feel like"
                                data-cy="description">
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-12" data-step="3" data-intro="Type in why do you feel this way...">
                     <textarea class="form-control border_bottom_only form_label" form="user_feel" id="two"
                               maxlength="200"
                               name="because"
                               data-cy="because"
                               required
                               placeholder="Because..."
-                              data-cy="description"></textarea>
+                             ></textarea>
 
 
                          </div>
@@ -69,13 +65,14 @@
                 <!--STEPS TO FEEL THIS WAY OR BETTER-->
                 <div class="col-lg-4 int_steps  parent  ml-1 mr-1 p-2 mt-1 align-content-around flex-wrap feel_form  feel_form d-none d-md-block"
                      id="what_do_you_do">
-                    <div class="col-md-12">
+                    <div class="col-md-12" >
                         <h4 class="smaller_h one_thing text-center">What is the one thing that you do
                             <span id="better" class=" text-center ">to feel better?</span>
                             <span id="this_or_better" class=" text-center d-none">to feel this way or better ?</span>
                         </h4>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-12" data-step="4" data-intro="Type in what is the one thing that you do to feel this way, or one thing
+                    you recommend doing...">
                     <textarea form="user_feel"
                               rows="5"
                               name="action"

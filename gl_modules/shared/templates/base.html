@@ -22,6 +22,7 @@
                 rel="stylesheet"
         />
         <link rel="stylesheet" href="{{url_for('assets_dist_bp.static', filename='css/app.css')}}" type="text/css">
+         <link rel="stylesheet" href="{{url_for('assets_dist_bp.static', filename='css/introjs.css')}}" type="text/css">
         {% block css %}
         {% endblock %}
     </head>
@@ -101,7 +102,7 @@
             {% endblock %}
             {% macro feelometer() -%}
             <!--feelometer-->
-            <div class="form-group ">
+            <div class="form-group " data-step="1" data-intro="Slide the slider to select how you feel!">
                 <div class="col-auto text-center">
                     <label for="feeling_holder" class=" text-center">Move slider  <i class="fas fa-heart text-danger"></i> to select how you feel</label>
                     <div class="input-group mb-2">
@@ -166,6 +167,8 @@
         ></script>
         <!--SWEETALERT JS-->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+        <script src="{{url_for('shared_bp.static', filename='js/intro.js')}}"></script>
+
         {% block js %}
         {% endblock %}
     </body>
