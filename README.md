@@ -484,16 +484,18 @@ on landing and he will get results worldwide.
  
  ## Testing
  
+There are 3 ways how I tested this website:
+-  Manual testing
+-  Cypress end-to-end testing
+-  Python testing ( with challenges)
+ 
+ 
+ 
  I decided to learn about cypress.io for testing and writing test for the application.
  The front-end testing was done in cypress.io, it allowed me to test my application automatically, and 
  it allowed me to record my tests using this command. 
  
- ```
- $  node_modules/.bin/cypress run --record --key { my_record_key } --spec "cypress/integration/path/to/file.js"
-
- ``` 
  
- Tests for the front-end can be watched here.
  
   [TESTING.md](TESTING.md)
    

@@ -1,8 +1,18 @@
 ## Testing
 There are 3 ways how I tested this website:
--   Manual testing
--   Cypress end-to-end testing
--  Python testing
+-[Manual testing](#Manual-testing)
+> I have done lots of manual testing myself, and also asked my family to test it on their devices, from where
+I got interesting insights into the expectations of regular users, which I used to hopefully improve the functionality of the website.
+-[Cypress end-to-end testing](#Cypress-end-to-end testing)
+> I decided to learn about cypress.io for testing and writing test for the application during my Second Milestone project
+>and I am using cypress.io again for this project. It allowed me to test my application automatically, and 
+         it allowed me to record my tests using this command. 
+-[Python testing](#Python-testing)
+>With python testing I was experiencing great difficulties with connecting to MongoDB during tests,
+when I tried to import mongo.A simple test without needing MongoDB would pass, but one that needed MongoDB didn't. I tried to find a solution to be
+able to test my Flask Application on live DB on StackOverflow and other sources online, but I wasn't successful. So I tried to
+solve this challenge with Tutor Support from CodeInstitute, but we couldn't solve it. So in the end, as I wanted to have
+site tested, I decided to write a suite of tests to test the core functionality of the website myself without unittest.
 
 ### Manual testing
 
@@ -99,18 +109,17 @@ no to cancel the action.
   
 ### Cypress end-to-end testing
 
-Bellow is the list of end-to-end tests to test every functionality of the website.
-On the left side is the link to the source code of the test and on the right side are the links to preview tests.
+Below is the list of end-to-end tests to test every functionality of the website.
 
-> Clicking on the preview link will take you to the recordings, which I made public, and you can preview video by clicking on the little triangle on the far right side of the spec.
-If you click on Test Results on the top of the screen, then you will be able to see more details about the spec :
--  Test case
--  Artifacts
--  Test definition
 
-> Clicking on the name of the file will take you to the source code of the test.
+> I was experiencing unexpected troubles with cypress recordings this time, as some of the recordings were recorded 
+only 70-80% of its length so I decided to do record it myself and convert recordings to gif as this way it is possible
+to see all tests passing to the end.
 
-> To open link in a new tab CTRL +  click it!
+
+Clicking on the name of the file will take you to the source code of the test.
+
+
 
 
 
