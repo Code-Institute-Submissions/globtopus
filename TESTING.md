@@ -1,12 +1,15 @@
 ## Testing
 There are 3 ways how I tested this website:
+
 -[Manual testing](#Manual-testing)
 > I have done lots of manual testing myself, and also asked my family to test it on their devices, from where
 I got interesting insights into the expectations of regular users, which I used to hopefully improve the functionality of the website.
+
 -[Cypress end-to-end testing](#Cypress-end-to-end testing)
 > I decided to learn about cypress.io for testing and writing test for the application during my Second Milestone project
 >and I am using cypress.io again for this project. It allowed me to test my application automatically, and 
          it allowed me to record my tests using this command. 
+
 -[Python testing](#Python-testing)
 >With python testing I was experiencing great difficulties with connecting to MongoDB during tests,
 when I tried to import mongo.A simple test without needing MongoDB would pass, but one that needed MongoDB didn't. I tried to find a solution to be
