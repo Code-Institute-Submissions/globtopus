@@ -108,7 +108,12 @@ and when you are logged in, you can add the posts to your favorites, feelists, a
 were flagged as inappropriate, you can then decide whether to delete them or return them to search results, by clicking on
 delete or return back buttons. When you click on these buttons, a confirmation popup will appear, click yes to perform the action, and
 no to cancel the action.
-
+##### Defensive Design -pass
+When a public user attempts to like, add, or flag posts, we will fire popup, to sign in or sign up to be able to do so.
+When the user tries to sign in with the user name or email already registered, we will flash the message, that those names are already taken.
+When a user tries to log in without selecting how he feels, we will flash the message, that he must select how he feels.
+When the user tries to post a message without selecting how he feels, we will flash the message, that he must select how he feels.
+When a user tries to post without filling all three( required ) fields, he will see the message to fill empty fields.
   
 ### Cypress end-to-end testing
 
@@ -165,7 +170,7 @@ Clicking on the name of the file will take you to the source code of the test.
 |  [admin.js](https://github.com/marcelkolarcik/globtopus/blob/master/cypress/integration/admin.js)      |     pass  |
 |            |                   |         |
   
-<img src="https://raw.githubusercontent.com/marcelkolarcik/globtopus/master/gl_modules/assets_dist/static/readme_images/cypress_all.gif" title="https://globtopus.herokuapp.com/" alt="https://globtopus.herokuapp.com/">
+<img src="https://raw.githubusercontent.com/marcelkolarcik/globtopus/master/gl_modules/assets_dist/static/readme_images/qcypress_all.gif" title="https://globtopus.herokuapp.com/" alt="https://globtopus.herokuapp.com/">
             
 ### Python testing
 
