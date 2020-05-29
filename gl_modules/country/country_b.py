@@ -52,10 +52,8 @@ def country(country_code):
             }
         )
 
-    if not country_code in cc_with_counties():
-        return render_template('errors/error.html')
-    else:
-        return render_template('country/country.html', country_name=get_country_name(country_code), cc=country_code,
+
+    return render_template('country/country.html', country_name=get_country_name(country_code), cc=country_code,
                            posts=posts, random=random)
 
 
