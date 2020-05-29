@@ -779,11 +779,22 @@ When the user is flagging a post, to require his reason for flagging it.
    
    Currently supporting
    
-   - Firefox
+  
    - Chrome
    - Opera 
-   - Edge   
+   - Edge 
+   
+ 
+   - Firefox ?
+  I noticed that I am getting these warnings in Firefox when doing AJAX calls to get data for county chart:
   
+- Cookie “session” will be soon rejected because it has the “sameSite” attribute set to “none” or an invalid value, without the “secure” attribute. 
+- Cookie “session” is invalid because its size is too big. Max size is 4096 B.
+
+I am currently in the process of learning about “sameSite” cookies as there is one functionality, that is not working
+in Firefox, and that is when the user adds a post to his feelist or creates new feelist
+ new feelist is not created and the post is not added to existing feelist either. 
+ In Python, I am using user_id from the session, and I think somehow I am loosing session with this AJAX call.
  
 
 # Acknowledgements

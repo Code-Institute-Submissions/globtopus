@@ -9,7 +9,7 @@
         swal.fire({
             html:`<img  src="/assets/dist/images/happy.png"/>
                     <h4>Hi there !</h4>
-                    <p>It looks like it is your first visit to this page We are very happy to have you! 
+                    <p>It looks like it is your first visit to this page. We are very happy to have you! 
                     We hope that you will have a great experience using this site, and we prepared a little tour for you!
                    </p>
                    <hr>
