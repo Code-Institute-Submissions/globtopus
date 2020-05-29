@@ -33,9 +33,11 @@
                     </div>
                      <div class="col-md-3">
                         <span class="gl_button danger flaged" data-action="delete"
+                              data-step="1" data-intro="Delete post if you think it's inappropriate"
                               data-cy="delete_flagged{{loop.index}}"
                               data-post_id="{{ post.id }}" data-user_id="{{ post.user_id }}">delete</span>
                         <span class="gl_button flaged" data-action="return"
+                               data-step="2" data-intro="return post back to search results if you think it's not inappropriate"
                                data-cy="return_flagged{{loop.index}}"
                               data-post_id="{{ post.id }}">return back</span>
                     </div>

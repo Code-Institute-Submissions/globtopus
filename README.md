@@ -219,7 +219,7 @@ and when you are logged in, you can add the posts to your favorites, feelists, a
 
 
 - #### Admin
-  When you log in as admin with those credentials EMAIL: admin@globtopus.com PASSWORD: password, you will see all the posts that
+  When you log in as admin with those credentials EMAIL: marcel@globi.com PASSWORD: password, you will see all the posts that
 were flagged as inappropriate, you can then decide whether to delete them or return them to search results, by clicking on
 delete or return back buttons. When you click on these buttons, a confirmation popup will appear, click yes to perform the action, and
 no to cancel the action.
