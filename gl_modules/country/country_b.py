@@ -18,8 +18,8 @@ def country(country_code):
        DISPLAYING ERROR PAGE IN COUNTRY CODE IS NOT IN OUR ARRAY OF COUNTRY CODES
        OR IF USER IS MESSING WITH URL'S
     """
-    if  not country_code in  cc_with_counties():
-        return render_template('errors/error.html')
+    # if  not country_code in  cc_with_counties():
+    #     return render_template('errors/error.html')
     from app import mongo
 
     posts = []
