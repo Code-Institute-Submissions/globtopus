@@ -1,18 +1,17 @@
-/*GETTING LOCATION DETAILS ON sign_up.html
- *
- * USING nominatim.openstreetmap.org/reverse API
- *
- * */
+
 
 
 (function () {
-
+/*scrolling into the view on mobile devices when user clicks on form fields of country or county
+* when signing-up we will scroll map into the view*/
 $('#country_name,#county_name').on('click', function () {
  if (screen.width < 768 && $('#country_name').val() === '' && $('#county_name').val() === '') {
      $('#svg_map').get(0).scrollIntoView(1, 'slow')
  }
 })
 
+    /*IF USER DIDN'T SELECT COUNTRY OR COUNTY WE WILL ALERT HIM ABOUT IT
+    * AND WON'T PROCEED WITH SIGN-UP*/
 $('#sign_up').on('click', function (e) {
     console.log('country',$('#country_name').html(), 'county', $('#county_name').val())
     if ($('#country_name').val() === '')

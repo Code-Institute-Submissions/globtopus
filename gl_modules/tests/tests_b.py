@@ -12,7 +12,22 @@ tests_bp = Blueprint('tests_bp', __name__,
                      static_folder='static',
                      static_url_path='assets/tests')
 
-
+"""
+   /*RUNNING PYTHON TESTS
+* USING AJAX CALLS TO SEND 2 USER DATA TO PYTHON
+* AND THEN WAITING FOR RESULTS
+* 
+* EXPECTED OUTCOME IS:
+* 
+* USER 1 AND USER 2 ARE CREATED AND THEIR POSTS AS WELL
+* AND FIRST USER LIKES SECOND USER'S POST
+* ADD HIM TO HIS GLOBE AND ADD HIS POST TO
+* NEW FEELIST
+* 
+* IF ALL PASSES RENDERING GREEN COLOR li's
+* WITH LINK TO SIGN-IN AS NEW USER TO CHECK IT LIVE
+* */ 
+"""
 @tests_bp.route('/testing')
 def testing():
     return render_template('tests/tests.html')
@@ -21,11 +36,18 @@ def testing():
 @tests_bp.route('/run_tests')
 def run_tests():
     from app import mongo
+    """
+       DELETING PREVIOUSLY CREATED USERS, SO THAT WE DON'T HAVE 
+       PILE UP OF TEST USERS IN DB 
+    """
     mongo.db.users.delete_many(
         {'cl': "Chorcaí__Cork"}
 
 
     )
+    """
+      GETTING FORM DATA
+    """
     action_1 = request.args.get('action_1', 0, type=str)
     action_2 = request.args.get('action_2', 0, type=str)
     because_1 = request.args.get('because_1', 0, type=str)
@@ -39,8 +61,9 @@ def run_tests():
     username_1 = request.args.get('username_1', 0, type=str)
     username_2 = request.args.get('username_2', 0, type=str)
 
-
-
+    """
+       CHECK IF WE ALREADY HAVE USERS WITH SAME CREDENTIALS 
+    """
     if list(mongo.db.users.find({"name": username_1})):
         return jsonify(error=True,results=username_1 + ' :  is already taken, please select different user name')
 
@@ -60,6 +83,9 @@ def run_tests():
     counter = 0
     results = {}
 
+    """
+       SANITIZING NAMES 
+    """
     for name in user_name_split1:
         sanitize(name, 'string')
         user_name1 += sanitize(name, 'string') if counter == 0 else ' ' + sanitize(name, 'string')
@@ -235,3 +261,4 @@ def run_tests():
 
 
     return jsonify(results=results)
+

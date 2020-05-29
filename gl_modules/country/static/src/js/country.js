@@ -1,4 +1,8 @@
+/*LOADING COUNTRY MAP FROM DB AS WELL AS COUNTRY FEELS
+* AND APPLYING COLOR TO COUNTIES ACCORDING TO FEELING IN THE COUNTY*/
+
 (function () {
+    /*SWITCHING DIVS VISIBILITY*/
     $('#country_map').on('click', function () {
         $('#map_holder').removeClass('d-none')
         $('#chart_holder').addClass('d-none')
@@ -6,6 +10,7 @@
 
     var locations_list = []
 
+    /*LOADING THE MAP AND RENDERING MAP CONTROLLS AS WELL*/
     $.getJSON('/load_map',
         {
             cc: $('#c_search').data('cc')
@@ -39,7 +44,7 @@
 
             var fill = '#eeeeee'
 
-
+            /*ADDING COLOR TO COUNTIES ACCORDING TO COUNTY FELINGS*/
             $.each(response.c_map, function (index, map_) {
                 var county = Object.keys(map_)[0]
                 var d = map_[county]
@@ -49,7 +54,7 @@
 
                 if (feel < 20) {
                     fill = "#006400"
-
+                    /*APPENDING COUNTIES IN THAT RANGE INTO THE DIVS, AND ON CLICK ON THE RANGE BUTTON, WE WILL LIFT IT WITH SWEETALERT POPUP*/
                     $('#r_20').append(chart_link(county, feel))
                 } else if (feel < 40) {
                     fill = "#20B2AA"
@@ -71,7 +76,7 @@
 
                 $('#r_all').append(chart_link(county, feel))
 
-
+                /*ASSEMBLING SVG PATHS OF THE COUNTRY MAP, DATA LIKE d and id ARE STORED IN MONGODB AND ADDING THE REST HERE*/
                 new_map += `<path id="${county}" 
                                 data-chart_for="county" 
                                 data-num_of_days="10" 
@@ -87,21 +92,21 @@
 
             $('#r_100,#r_80,#r_60,#r_40,#r_20,#r_all').append(`<br>`)
             new_map += `</svg>`
-
+            /*ASSIGNING THE MAP TO DIV*/
             $('#map_holder').html(new_map)
 
-
+            /*WHEN USER CLICKS ON COLOR RANGE BUTTON, WE WILL SHOW HIM COUNTIES IN THAT RANGE*/
             $('.map_color_legend').on('click', function () {
 
                 show_list($(this))
 
-
+                /*WHEN HE CLICKS ON THE COUNTY LINK IN POPUP, WE WILL DISPLAY CHART FOR THAT COUNTY*/
                 $('.map_chart').on('click', function () {
                     show_county_chart($(this))
                     swal.close()
                 })
             })
-
+            /*ON HOVERING THE MAP WE ARE APPLIYNG RED BORDER AROUND THE PATHS*/
             $('path').on('mouseenter',
                 function () {
 
@@ -119,7 +124,7 @@
 
                     }
                 ).on('click', function () {
-
+ /*WHEN HE CLICKS ON THE COUNTY MAP, WE WILL DISPLAY CHART FOR THAT COUNTY*/
                 show_county_chart($(this))
 
             })
@@ -189,6 +194,7 @@
 })()
 
 function show_list(this_) {
+    /*GETTING DIV WITH LOCATIONS IN THAT RANGE PREVIOUSLY RENDERED INTO THE DIVS*/
     var list_of_locations = $('#r_' + this_.data('range'))
     $('.' + this_.data('range')).remove()
     list_of_locations.append(`
@@ -206,7 +212,7 @@ function show_list(this_) {
 
 
     list_of_locations.prepend(`<img  class="d-none d-print-block" src="assets/dist/images/gloptopus_logo.gif"/>`)
-
+/*AND DISPLAYING THE NAMES WITH LINKS TO DISPLAY CHARTS*/
     Swal.fire({
 
         html: list_of_locations.html(),
@@ -214,7 +220,7 @@ function show_list(this_) {
     })
 
 }
-
+/*COUNTY LINK IN THE POPUP HAS A CLASS chart TO DISPLAY COUNTY CHART*/
 function chart_link(county, feel) {
 
     return `<span class="list-group-item no_padding">

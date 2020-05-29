@@ -80,7 +80,7 @@ def charts_data():
         feels = mongo.db.country_feel.find_one(
             {'country_code': country_code})
 
-        #counties = cc_with_counties()[country_code]
+
         """feels for the period of x past days"""
         for day in feels['feels']:
 

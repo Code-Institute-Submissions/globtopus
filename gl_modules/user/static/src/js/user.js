@@ -1,5 +1,5 @@
 import {Toast} from "../../../../shared/static/js/swal_toast";
-
+/*LOGGED IN USER INTERACTIONS*/
 
 (function () {
 
@@ -31,6 +31,8 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
         }
     });
 
+    /*WHEN USER CLICKS ON MY FEELIST WE WILL DISPLAY LIST OF HIS FEELISTS,
+    * AND HE CAN CLICK ON THE NAME OF THE FEELIST TO SEE THE POSTS IN THAT FEELIST*/
     $('.my_feelist').on('click', function () {
 
 
@@ -40,6 +42,7 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
             $('#globber_list_mobile').removeClass('collapse')
         }
     })
+    /*AND HE CAN CLICK ON THE NAME OF THE FEELIST TO SEE THE POSTS IN THAT FEELIST*/
     $('.feelist').on('click', function () {
         scroll_to_top()
         var f_name = $(this).data('f_name')
@@ -60,7 +63,7 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
                         f_name)
                 }
 
-
+                /*HE CAN DELETE POST FROM THE FEELIST*/
                 $('.delete_action').on('click', function () {
                     var post_id = $(this).data('post_id')
 
@@ -109,7 +112,7 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
 
                 })
 
-
+                /*HE CAN DELETE THE FEELIST*/
                 $('.delete_feelist').on('click', function () {
                     var f_name = $(this).data('f_name')
 
@@ -165,7 +168,7 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
             });
 
     })
-
+    /*WHEN CLICKING ON THE MY GLOBE, USER WILL SEE LIST OF GLOBER NAMES*/
     $('.my_glob').on('click', function () {
 
         var glober_list = $('.list_of_globers')
@@ -188,6 +191,9 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
                 if (screen.width < 768) glober_list.prepend(`
                     <span class="p-1 text-light"><i class="fas fa-user-friends"></i> &nbsp;My globe</span>`)
                 glober_list.append(` <br>`)
+
+
+                /*WHEN HE CLICKS ON GLOBER NAME HE WILL SEE POSTS FROM THAT GLOBER*/
                 $('.glober').on('click', function () {
 
                     var glober_name = $(this).data('glober_name')
@@ -209,7 +215,7 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
                                     ''
                                 )
                             }
-
+                            /*HE CAN REMOVE THAT GLOBER*/
                             $('#remove_from_globe').on('click', function () {
 
                                 Swal.fire({
@@ -255,7 +261,7 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
 
 
     })
-
+    /*WHEN HE CLICKS ON MY POSTS, HE WILL SEE HIS POSTS*/
     $('.my_posts').on('click', function () {
 
 
@@ -274,7 +280,7 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
                         'delete_post')
                 }
 
-
+                /*HE CAN DELETE HIS POST*/
                 $('.delete_post').on('click', function () {
                     var post_id = $(this).data('post_id')
 
@@ -317,7 +323,7 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
                     })
 
                 })
-
+                /*HE CAN EDIT HIS POST*/
                 $('.edit_post').on('click', function () {
                     var post_id = $(this).data('post_id')
                     var i_feel = $('.i_feel_' + post_id).text()
@@ -383,7 +389,7 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
 
                     })
                 })
-
+                /*HE CAN CREATE NEW POST WE WILL RENDER FORM*/
                 $('#new_post,.new_post').on('click', function () {
                     Swal.fire(
                         {
@@ -393,13 +399,14 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
                         }
                     )
                     $('#create_post').on('click', function () {
-
+/*CHECK THAT FORM HAS ALL FIELDS FILLED*/
                         if($('#i_feel').val() ==='' || $('#because').val() === '' || $('#action').val() === '')
                         {
                             $('#post_error').removeClass('d-none')
                         }
                         else
                         {
+                            /*SENDING POST TO SAVE*/
                            $.getJSON('/new_post',
                             {
 
@@ -443,7 +450,7 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
             })
     })
 
-
+/*CLICKING ON MY FAVOURITES USER SEES POSTS IN HIS FAVOURITES*/
     $('.my_fav').on('click', function () {
 
         scroll_to_top()
@@ -555,6 +562,10 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
                                         `
     }
 
+    /*RENDERING POSTS AFTER SEARCH OR INITIAL LOAD OF LANDING OR COUNTRY PAGE
+    * IF THE POSTS ARE HIS HE WILL HAVE ICONS TO EDIT AND DELETE,
+    * IF THE POSTS ARE FOR FAVOURITES, FEELISTS OR GLOBES HE HAS ICON TO DELETE THEM
+    * AND OPTION TO DELETE FEELIST OR REMOVE GLOBBER FORM THE GLOBE*/
     function render_posts(div, posts, title, single_user, controls, delete_class, f_name = null) {
 
         $('.user_interaction').addClass('d-none')
@@ -622,6 +633,7 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
         $('#user').get(0).scrollIntoView()
     }
 
+    /*USER CAN CHANGE THE WAY HE FEELS BY CLICKING ON HEART*/
     $('.user_heart').on('click', function () {
        swal.fire({
 

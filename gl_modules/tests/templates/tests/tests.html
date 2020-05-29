@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
+<!--FORM FOR TWO USERS AND TWO POSTS
+TO PERFORM TESTING IN PYTHON-->
 <section id="tests">
     <div class="container">
         <div class="d-flex justify-content-center col-md-6 offset-md-3 ">
@@ -9,17 +11,17 @@
         <div class="row">
             <div class="col-md-12" id="description">
                 <p class="test initial_interaction text-center">
-                    To test the application create 2 users, and one post per user. <br> Once you click on
+                    To test the application create 2 users and one post per user. <br> Once you click on
                     <span class="btn feelist_title text-center text-light flash_success  p-3">Run tests</span>
                     button bellow the test names,
-                    we will run tests described bellow. After succesfull test you can log in as first user and check if the tests were
+                    we will run the tests described below. After a successful test, you can log in as the first user and
+                    check if the tests were
                     correctly passed.
                 </p>
 
                  <form action="" id="test_form" class="col-md-12">
                 <div class="row mt-3 no-gutters">
-
-                    <div class="col-md-6 card">
+                    <div data-step="1" data-intro="Fill in form with details for user 1" class="col-md-6 card">
                         <div class="card-header bg_blue p-0">
                             <h4 class="feelist_title text-center text-light">First user</h4>
                         </div>
@@ -59,7 +61,7 @@
                             ></textarea>
                         </div>
                     </div>
-                    <div class="col-md-6 card">
+                    <div data-step="2" data-intro="Fill in form with details for user 2" class="col-md-6 card">
                         <div class="card-header bg_blue p-0">
                             <h4 class="feelist_title text-center text-light">Second user</h4>
                         </div>
@@ -163,9 +165,9 @@
                             </li>
                         </ul>
                     </div>
-
-                     <div class="col-md-12 text-center mt-1" id="testing">
-                        <h4 class="btn feelist_title text-center text-light flash_success  p-3" id="run_tests">Run tests</h4>
+                    <div class="col-md-12 text-center mt-1" id="testing" data-step="3" data-intro="Test it!">
+                        <h4 class="btn feelist_title text-center text-light flash_success  p-3" id="run_tests">Run
+                            tests</h4>
                     </div>
                 </div>
             </div>
@@ -173,7 +175,7 @@
     </div>
 </section>
 <section id="footer">
-
+{{ footer() }}
 </section>
 {% endblock%}
 {% block js %}

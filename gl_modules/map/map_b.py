@@ -8,7 +8,11 @@ map_bp = Blueprint('map_bp', __name__,
                    static_folder='static',
                    static_url_path='assets/map')
 
-
+"""
+   GETTING COUNTRIES FEEL FOR DISPLAY ON THE MAP
+   
+   AJAX CALL 
+"""
 @map_bp.route('/_world_feel', methods=['POST'])
 def world_feel():
     from app import mongo
@@ -33,6 +37,10 @@ def world_feel():
     return jsonify(feels=feels, total_people=total_people)
 
 
+"""
+   NOT USING THIS FUNCTION ANYMORE,CREATING COUNTRIES IN RANGE IN JS,  BUT KEEPING IT HERE 
+   AS IT IS INTERESTING QUERY FOR FUTURE USE
+"""
 @map_bp.route('/_range_countries')
 def twenty_country():
     from app import mongo

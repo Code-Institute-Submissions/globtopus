@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 <div class="row">
-    <!--USER DASHBOARD NAV-->
+    <!--PUBLIC USER PREVIEW-->
     <div class="col-md-12 border_blue mb-3">
         <div class="row">
             <div class="col-md-4">
@@ -28,7 +28,7 @@
         </div>
 
     </div>
-    <!--USER ACTION WINDOW-->
+  <!--PUBLIC USER POSTS-->
     <div class="col-md-8 border_blue">
 
             {% for post in user_posts %}
@@ -137,6 +137,7 @@
 </div>
 <section id="footer">
     <span class="current_page" data-current_page="public_user"></span>
+    {{ footer() }}
 </section>
 {% endblock %}
 {% block js %}

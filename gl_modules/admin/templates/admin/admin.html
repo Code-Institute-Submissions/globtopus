@@ -4,6 +4,7 @@
     <section id="dashboard">
         <h4 class="text-center feelist_title"><small>Hi Marcel, you have {{num}} flaged posts to resolve.</small> </h4>
     </section>
+    <!--DISPLAYING ALL FLAGGED POSTS-->
     <section id="flaged_posts">
         <ul class="list-group">
             {% for post in flaged_posts %}
@@ -46,6 +47,9 @@
         </ul>
     </section>
 </div>
+<section id="footer">
+    {{ footer() }}
+</section>
 {% endblock%}
 {% block js %}
 <script src="{{url_for('assets_dist_bp.static', filename='js/admin.js')}}" type="module"></script>

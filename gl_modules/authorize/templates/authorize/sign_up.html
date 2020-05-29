@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
-<!--CSS FOR SIGN UP PAGE-->
-{% block css %}
 
-{% endblock %}
+<!--SIGN UP PAGE WITH FORM AND SVG MAPS TO SELECT LOCATION
+PAGE HAS INTRO BY intro.js-->
 {% block content %}
 <h4 id="user_sign_up">Sign up</h4>
 <form action="{{url_for('authorize_bp.register')}}" method="POST" >
@@ -104,6 +103,7 @@
                     </div>
 
                 </div>
+                <!--WORLD MAP-->
                 <div id="svg_map" data-cy="svg_map">
                       {{ world_map() }}
                 </div>
@@ -115,6 +115,9 @@
         </div>
     </div>
 </form>
+<section id="footer">
+    {{ footer() }}
+</section>
 {% endblock %}
 <!--JAVASCRIPT FOR SIGNUP PAGE-->
 {% block js %}

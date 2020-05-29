@@ -1,3 +1,15 @@
+"""
+   I HAVE USED FUNCTIONS IN THIS FILE TO POPULATE MONGODB WITH
+   RANDOM DATA FOR WORLD FEEL, COUNTRY FEEL, COUNTY FEEL
+   AND TO CREATE SOME USERS FOR EACH COUNTRY
+
+   AND ALSO TO PLAY WITH DIFFERENT QUERIES AS SEE WHAT WORKS AND WHAT DOESN'T
+
+   IT'S LIKE A CODE PLAYGROUNG
+
+   NOT PART OF GLOBTOPUS
+"""
+
 import json
 import random
 
@@ -14,6 +26,246 @@ factory_bp = Blueprint('factory_bp', __name__,
                        template_folder='templates',
                        static_folder='static',
                        static_url_path='assets/factory')
+
+"""
+   CREATE WORLD AND COUNTRIES DATA 
+"""
+@factory_bp.route('/create_countries_data')
+def countries_data():
+    from app import mongo
+    feels = {}
+    world = {}
+    current_people = 0
+    current_feelings = 0
+    total_people = 0
+    total_feelings = 0
+    counter = 0
+
+    world_people = 0
+    world_feelings = 0
+    world_data = {}
+
+    for key, value in countryListAlpha2.items():
+
+        country_code = key.lower()
+        for i in range(1, 366):
+            num_of_people = random.randint(1, 10001)
+            if counter < 30:
+
+                feelings = random.randint(1, 20)
+            elif counter < 70:
+                feelings = random.randint(20, 40)
+            elif counter < 130:
+                feelings = random.randint(40, 60)
+            elif counter < 200:
+                feelings = random.randint(60, 80)
+            elif counter < 247:
+                feelings = random.randint(80, 100)
+
+            day = str((datetime.datetime.now() - datetime.timedelta(days=366 - i)).strftime("%F"))
+
+            feels[day] = {'num_of_people': num_of_people,
+                          'sum_of_feelings': num_of_people * feelings}
+            total_people += num_of_people
+            total_feelings += num_of_people * feelings
+
+            world_people += num_of_people
+            world_feelings += num_of_people * feelings
+
+            world_data[day] = {day: {'num_of_people': world_people
+                , 'sum_of_feelings': world_feelings, 'day': day}}
+
+            if (i > 357):
+                current_people += num_of_people
+                current_feelings += num_of_people * feelings
+
+        world[counter] = {"country_code": country_code, 'feels': feels, 'total_people': total_people,
+                          'total_feelings': total_feelings}
+
+        mongo.db.country_feel.insert({"country_code": country_code, 'feels': feels, 'total_people': total_people,
+                                      'total_feelings': total_feelings})
+        counter += 1
+        total_people = 0
+        total_feelings = 0
+        current_people = 0
+        current_feelings = 0
+
+    for item in world_data:
+        mongo.db.world_feel.insert(world_data[item][item])
+
+    return jsonify(world)
+
+
+"""
+   CREATE COUNTIES DATA 
+"""
+@factory_bp.route('/create_counties')
+def create_counties():
+    from app import mongo
+    feels = {}
+    counties = []
+
+    total_people = 0
+    total_feelings = 0
+    counter = 0
+
+    for key, value in countryListAlpha2.items():
+
+        country_code = key.lower()
+
+        for county in cc_with_counties()[country_code]:
+
+            for i in range(1, 91):
+                num_of_people = random.randint(1, 101)
+                if (counter % 5 == 0):
+
+                    feelings = random.randint(1, 20)
+                elif (counter % 5 == 1):
+                    feelings = random.randint(20, 40)
+                elif (counter % 5 == 2):
+                    feelings = random.randint(40, 60)
+                elif (counter % 5 == 3):
+                    feelings = random.randint(60, 80)
+                elif (counter % 5 == 4):
+                    feelings = random.randint(80, 100)
+                else:
+                    feelings = random.randint(1, 100)
+
+                day = str((datetime.datetime.now() - datetime.timedelta(days=91 - i)).strftime("%F"))
+
+                feels[day] = {'num_of_people': num_of_people,
+                              'sum_of_feelings': num_of_people * feelings}
+                total_people += num_of_people
+                total_feelings += num_of_people * feelings
+
+            # counties.append({"cc": country_code,'cl':county, 'feels': feels, 'total_people': total_people,
+            #                               'total_feelings': total_feelings})
+            mongo.db.stats.insert({"cc": country_code, 'cl': county, 'feels': feels, 'total_people': total_people,
+                                   'total_feelings': total_feelings})
+            counter += 1
+            total_people = 0
+            total_feelings = 0
+
+    return 'counties inserted : ' + str(counter)
+
+
+"""
+   CREATE USERS 
+"""
+@factory_bp.route('/create_users')
+def create_users():
+    from app import mongo
+    country_users = {}
+    users = []
+    posts = []
+    counter = 0
+    i_feel_arr = [
+        ['very', 'good'],
+        ['little', 'bit', 'tired'],
+        ['very', 'happy'],
+        ['bored'],
+        ['sad'],
+        ['super'],
+        ['exited'],
+        ['angry'],
+        ['joyful'],
+        ['surprised'], ['great'],
+
+    ]
+    because_arr = [
+        ['i', 'am', 'going', 'for', 'a', 'walk', 'to', 'the', 'forrest'],
+        ['i', 'was', 'up', 'all', 'night'],
+        ['i', 'just', 'finished', 'my', 'assignment'],
+        ['i', 'have', 'nothing', 'to', 'do'],
+        ['the', 'whole', 'world', 'is', 'on', 'stand', 'by'],
+        ['my', 'neighbour', 'just', 'won', 'a', 'lottery', 'today'],
+        ['we', 'are', 'going', 'on', 'a', 'family', 'trip'],
+        ['my', 'boss', 'just', 'gave', 'me', 'pay', 'rise'],
+        ['all', 'the', 'shops', 'are', 'closed'],
+        ['i', 'just', 'realized', 'that', 'my', 'website', 'got', 'really', 'popular'],
+    ]
+    """
+    source :
+       https://www.inc.com/ss/jeff-haden/things-remarkable-people-think-every-day 
+    """
+    action_arr = [
+        'Most of the time we should worry about what other people think -- but not if it stands in the way of living the lives we really want to live. If you really want to start a business but worry that people might say you\'re crazy, do it anyway. Pick one thing you haven\'t tried because you\'re concerned about what other people think or say, and just go do it. It\'s your life. Live it your way.',
+        'Everyone needs help. Admitting we need isn\'t a sign of weakness; it\'s a sign of self-confidence and strength. And it\'s a great behavior to model. Besides, asking another person for help instantly recognizes their skills and values and conveys your respect and admiration. And while that\'s reason enough to ask someone for advice, for an opinion, or for a helping hand, you also get the help you really need.',
+        'You have plans. You have goals. You have ideas. Who cares? You have nothing until you actually do something. Every day we let hesitation and uncertainty stop us from acting on our ideas. Pick one plan, one goal, or one idea. And get started. Just take one small step. The first step is by far the hardest. Every successive step will be a lot easier. ',
+        'Often the easiest way to be different is to do what others are unwilling to do. Pick one thing other people won\'t do. It can be simple. It can be small. Doesn\'t mater. Whatever it is, do it. Instantly you\'ll be a little different from the rest of the pack. Then keep going. Every day, think of one thing to do that no one else is willing to do. After a week you\'ll be uncommon. After a month you\'ll be special. After a year you\'ll be incredible, and you definitely won\'t be like anyone else.',
+        'The most paralyzing fear is fear of the unknown. (At least it is for me.) Yet nothing ever turns out to be as hard or as scary as you think. Plus it\'s incredibly exciting to overcome a fear. You get that, \"I can\'t believe I just did that!\" rush, a thrill you may not have experienced for a long time. Try something scary: physically, mentally, or emotionally. Trust yourself to figure out how to overcome any problems that arise. You will.',
+        'Accomplishments are based on actions, not on thoughts--yet the thought is always father to the deed. Achievement starts with an idea, a perspective, a point of view, or even just an attitude.',
+        'Realize that happiness is a choice. Fifty percent of how happy you are lies within your control, so start doing more things that will make you happier.',
+        'Everybody gets bored sometimes. But, if you really think about it, feelings of boredom are pretty strange. After all, there\'s a whole wide world full of stuff to do. How could humans ever lack for something to keep us occupied?',
+        'There is a definite payoff to making real (not just professional or social media) friends. Increasing your number of friends correlates to higher subjective well being, doubling your number of friends is like increasing your income by 50 percent in terms of how happy you feel.',
+        'According to one study, couples that expressed gratitude in their interactions with each other resulted in increases in relationship connection and satisfaction the next day--both for the person expressing thankfulness and (no big surprise) for the person receiving it. (In fact, the authors of the study said gratitude was like a "booster shot" for relationships.)',
+        'Happy people focus on what they have, not on what they don\'t have. It\'s motivating to want more in your career, relationships, bank account, etc., but thinking about what you already have, and expressing gratitude for it, will make you a lot happier.It will also remind you that even if you still have huge dreams, you have already accomplished a lot--and should feel genuinely proud.',
+        'Goals you don\'t pursue aren\'t goals, they\'re dreams, and dreams make you happy only when you\'re dreaming.Pursuing goals, though, does make you happy.',
+        'So be grateful for what you have, and then actively try to achieve more. If you\'re pursuing a huge goal, make sure that every time you take a small step closer to achieving it, you pat yourself on the back.',
+        'Don\'t compare where you are now with where you someday hope to be. Compare where you are now to where you were a few days ago. Then you\'ll get dozens of bite-size chunks of fulfillment--and a never-ending supply of things to be thankful for.',
+        'You know the old cliché regarding the starving yet happy artist? Turns out it\'s true: artists are considerably more satisfied with their work than non-artists--even though the pay tends to be considerably lower than in other skilled fields.',
+        'Everyone has at least a few things they do incredibly well. Find ways to do those things more often. You\'ll be a lot happier.And probably a lot more successful.',
+        'Make choices that are right for you. Say things you really want to say to the people who most need to hear them. Express your feelings. Stop and smell a few roses. Make friends, and stay in touch with them.'
+    ]
+    for cc in cc_with_counties():
+
+        for i in range(1, 11):
+            for e in range(1, random.randint(3, 9)):
+                posts.append({
+                    'i_feel': i_feel_arr[random.randint(0, 10)],
+                    'because': because_arr[random.randint(0, 9)],
+                    'action': action_arr[random.randint(0, 16)],
+                    'post_id': str(ObjectId()),
+                    'created_at': datetime.datetime.now() - datetime.timedelta(
+                        days=random.randint(1, 10)),
+                    'likes': random.randint(0, 77),
+                    'feel': random.randint(1, 100)
+                })
+            counter += 1
+            users.append({'cc': cc,
+                          'cl': random.choice(cc_with_counties()[cc]),
+
+                          'name': 'user_' + cc + '_' + str(i),
+                          'email': 'user_' + cc + '_' + str(i) + '_@globi.com',
+                          'image_id': random.randint(0, 38),
+                          'password': generate_password_hash('password'),
+                          'created_at': datetime.datetime.now(),
+                          'last_login': datetime.datetime.now(),
+                          'last_feel': 0,
+                          'user_feel': {
+                              (datetime.datetime.now() - datetime.timedelta(days=10)).strftime("%F"): random.randint(1,
+                                                                                                                     100),
+                              (datetime.datetime.now() - datetime.timedelta(days=9)).strftime("%F"): random.randint(1,
+                                                                                                                    100),
+                              (datetime.datetime.now() - datetime.timedelta(days=8)).strftime("%F"): random.randint(1,
+                                                                                                                    100),
+                              (datetime.datetime.now() - datetime.timedelta(days=7)).strftime("%F"): random.randint(1,
+                                                                                                                    100),
+                              (datetime.datetime.now() - datetime.timedelta(days=6)).strftime("%F"): random.randint(1,
+                                                                                                                    100),
+                              (datetime.datetime.now() - datetime.timedelta(days=5)).strftime("%F"): random.randint(1,
+                                                                                                                    100),
+                              (datetime.datetime.now() - datetime.timedelta(days=4)).strftime("%F"): random.randint(1,
+                                                                                                                    100),
+                              (datetime.datetime.now() - datetime.timedelta(days=3)).strftime("%F"): random.randint(1,
+                                                                                                                    100),
+                              (datetime.datetime.now() - datetime.timedelta(days=2)).strftime("%F"): random.randint(1,
+                                                                                                                    100),
+                              (datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%F"): random.randint(1,
+                                                                                                                    100),
+                          },
+                          'posts': posts
+
+                          })
+            # mongo.db.users.insert_one(users[0])
+            # users = []
+            posts = []
+        mongo.db.users.insert_many(users)
+        users = []
+        # return 'users inserted '+ str(counter)
+
+        # country_users[country_code] = users
+    return 'users inserted ' + str(counter)
 
 
 @factory_bp.route('/check_svg')
@@ -71,17 +323,6 @@ def num_of_maps():
     return dumps(number_of_maps)
 
 
-# @factory_bp.route('/load_map')
-# def load_map():
-#     from app import mongo
-#     cc = request.args.get('cc', 0, type=str)
-#
-#     c_map = mongo.db.c_maps.find_one({'cc': cc}, {'_id': 0})['counties']
-#     svg_map = []
-#     for county in c_map:
-#         svg_map.append({county['name']: county['d']})
-#
-#     return jsonify(c_map=svg_map, c_c=cc)
 
 
 """
@@ -508,239 +749,7 @@ def cc_with_counties():
 """
 
 
-@factory_bp.route('/create_countries_data')
-def countries_data():
-    from app import mongo
-    feels = {}
-    world = {}
-    current_people = 0
-    current_feelings = 0
-    total_people = 0
-    total_feelings = 0
-    counter = 0
 
-    world_people = 0
-    world_feelings = 0
-    world_data = {}
-
-    for key, value in countryListAlpha2.items():
-
-        country_code = key.lower()
-        for i in range(1, 366):
-            num_of_people = random.randint(1, 10001)
-            if counter < 30:
-
-                feelings = random.randint(1, 20)
-            elif counter < 70:
-                feelings = random.randint(20, 40)
-            elif counter < 130:
-                feelings = random.randint(40, 60)
-            elif counter < 200:
-                feelings = random.randint(60, 80)
-            elif counter < 247:
-                feelings = random.randint(80, 100)
-
-            day = str((datetime.datetime.now() - datetime.timedelta(days=366 - i)).strftime("%F"))
-
-            feels[day] = {'num_of_people': num_of_people,
-                          'sum_of_feelings': num_of_people * feelings}
-            total_people += num_of_people
-            total_feelings += num_of_people * feelings
-
-            world_people += num_of_people
-            world_feelings += num_of_people * feelings
-
-            world_data[day] = {day: {'num_of_people': world_people
-                , 'sum_of_feelings': world_feelings, 'day': day}}
-
-            if (i > 357):
-                current_people += num_of_people
-                current_feelings += num_of_people * feelings
-
-        world[counter] = {"country_code": country_code, 'feels': feels, 'total_people': total_people,
-                          'total_feelings': total_feelings}
-
-        mongo.db.country_feel.insert({"country_code": country_code, 'feels': feels, 'total_people': total_people,
-                                      'total_feelings': total_feelings})
-        counter += 1
-        total_people = 0
-        total_feelings = 0
-        current_people = 0
-        current_feelings = 0
-
-    for item in world_data:
-        mongo.db.world_feel.insert(world_data[item][item])
-
-    return jsonify(world)
-
-
-@factory_bp.route('/create_counties')
-def create_counties():
-    from app import mongo
-    feels = {}
-    counties = []
-
-    total_people = 0
-    total_feelings = 0
-    counter = 0
-
-    for key, value in countryListAlpha2.items():
-
-        country_code = key.lower()
-
-        for county in cc_with_counties()[country_code]:
-
-            for i in range(1, 91):
-                num_of_people = random.randint(1, 101)
-                if (counter % 5 == 0):
-
-                    feelings = random.randint(1, 20)
-                elif (counter % 5 == 1):
-                    feelings = random.randint(20, 40)
-                elif (counter % 5 == 2):
-                    feelings = random.randint(40, 60)
-                elif (counter % 5 == 3):
-                    feelings = random.randint(60, 80)
-                elif (counter % 5 == 4):
-                    feelings = random.randint(80, 100)
-                else:
-                    feelings = random.randint(1, 100)
-
-                day = str((datetime.datetime.now() - datetime.timedelta(days=91 - i)).strftime("%F"))
-
-                feels[day] = {'num_of_people': num_of_people,
-                              'sum_of_feelings': num_of_people * feelings}
-                total_people += num_of_people
-                total_feelings += num_of_people * feelings
-
-            # counties.append({"cc": country_code,'cl':county, 'feels': feels, 'total_people': total_people,
-            #                               'total_feelings': total_feelings})
-            mongo.db.stats.insert({"cc": country_code, 'cl': county, 'feels': feels, 'total_people': total_people,
-                                   'total_feelings': total_feelings})
-            counter += 1
-            total_people = 0
-            total_feelings = 0
-
-    return 'counties inserted : ' + str(counter)
-
-
-
-
-
-@factory_bp.route('/create_users')
-def create_users():
-    from app import mongo
-    country_users = {}
-    users = []
-    posts = []
-    counter = 0
-    i_feel_arr = [
-        ['very', 'good'],
-        ['little', 'bit', 'tired'],
-        ['very', 'happy'],
-        ['bored'],
-        ['sad'],
-        ['super'],
-        ['exited'],
-        ['angry'],
-        ['joyful'],
-        ['surprised'], ['great'],
-
-    ]
-    because_arr = [
-        ['i', 'am', 'going', 'for', 'a', 'walk', 'to', 'the', 'forrest'],
-        ['i', 'was', 'up', 'all', 'night'],
-        ['i', 'just', 'finished', 'my', 'assignment'],
-        ['i', 'have', 'nothing', 'to', 'do'],
-        ['the', 'whole', 'world', 'is', 'on', 'stand', 'by'],
-        ['my', 'neighbour', 'just', 'won', 'a', 'lottery', 'today'],
-        ['we', 'are', 'going', 'on', 'a', 'family', 'trip'],
-        ['my', 'boss', 'just', 'gave', 'me', 'pay', 'rise'],
-        ['all', 'the', 'shops', 'are', 'closed'],
-        ['i', 'just', 'realized', 'that', 'my', 'website', 'got', 'really', 'popular'],
-    ]
-    """
-    source :
-       https://www.inc.com/ss/jeff-haden/things-remarkable-people-think-every-day 
-    """
-    action_arr = [
-        'Most of the time we should worry about what other people think -- but not if it stands in the way of living the lives we really want to live. If you really want to start a business but worry that people might say you\'re crazy, do it anyway. Pick one thing you haven\'t tried because you\'re concerned about what other people think or say, and just go do it. It\'s your life. Live it your way.',
-        'Everyone needs help. Admitting we need isn\'t a sign of weakness; it\'s a sign of self-confidence and strength. And it\'s a great behavior to model. Besides, asking another person for help instantly recognizes their skills and values and conveys your respect and admiration. And while that\'s reason enough to ask someone for advice, for an opinion, or for a helping hand, you also get the help you really need.',
-        'You have plans. You have goals. You have ideas. Who cares? You have nothing until you actually do something. Every day we let hesitation and uncertainty stop us from acting on our ideas. Pick one plan, one goal, or one idea. And get started. Just take one small step. The first step is by far the hardest. Every successive step will be a lot easier. ',
-        'Often the easiest way to be different is to do what others are unwilling to do. Pick one thing other people won\'t do. It can be simple. It can be small. Doesn\'t mater. Whatever it is, do it. Instantly you\'ll be a little different from the rest of the pack. Then keep going. Every day, think of one thing to do that no one else is willing to do. After a week you\'ll be uncommon. After a month you\'ll be special. After a year you\'ll be incredible, and you definitely won\'t be like anyone else.',
-        'The most paralyzing fear is fear of the unknown. (At least it is for me.) Yet nothing ever turns out to be as hard or as scary as you think. Plus it\'s incredibly exciting to overcome a fear. You get that, \"I can\'t believe I just did that!\" rush, a thrill you may not have experienced for a long time. Try something scary: physically, mentally, or emotionally. Trust yourself to figure out how to overcome any problems that arise. You will.',
-        'Accomplishments are based on actions, not on thoughts--yet the thought is always father to the deed. Achievement starts with an idea, a perspective, a point of view, or even just an attitude.',
-        'Realize that happiness is a choice. Fifty percent of how happy you are lies within your control, so start doing more things that will make you happier.',
-        'Everybody gets bored sometimes. But, if you really think about it, feelings of boredom are pretty strange. After all, there\'s a whole wide world full of stuff to do. How could humans ever lack for something to keep us occupied?',
-        'There is a definite payoff to making real (not just professional or social media) friends. Increasing your number of friends correlates to higher subjective well being, doubling your number of friends is like increasing your income by 50 percent in terms of how happy you feel.',
-        'According to one study, couples that expressed gratitude in their interactions with each other resulted in increases in relationship connection and satisfaction the next day--both for the person expressing thankfulness and (no big surprise) for the person receiving it. (In fact, the authors of the study said gratitude was like a "booster shot" for relationships.)',
-        'Happy people focus on what they have, not on what they don\'t have. It\'s motivating to want more in your career, relationships, bank account, etc., but thinking about what you already have, and expressing gratitude for it, will make you a lot happier.It will also remind you that even if you still have huge dreams, you have already accomplished a lot--and should feel genuinely proud.',
-        'Goals you don\'t pursue aren\'t goals, they\'re dreams, and dreams make you happy only when you\'re dreaming.Pursuing goals, though, does make you happy.',
-        'So be grateful for what you have, and then actively try to achieve more. If you\'re pursuing a huge goal, make sure that every time you take a small step closer to achieving it, you pat yourself on the back.',
-        'Don\'t compare where you are now with where you someday hope to be. Compare where you are now to where you were a few days ago. Then you\'ll get dozens of bite-size chunks of fulfillment--and a never-ending supply of things to be thankful for.',
-        'You know the old cliché regarding the starving yet happy artist? Turns out it\'s true: artists are considerably more satisfied with their work than non-artists--even though the pay tends to be considerably lower than in other skilled fields.',
-        'Everyone has at least a few things they do incredibly well. Find ways to do those things more often. You\'ll be a lot happier.And probably a lot more successful.',
-        'Make choices that are right for you. Say things you really want to say to the people who most need to hear them. Express your feelings. Stop and smell a few roses. Make friends, and stay in touch with them.'
-    ]
-    for cc in cc_with_counties():
-
-        for i in range(1, 11):
-            for e in range(1, random.randint(3, 9)):
-                posts.append({
-                    'i_feel': i_feel_arr[random.randint(0, 10)],
-                    'because': because_arr[random.randint(0, 9)],
-                    'action': action_arr[random.randint(0, 16)],
-                    'post_id': str(ObjectId()),
-                    'created_at': datetime.datetime.now() - datetime.timedelta(
-                        days=random.randint(1, 10)),
-                    'likes': random.randint(0, 77),
-                    'feel': random.randint(1, 100)
-                })
-            counter += 1
-            users.append({'cc': cc,
-                          'cl': random.choice(cc_with_counties()[cc]),
-
-                          'name': 'user_' + cc + '_' + str(i),
-                          'email': 'user_' + cc + '_' + str(i) + '_@globi.com',
-                          'image_id': random.randint(0, 38),
-                          'password': generate_password_hash('password'),
-                          'created_at': datetime.datetime.now(),
-                          'last_login': datetime.datetime.now(),
-                          'last_feel': 0,
-                          'user_feel': {
-                              (datetime.datetime.now() - datetime.timedelta(days=10)).strftime("%F"): random.randint(1,
-                                                                                                                     100),
-                              (datetime.datetime.now() - datetime.timedelta(days=9)).strftime("%F"): random.randint(1,
-                                                                                                                    100),
-                              (datetime.datetime.now() - datetime.timedelta(days=8)).strftime("%F"): random.randint(1,
-                                                                                                                    100),
-                              (datetime.datetime.now() - datetime.timedelta(days=7)).strftime("%F"): random.randint(1,
-                                                                                                                    100),
-                              (datetime.datetime.now() - datetime.timedelta(days=6)).strftime("%F"): random.randint(1,
-                                                                                                                    100),
-                              (datetime.datetime.now() - datetime.timedelta(days=5)).strftime("%F"): random.randint(1,
-                                                                                                                    100),
-                              (datetime.datetime.now() - datetime.timedelta(days=4)).strftime("%F"): random.randint(1,
-                                                                                                                    100),
-                              (datetime.datetime.now() - datetime.timedelta(days=3)).strftime("%F"): random.randint(1,
-                                                                                                                    100),
-                              (datetime.datetime.now() - datetime.timedelta(days=2)).strftime("%F"): random.randint(1,
-                                                                                                                    100),
-                              (datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%F"): random.randint(1,
-                                                                                                                    100),
-                          },
-                          'posts': posts
-
-                          })
-            # mongo.db.users.insert_one(users[0])
-            # users = []
-            posts = []
-        mongo.db.users.insert_many(users)
-        users = []
-        # return 'users inserted '+ str(counter)
-
-        # country_users[country_code] = users
-    return 'users inserted ' + str(counter)
 
 
 """

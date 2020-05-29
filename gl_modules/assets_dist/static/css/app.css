@@ -17,6 +17,10 @@ h2, h3, h4 {
   letter-spacing: 4px;
   color: #0e4963;
 }
+a:hover {
+  text-decoration: none;
+}
+
 .user_mobile_nav{
   font-size: 0.7em;
   padding: 5px;
@@ -59,12 +63,7 @@ h4.danger_title {
   border-radius: 0;
 }
 
-#chart_holder {
-  /*background-color: #c0c0c0;*/
-  /*  position:fixed;*/
-  /*  top:0;*/
-  /*  z-index:100;*/
-}
+
 
 .one_thing {
   line-height: 2;
@@ -118,6 +117,7 @@ h4.danger_title {
 .feel_in {
 }
 
+/*FEELOMETER SLIDER WITH CUSTOM IMAGE */
 .slider {
   -webkit-appearance: none;
   width: 100%;
@@ -181,10 +181,12 @@ h4.danger_title {
   bottom: 0;
 
 }
+/*ICON FOR TAKE TOUR ON MOBILE*/
 .tour_mobile{
   font-size: 2em;
   color:  rgba(111, 227, 0, 1);
 }
+/*USER DASHBOARD*/
 .initial_interaction {
   font-size: 4em;
   font-family: 'Exo 2', sans-serif;
@@ -274,21 +276,7 @@ img.avatar {
   padding-left: 2px;
   padding-right: 2px;
 }
-.gl_button {
-  background-color: #177199;
-  color: whitesmoke;
-  font-family: "Lato", sans-serif;
-  padding: 2px 10px 2px 10px;
-  margin: 20px 2px 20px 2px;
-  cursor: pointer;
-  border: 1px solid #177199;
-  white-space: nowrap;
-}
 
-.gl_button.danger {
-  background-color: red;
-  color: whitesmoke;
-}
 
 a.map_chart ,a.locations_list{
   color: #0e4963;
@@ -308,7 +296,22 @@ a.user:hover {
   font-weight: bolder;
   text-decoration: none;
 }
+/*BUTTONS*/
+.gl_button {
+  background-color: #177199;
+  color: whitesmoke;
+  font-family: "Lato", sans-serif;
+  padding: 2px 10px 2px 10px;
+  margin: 20px 2px 20px 2px;
+  cursor: pointer;
+  border: 1px solid #177199;
+  white-space: nowrap;
+}
 
+.gl_button.danger {
+  background-color: red;
+  color: whitesmoke;
+}
 .gl_button:hover {
   background-color: whitesmoke;
   color: #177199;
@@ -381,7 +384,7 @@ a.user:hover {
 #map_sign_up {
   height: 400px;
 }
-
+/*MAP CONTROLS*/
 .map_0 {
   background-color: #EEEEEE;
 }
@@ -430,11 +433,30 @@ a.user:hover {
   background-color: #FFFF00;
   color: #0e4963;
 }
-
-.locations_list {
-  /*background-color: #177199;*/
-  /*color: whitesmoke;*/
+.map_controls {
+  color: #177199;
+  font-size: 1.5em;
 }
+
+.map_controls.mobile {
+  font-size: 1.2em;
+  margin-left: 3px;
+  margin-right: 3px;
+  padding: 3px;
+}
+
+.map_controls:hover {
+  background-color: #177199;
+  color: whitesmoke;
+  padding: 3px;
+}
+
+.map_controls.mobile:hover {
+  background-color: #177199;
+  color: whitesmoke;
+  padding: 3px;
+}
+
 
 /*app specific color classes*/
 .bg_blue {
@@ -477,33 +499,9 @@ a.user:hover {
   color: #990099;;
 }
 
-.map_controls {
-  color: #177199;
-  font-size: 1.5em;
-}
 
-.map_controls.mobile {
-  font-size: 1.2em;
-  margin-left: 3px;
-  margin-right: 3px;
-  padding: 3px;
-}
 
-.map_controls:hover {
-  background-color: #177199;
-  color: whitesmoke;
-  padding: 3px;
-}
 
-.map_controls.mobile:hover {
-  background-color: #177199;
-  color: whitesmoke;
-  padding: 3px;
-}
-
-a:hover {
-  text-decoration: none;
-}
 
 .user_initials {
   width: 50px;
@@ -519,7 +517,7 @@ a:hover {
   text-decoration: none;
   color: whitesmoke;
 }
-
+/*REMOVING ROUNDED CORNERS FROM  BOOTSTRAP DEFAULT FORM FIELDS*/
 .form-control {
   border-radius: 0;
 }
@@ -528,7 +526,7 @@ a:hover {
   width: 100%;
   height: 100%;
 }
-
+/*RED HEART*/
 .user_heart {
   height: 50px;
   background-position: center center;
@@ -564,52 +562,12 @@ a:hover {
   display: none;
 }
 
-/*CUSTOMIZING LEAFLET'S CSS FOR STYLING POPUPS*/
-.popup_class .leaflet-popup-tip, .popup_class .leaflet-popup-content-wrapper {
-  background-color: rgba(23, 113, 153, 0.8);
-  color: #fafafa;
-  font-size: 1.2em;
-}
 
-.leaflet-container a.leaflet-popup-close-button {
-  top: 0;
-  right: 0;
-  padding: 4px 4px 0 0;
-  border: none;
-  text-align: center;
-  font: 16px/14px Tahoma, Verdana, sans-serif;
-  color: red;
-  text-decoration: none;
-  font-weight: bold;
-  background: transparent;
-}
-
-.leaflet-container a.leaflet-popup-close-button:hover {
-  color: red;
-}
-
-.leaflet-popup-tip {
-  width: 17px;
-  height: 17px;
-  padding: 1px;
-  margin: -10px auto 0;
-  -webkit-transform: rotate(45deg);
-  -moz-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-}
-
-.leaflet-popup-tip-container {
-  position: absolute;
-  left: 50%;
-  margin-left: -20px;
-  overflow: hidden;
-  pointer-events: none;
-}
 
 #footer {
   min-height: 500px;
 }
+/*FLASH MESSAGES*/
 .flash_error{
   border: 1px dashed salmon;
   color: whitesmoke;
@@ -624,6 +582,7 @@ a:hover {
    border: 1px solid green;
    background-color: green;
 }
+/*DIFFERENT SIZES ON DIFFERENT SCREENS*/
 @media screen and ( max-width: 1200px ) {
   .custom-range {
     margin-top: 30px;

@@ -10,7 +10,9 @@ country_bp = Blueprint('country_bp', __name__,
                        static_folder='static',
                        static_url_path='assets/country')
 
-
+"""
+   COUNTRY PAGE GETTING POSTS FOR THAT COUNTRY FOR DISPLAY 
+"""
 @country_bp.route('<country_code>', methods=['GET'])
 def country(country_code):
 
@@ -52,6 +54,12 @@ def country(country_code):
                            posts=posts, random=random)
 
 
+"""
+   LOADING COUNTRY MAP WITH COUNTIES FEELINGS
+   FOR RENDERING IN JS
+   
+   AJAX CALL 
+"""
 @country_bp.route('/load_map')
 def load_map():
     from app import mongo

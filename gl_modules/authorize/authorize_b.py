@@ -1,8 +1,7 @@
+import datetime
 import random
 
 from flask import Blueprint, render_template, redirect, url_for, request, flash, session
-
-import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from gl_modules.shared.sanitize import sanitize
@@ -36,7 +35,6 @@ def sign_in():
 
 @authorize_bp.route('/login', methods=['POST'])
 def login():
-    from bson.json_util import dumps
     user = request.form.to_dict()
     from app import mongo
     user_to_check = mongo.db.users.find_one({"email": user['email']})
@@ -46,12 +44,6 @@ def login():
 
         return redirect(url_for('authorize_bp.sign_in'))
 
-    # if db_feelists != []:
-    #     for feelist in db_feelists:
-    #
-    #         user_feelists[feelist['name']] = feelist['post_ids']
-
-    # return dumps(user_feelists)
     if user['user_feel'] == '':
         """remembering user email and displaying it 
         in the form or redirect, so that user doesn't have to type 
@@ -96,7 +88,9 @@ def login():
         )
 
         session.clear()
-
+        """
+           ADDING USER DATA TO SESSION FOR FUTURE USE 
+        """
         session['user_name'] = user_name
         session['last_login'] = last_login
         session['user_country_code'] = country_code
@@ -166,11 +160,6 @@ def register():
     """IF USER DIDN'T SELECT HOW HE FEELS WE WILL FLASH MESSAGE
     TO SELECT HIS FEELINGS WITH FORM DATA RETURNED BACK TO HIM
     SO THAT HE DOESN'T NEED TO TYPE IT AGAIN"""
-    # if form_data['user_feel'] == '':
-    #     sticky_form(form_data)
-    #
-    #     flash('Please select how you feel!')
-    #     return redirect(url_for('authorize_bp.sign_up'))
 
     if new_user['cc'] == '':
         sticky_form(new_user)
@@ -223,7 +212,6 @@ def register():
         del new_user['country']
         mongo.db.users.insert_one(new_user)
 
-        # mongo.db.users.insert_one(new_user)
         flash('Thank you for signing up ' + new_user['name'] + '. You can log in now !','flash_success')
         return redirect(url_for('authorize_bp.sign_in'))
 

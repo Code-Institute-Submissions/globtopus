@@ -2,7 +2,7 @@ import datetime
 
 from bson import ObjectId
 from flask import Blueprint, request, jsonify, session, redirect, url_for, flash
-from bson.json_util import dumps
+
 from gl_modules.shared.sanitize import sanitize
 from gl_modules.shared.today import today_f
 from gl_modules.shared.update_feel import update_world_feel, update_country_feel
@@ -277,20 +277,13 @@ def actions():
        CHECK IF USER ALREADY LIKED/ADDED/FLAGGED POST 
     """
 
-    added_to_feelist = False
     liked_or_flagged = False
 
     from app import mongo
 
-    # if action == 'additions':
-    #     added_to_feelist = mongo.db.users.find_one(
-    #         {"_id": ObjectId(session.get('user_id')), "my_feelists." + feel_list + ".post_ids": {"$in": [post_id]}})
-
     if action == 'likes' or action == 'flags':
         liked_or_flagged = mongo.db.users.find_one(
             {"_id": ObjectId(session.get('user_id')), action: {"$in": [post_id]}})
-
-    # return str(type(liked_or_flagged))
 
     if liked_or_flagged:
         return jsonify(result='already_added')
@@ -352,7 +345,9 @@ def actions():
 
     return jsonify(result=post_id)
 
-# cypress run --record --key ec2e89e1-2683-4b85-a02d-72df89f5c77b --spec "cypress/integration/d_remove_user_from_globe.js"
+"""
+  USER POSTS
+"""
 @posts_bp.route('/user_posts')
 def user_posts():
     user_id = request.args.get('user_id', 0, type=str)
@@ -393,7 +388,9 @@ def user_posts():
 
     return jsonify(user_posts=user_posts)
 
-
+"""
+   USER GETTING FAVOURITE POSTS 
+"""
 @posts_bp.route('/my_fav_posts')
 def my_fav():
     from app import mongo
@@ -419,7 +416,9 @@ def my_fav():
 
     return jsonify(my_favs=favs)
 
-
+"""
+   USER DELETING POST 
+"""
 @posts_bp.route('/delete_post')
 def delete_post():
     post_id = request.args.get('post_id', 0, type=str)
@@ -433,6 +432,10 @@ def delete_post():
     )
     return jsonify(deleted='deleted')
 
+
+"""
+   ADMIN RETURNING POST TO SEARCH RESULTS 
+"""
 @posts_bp.route('/return_flaged_post')
 def return_flaged_post():
     from app import mongo
@@ -444,6 +447,10 @@ def return_flaged_post():
 
     return jsonify(returned_back='returned')
 
+
+"""
+   ADMIN DELETING POST 
+"""
 @posts_bp.route('/delete_flaged_post')
 def delete_flaged_post():
     from app import mongo

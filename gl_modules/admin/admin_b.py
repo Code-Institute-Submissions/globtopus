@@ -5,7 +5,13 @@ admin_bp = Blueprint('admin_bp', __name__,
                      template_folder='templates',
                      static_folder='static', static_url_path='assets/admin')
 
-
+"""
+   WHEN WE HAVE AUTHORIZED ADMIN, WE WILL GET ALL THE FLAGGED POSTS AND 
+   DISPLAY THEM , SO THAT HE CAN DECIDE WHETHER TO DELETE THEM OR RETURN THEM TO SEARCH RESULTS
+   
+   IF SOMEONE ELSE IS TRYING ACCESS THIS ROUTE WE WILL REDIRECT THEM TO 
+   CUSTOM 403 ERROR PAGE 
+"""
 @admin_bp.route('/admin')
 def admin():
     if session.get('authorized_admin'):

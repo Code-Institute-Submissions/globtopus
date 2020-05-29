@@ -1,3 +1,7 @@
+/*THIS FUNCTIONS WERE USED TO PREPARE SVG MAPS FOR STORAGE
+* INTO MONGODB, NOT PART OF GLOBTOPUS*/
+
+
 var countries = {
     "Afghanistan": "af",
     "Albania": "al",

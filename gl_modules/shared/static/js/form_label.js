@@ -1,3 +1,8 @@
+/*FUNCTION TO ADD LABEL TO FORM
+* ONCE FORM FIELD HAS FOCUS
+*
+* LABEL WILL BE SAME AS PLACEHOLDER TEXT*/
+
 (function () {
     $('.form_label').on(('click','focus'), function () {
 

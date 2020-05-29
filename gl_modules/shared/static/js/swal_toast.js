@@ -1,4 +1,5 @@
- export const Toast = Swal.mixin({
+/*CONFIRMATION POPUP AFTER SUCCESFUL ACTION*/
+export const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
         showConfirmButton: false,

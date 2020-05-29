@@ -2,8 +2,16 @@
 {% block title %}
 {% endblock %}
 {% block content %}
-<section id="user_input">
+<!--THIS PAGE HAS INTRO BY intro.js
 
+LANDING PAGE WHERE WE DISPLAY GLOBE WITH HEART AND HOW DOES THE WORLD FEEL LIKE
+
+ALSO FORM TO POST POSTS, WORLD MAP WITH COLORED COUNTRIES ACCORDING TO FEELING IN THE COUNTRY
+PROGRESS CHARTS FOR THE WORLD AND COUNTRIES, AND TOP COUNTRIES
+
+ALSO POSTS AND SEARCH FIELD FOR THE POSTS WHERE USERS CAN SEARCH POSTS ACCORDING TO THE WAY THEY FEEL AT THE MOMENT-->
+<section id="user_input">
+<!--CREATE POST FORM-->
     <form action="{{url_for('posts_bp.create_post')}}" method="POST" id="user_feel">
         <div class=" interaction-holder" data-cy="user_interaction">
             <div class="row ">
@@ -57,7 +65,7 @@ country progress in the past 10 days, or click oval buttons under country name t
 
 
 
-                <!--SLIDER WITH TEXT AREAS FOR INPUTING HOW DOES USER FEELS-->
+                <!--SLIDER WITH TEXT AREAS FOR INPUTTING HOW DOES USER FEELS-->
                 <div class="col-lg-4 int_steps  parent ml-1 mr-1 p-2 mt-1 align-content-around flex-wrap feel_form d-none d-lg-block" id="how_do_you_feel">
                     <div class="col-md-12"><h4 class="smaller_h text-center">How do you feel?</h4></div>
                     {{ feelometer() }}
@@ -101,6 +109,7 @@ country progress in the past 10 days, or click oval buttons under country name t
                               required
                     ></textarea>
                     </div>
+                    <!--IF USER IS SIGNED-IN WE WILL DISPALY SUBMIT BUTTON OTHERWISE LINKS TO SIGN IN-->
                     <div class="text-center" data-step="6" data-intro="Sign in or Sign up to start with us!">
                         {% if session.get('authorized_user') %}
                         <button class="gl_button col-md-12 p-2" type="submit" data-cy="create_post">submit</button>
@@ -118,9 +127,10 @@ country progress in the past 10 days, or click oval buttons under country name t
         </div>
     </form>
 </section>
-<section id="post_search" class="mt-2 landing_interaction d-none text-center"
-         >
+<section id="post_search" class="mt-2 landing_interaction d-none text-center" >
+    <!--MACRO SEARCH BOX USING THE SAME ON THE COUNTRY PAGE-->
     {{ search_box() }}
+    <!--SEARCH RESULTS ARE RENDERED AFTER AJAX CALL -->
     <div data-cy="search_results" id="search_results">
     </div>
     <span class="gl_button write_post first_post d-none "><i class="fas fa-pencil-alt"></i>&nbsp;write</span>
@@ -196,11 +206,7 @@ country progress in the past 10 days, or click oval buttons under country name t
             </div>
         </div>
     </div>
-    <!--TABLE TO DISPLAY COUNTRIES IN THAT RANGE-->
-    <div class="row mt-2" id="table_holder">
-        <div id="country_range" class="text-center  col-md-12"></div>
-        <table class="table table-responsive" id="range_countries"></table>
-    </div>
+
 </section>
 <section id="chart_search" class="mt-2 landing_interaction d-none">
     <div class="row">
@@ -209,14 +215,20 @@ country progress in the past 10 days, or click oval buttons under country name t
             <div id="bottom_of_chart"></div>
         </div>
         <div class="col  m-2 border_green">
+
             <div class="row mb-2">
+                <!--USER CAN SEE CHART OF THE WORLD PROGRESS-->
                 <div class="col">
-                    <span class="smaller_h gl_button chart_type chart" data-chart_for="world" data-num_of_days="10" data-chart_type="world_controls">world</span>
+                    <span class="smaller_h gl_button chart_type chart" data-chart_for="world"
+                          data-num_of_days="10" data-chart_type="world_controls">world</span>
                 </div>
+                <!--USER CAN SEE CHART OF THE COUNTRIES PROGRESS-->
                 <div class="col">
-                    <span class="smaller_h gl_button opaque chart_type" data-chart_for="countries" data-chart_type="countries_controls">countries</span>
+                    <span class="smaller_h gl_button opaque chart_type" data-chart_for="countries"
+                          data-chart_type="countries_controls">countries</span>
                 </div>
             </div>
+            <!--WORLD PROGRESS FOR PAST DAYS-->
             <div id="lists">
                 <ul class="list-group lists" id="world_controls">
                     <li class="list-group-item border_bottom_only chart gl_selected" data-chart_for="world" data-num_of_days="10">
@@ -235,6 +247,7 @@ country progress in the past 10 days, or click oval buttons under country name t
                         past 360 days
                     </li>
                 </ul>
+                <!--TOP COUNTRIES-->
                 <ul class="list-group d-none lists" id="countries_controls">
                     <li class="list-group-item border_bottom_only chart" data-chart_for="countries" data-num_of_countries="10">
                         top 10
@@ -246,6 +259,7 @@ country progress in the past 10 days, or click oval buttons under country name t
                         list all
                     </li>
                 </ul>
+                <!--WHEN USER CLICKS ON TOP 10,30,ALL, THE COUNTRY NAMES WILL RENDER HERE-->
                 <ul class="list-group d-none lists" id="list_of_locations">
                 </ul>
             </div>
@@ -253,7 +267,9 @@ country progress in the past 10 days, or click oval buttons under country name t
     </div>
 </section>
 <section id="footer">
+    <!--CURRENT PAGE FOR INTROJS-->
     <span class="current_page" data-current_page="landing"></span>
+    {{ footer() }}
 </section>
 {% endblock %}
 {% block js %}

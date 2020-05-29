@@ -23,10 +23,10 @@ landing_bp = Blueprint('landing_bp', __name__,
 def index():
     num_of_people = []
     sum_of_feelings = []
-    """GETTING FEELINGS FOR THE LAST 7 DAYS"""
+    """GETTING FEELINGS FOR THE LAST 30 DAYS"""
     from app import mongo
     feels = mongo.db.world_feel.find(
-        {"day": {"$gte": (datetime.datetime.now() - datetime.timedelta(days=6)).strftime("%F")}})
+        {"day": {"$gte": (datetime.datetime.now() - datetime.timedelta(days=30)).strftime("%F")}})
 
 
     for feel in feels:

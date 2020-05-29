@@ -1,18 +1,13 @@
 {% extends 'base.html' %}
 
 
-{% block title %}
-
-
-{% endblock %}
-
-
 {% block content %}
-
+<!--SIGN IN PAGE -->
 <h3>Sign in</h3>
 
 <div class="row">
     <div class="col-md-5 mb-3">
+        <!--SIGN IN FORM-->
         <form action="{{url_for('authorize_bp.login')}}" method="POST" id="sign_in_form">
 
             <!--email input-->
@@ -54,10 +49,11 @@
             </div>
         </form>
     </div>
+    <!--ADVERTISEMENTS NEXT TO THE SIGN IN FORM-->
     <div class="col-md-7 img-thumbnail border_blue p-4">
 
             <span class="p-1 "> <a  class="text-secondary float-right" href= "https://github.com/marcelkolarcik">
-                <em>advertisement</em>
+                <em>sponsored</em>
                <i class="fab fa-github-square "></i> </a></span>
 
                 <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
@@ -104,7 +100,9 @@
     </div>
 
 </div>
-
+<section id="footer">
+    {{ footer() }}
+</section>
 
 {% endblock %}
 

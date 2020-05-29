@@ -11,7 +11,10 @@ user_bp = Blueprint('user_bp', __name__,
                     template_folder='templates',
                     static_folder='static', static_url_path='assets/user')
 
-
+"""
+   GETTING USERS DATA TO DISPLAY PROGRESS ON THE CHART AND HIS FEELIST
+   TODO ; RETHINK THE FEELISTS IN SESSION 
+"""
 @user_bp.route('/user')
 def user():
     from app import mongo
@@ -39,10 +42,17 @@ def user():
     return render_template('user/user.html', user=authorized_user, today=today, days=days, feelings=feelings)
 
 
+"""
+   CHECK IF THE USER IS AUTHORIZED 
+"""
 @user_bp.route('/is_authorized')
 def is_authorized():
     return jsonify(user=True if session.get('authorized_user') else False,feelists=session.get('my_feelists') if session.get('my_feelists') else {})
 
+
+"""
+   UPDATING USER FEELINGS, AND AT THE SAME TIME UPDATING WORLD, COUNTRY, COUNTY FEELINGS 
+"""
 @user_bp.route('/update_user_feeling')
 def update_user_feeling():
     feeling = request.args.get('feeling', 0, type=int)
@@ -73,6 +83,11 @@ def update_user_feeling():
     session['user_feel'] = feeling
 
     return jsonify(updated='updated')
+
+
+"""
+   USER FEELISTS 
+"""
 
 @user_bp.route('_my_feelist', methods=['POST', 'GET'])
 def my_feelist():
@@ -107,6 +122,9 @@ def my_feelist():
     return jsonify(f_actions=f_actions)
 
 
+"""
+   DELETING POST FROM FEELIST 
+"""
 @user_bp.route('/delete_action')
 def delete_action():
     from app import mongo
@@ -121,6 +139,9 @@ def delete_action():
     return jsonify(deleted='deleted')
 
 
+"""
+   DELETING FEELIST 
+"""
 @user_bp.route('/delete_feelist')
 def delete_feelist():
     from app import mongo
@@ -133,6 +154,9 @@ def delete_feelist():
     return jsonify(deleted='deleted')
 
 
+"""
+   REMOVING POST ID FROM USER'S FAVOURITES 
+"""
 @user_bp.route('/remove_from_likes')
 def remove_from_likes():
     post_id = request.args.get('post_id', 0, type=str)
@@ -144,6 +168,9 @@ def remove_from_likes():
     return jsonify(deleted='deleted')
 
 
+"""
+   ADDING OR REMOVING OTHER USERS TO/FROM GLOBE 
+"""
 @user_bp.route('/glob_action')
 def glob_action():
     user_id = request.args.get('user_id', 0, type=str)
@@ -200,11 +227,17 @@ def glob_action():
         return jsonify(text='success')
 
 
+"""
+   GETTING LIST OF USER GLOBE 
+"""
 @user_bp.route('/my_glob')
 def my_glob():
     return jsonify(my_glob=my_globers())
 
 
+"""
+   PUBLIC USER'S DETAILS AND POSTS 
+"""
 @user_bp.route('/user/<user_id>')
 def public_user(user_id):
     from app import mongo

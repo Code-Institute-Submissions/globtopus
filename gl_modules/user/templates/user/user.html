@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
+<!--THIS PAGE IS FOR LOGGED IN USER
+IT HAS intro.js DESKTOP VERSION ONLY-->
 <section id="user">
     <div class="row">
         <!--USER DASHBOARD NAV DESKTOP-->
@@ -183,12 +185,14 @@ you will be able to create post from here by clicking on
         </div>
     </div>
 </section>
+<!--LATEST POSTS WILL RENDER HERE-->
 <section id="latest posts" class="mt-3">
     <div id="search_results">
     </div>
 </section>
 <section id="footer">
     <span class="current_page" data-current_page="user"></span>
+    {{ footer() }}
 </section>
 {% endblock %}
 {% block js %}
