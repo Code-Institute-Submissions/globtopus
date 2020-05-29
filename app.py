@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, render_template
 from flask_pymongo import PyMongo
 
 app = Flask(__name__)
@@ -25,6 +25,8 @@ import gl_modules.admin.admin_b as admin_m
 import gl_modules.errors.errors_b as errors_m
 import gl_modules.tests.tests_b as tests_m
 
+
+
 app.register_blueprint(landing_m.landing_bp, url_prefix='/')
 app.register_blueprint(user_m.user_bp, url_prefix='/')
 app.register_blueprint(shared_m.shared_bp, url_prefix='/')
@@ -41,11 +43,17 @@ app.register_blueprint(country_m.country_bp, url_prefix='/')
 
 
 
+@app.errorhandler(Exception)
+
+def not_found(e):
+
+    return render_template("errors/error.html")
 
 
 if __name__ == '__main__':
     app.run(
         port=os.environ.get('PORT'),
         host=os.environ.get('IP'),
-
         debug=True)
+
+
