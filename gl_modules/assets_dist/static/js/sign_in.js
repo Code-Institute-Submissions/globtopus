@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("/*FUNCTIONALITY TO SHOW USER FEELINGS ON SLIDE RANGE\n* AND TO CHANGE TEXT ABOVE ACTIONS PART OF THE FORM\n* IF FEELINGS < 51 OR >= 51*/\n $('#slider_result')\n                .css('background',\"url('assets/dist/images/happy.png')\")\n                .css('background-repeat', 'no-repeat')\nfunction feelometer () {\n\n\n\n    $('#feeling').on('change', function () {\n\n        var feelings = this.value;\n\n        $('#feeling_holder').val(feelings);\n\n        if(feelings > 51){\n            $('#this_or_better').removeClass('d-none');\n            $('#better').addClass('d-none');\n            $('#slider_result').html('')\n                .css('background',\"url('assets/dist/images/happy.png')\")\n                .css('background-repeat', 'no-repeat')\n\n\n        }\n        else{\n             $('#this_or_better').addClass('d-none');\n             $('#better').removeClass('d-none');\n             $('#slider_result').html('')\n                .css('background',\"url('assets/dist/images/sad.png')\")\n                .css('background-repeat', 'no-repeat')\n        }\n    })\n\n }\n feelometer ()\n/*assets/dist/images/avatars/${counter % 38}.png*/\n\n//# sourceURL=webpack:///./gl_modules/shared/static/js/feel_meter.js?");
+eval("/*FUNCTIONALITY TO SHOW USER FEELINGS ON SLIDE RANGE\r\n* AND TO CHANGE TEXT ABOVE ACTIONS PART OF THE FORM\r\n* IF FEELINGS < 51 OR >= 51*/\r\n $('#slider_result')\r\n                .css('background',\"url('assets/dist/images/happy.png')\")\r\n                .css('background-repeat', 'no-repeat')\r\nfunction feelometer () {\r\n\r\n\r\n\r\n    $('#feeling').on('change', function () {\r\n\r\n        var feelings = this.value;\r\n\r\n        $('#feeling_holder').val(feelings);\r\n\r\n        if(feelings > 51){\r\n            $('#this_or_better').removeClass('d-none');\r\n            $('#better').addClass('d-none');\r\n            $('#slider_result').html('')\r\n                .css('background',\"url('assets/dist/images/happy.png')\")\r\n                .css('background-repeat', 'no-repeat')\r\n\r\n\r\n        }\r\n        else{\r\n             $('#this_or_better').addClass('d-none');\r\n             $('#better').removeClass('d-none');\r\n             $('#slider_result').html('')\r\n                .css('background',\"url('assets/dist/images/sad.png')\")\r\n                .css('background-repeat', 'no-repeat')\r\n        }\r\n    })\r\n\r\n }\r\n feelometer ()\r\n/*assets/dist/images/avatars/${counter % 38}.png*/\n\n//# sourceURL=webpack:///./gl_modules/shared/static/js/feel_meter.js?");
 
 /***/ }),
 
@@ -108,14 +108,25 @@ eval("(function () {\n    $('.form_label').on(('click','focus'), function () {\n
 
 /***/ }),
 
+/***/ "./gl_modules/shared/static/js/site_intro.js":
+/*!***************************************************!*\
+  !*** ./gl_modules/shared/static/js/site_intro.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("throw new Error(\"Module build failed: Error: ENOENT: no such file or directory, open 'C:\\\\Users\\\\Marcel Kolarcik\\\\code\\\\globtopus\\\\gl_modules\\\\shared\\\\static\\\\js\\\\site_intro.js'\");\n\n//# sourceURL=webpack:///./gl_modules/shared/static/js/site_intro.js?");
+
+/***/ }),
+
 /***/ 0:
-/*!*****************************************************************************************************!*\
-  !*** multi ./gl_modules/shared/static/js/feel_meter.js ./gl_modules/shared/static/js/form_label.js ***!
-  \*****************************************************************************************************/
+/*!*************************************************************************************************************************************************!*\
+  !*** multi ./gl_modules/shared/static/js/feel_meter.js ./gl_modules/shared/static/js/form_label.js ./gl_modules/shared/static/js/site_intro.js ***!
+  \*************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("__webpack_require__(/*! ./gl_modules/shared/static/js/feel_meter.js */\"./gl_modules/shared/static/js/feel_meter.js\");\nmodule.exports = __webpack_require__(/*! ./gl_modules/shared/static/js/form_label.js */\"./gl_modules/shared/static/js/form_label.js\");\n\n\n//# sourceURL=webpack:///multi_./gl_modules/shared/static/js/feel_meter.js_./gl_modules/shared/static/js/form_label.js?");
+eval("__webpack_require__(/*! ./gl_modules/shared/static/js/feel_meter.js */\"./gl_modules/shared/static/js/feel_meter.js\");\n__webpack_require__(/*! ./gl_modules/shared/static/js/form_label.js */\"./gl_modules/shared/static/js/form_label.js\");\nmodule.exports = __webpack_require__(/*! ./gl_modules/shared/static/js/site_intro.js */\"./gl_modules/shared/static/js/site_intro.js\");\n\n\n//# sourceURL=webpack:///multi_./gl_modules/shared/static/js/feel_meter.js_./gl_modules/shared/static/js/form_label.js_./gl_modules/shared/static/js/site_intro.js?");
 
 /***/ })
 
