@@ -1,5 +1,6 @@
 import {Toast} from "../../../../shared/static/js/swal_toast";
 
+
 (function () {
 
 
@@ -325,7 +326,7 @@ import {Toast} from "../../../../shared/static/js/swal_toast";
 
                     Swal.fire(
                         {
-                            title:post_id,
+
                             html: post_action('edit', i_feel, because, action, post_id),
                             showConfirmButton: false
 

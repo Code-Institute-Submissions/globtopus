@@ -39,9 +39,10 @@
         <!--username input-->
         <div class="col-lg-4 col-sm-12">
             <div class="col-auto">
-                <div class="input-group mb-2 " id="name_label">
+                <div class="input-group mb-2 " id="name_label"
+                 data-step="3" data-intro="Enter your user name, if we have another glober with this user name, we will ask you to choose a different one!">
                     <div class="input-group-prepend">
-                        <div class="input-group-text bg-transparent border_bottom_only"><i class="fas fa-user"></i></i>
+                        <div class="input-group-text bg-transparent border_bottom_only"><i class="fas fa-user"></i>
                         </div>
                     </div>
                     <input data-cy="username" type="text" data-label=1 class="form-control form-control-lg border_bottom_only form_label"
@@ -51,7 +52,8 @@
                 </div>
             </div>
             <!--email input-->
-            <div class="col-auto">
+            <div class="col-auto"
+             data-step="4" data-intro="Enter your email, if we have another glober with this email, we will ask you to choose a different one!">
                 <div class="input-group mb-2" id="email_label">
                     <div class="input-group-prepend">
                         <div class="input-group-text bg-transparent border_bottom_only"><i class="fas fa-at"></i></div>
@@ -62,7 +64,8 @@
                 </div>
             </div>
             <!--password input-->
-            <div class="col-auto">
+            <div class="col-auto"
+             data-step="5" data-intro="Enter your password, make it a strong one!">
                 <div class="input-group mb-2" id="password_label">
                     <div class="input-group-prepend">
                         <div class="input-group-text bg-transparent border_bottom_only">
@@ -74,24 +77,28 @@
                            placeholder="Password" name="password" required>
                 </div>
             </div>
-            <!--feelometer-->
+
             <div class="mt-5">
-                <button data-cy="sign_up" class="btn bg_blue text-light pt-3 pb-3 pr-5 pl-5 float-right smaller_h" id="sign_up"
+                <button data-cy="sign_up"
+                        data-step="6"
+                        data-intro="Sign up!<hr>  We are currently working on signing up with Google or Facebook so that you will be able to sign in faster!"
+                        class="btn bg_blue text-light pt-3 pb-3 pr-5 pl-5 float-right smaller_h" id="sign_up"
                         title="Have a great day!">Sign up!
                 </button>
             </div>
         </div>
         <div class="col-lg-8 col-md-12">
             <!--MAP WILL RENDER INTO THIS DIV-->
-            <div id="map_sign_up">
+            <div id="map_sign_up" data-step="1" data-intro="Select your country and state/county on the map!">
                  <div class="row no-gutters map_info" >
                     <div class="col-md-6  text-center border_green border_bottom_only p-2 d-flex justify-content-around align-items-center">
                         <span id="current">Hover over map to see country name here, scroll, drag or double click to navigate
                        </span>
                     </div>
                     <div data-cy="all" data-range="all" title="see the list"
+                         data-step="2" data-intro="Or you can select your country and state/county from the list!"
                             class="col-md-6 p-2 show_list text-center border_green border_bottom_only d-flex justify-content-around align-items-center">
-                        <span><i class="fas fa-list"></i></span><br>
+                        <span ><i class="fas fa-list"></i></span><br>
                         <span>or select location from the list</span>
 
                     </div>

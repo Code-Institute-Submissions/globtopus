@@ -288,13 +288,12 @@
                     <span class="gl_button mt-2 d-print-none ${$_this.data('range')}" 
                     onclick="swal.close()" title="close"> close</span>
                     
-                    <span class="gl_button save_list d-print-none ${$_this.data('range')}" 
-                    title="save list" onclick="window.print()"><i class="fas fa-save"></i></span>
+                  
                     
                     <hr class="${$_this.data('range')} d-print-none">
                     
                     <small class="blue ${$_this.data('range')} d-print-none">
-                    click on link to see country </small>`)
+                    click on link to see country</small>`)
 
 
             list_of_locations.prepend(`<img  class="d-none d-print-block" src="/assets/dist/images/gloptopus_logo.gif"/>`)

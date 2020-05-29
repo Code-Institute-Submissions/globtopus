@@ -15,16 +15,25 @@
             var feels = response.feels
 
             var new_map = ` <div class="row no-gutters">
-                <div class="col-md-6  text-center border_green border_bottom_only p-2">
+                <div class="col-md-6  text-center border_green border_bottom_only p-2"
+                 data-step="4"
+                  data-intro="Hovering over the map will give you the county name here.">
                     <span id="current">Hover over map to see location name here</span>
                 </div>
                 <div class="col-md-6  text-center border_green border_bottom_only d-flex justify-content-around">
-                    <span class="map_color_legend map_20" data-range="20"><20 </span>
+                    <span class="map_color_legend map_20" data-range="20"
+                    data-step="5"
+                  data-intro="Clicking on one of these buttons will display counties in that range! If you click
+                  on the county link, you will see progress of that county on the chart!"><20 </span>
                     <span class="map_color_legend map_40" data-range="40"><40 </span>
                     <span class="map_color_legend map_60" data-range="60"><60 </span>
                     <span class="map_color_legend map_80" data-range="80"><80 </span>
                     <span class="map_color_legend map_100" data-range="100">≤100 </span>
-                    <span class="map_color_legend" data-range="all"><i class="fas fa-list"></i></span>
+                    <span class="map_color_legend" data-range="all" 
+                     data-step="6"
+                  data-intro="Clicking on the list button will display all counties!
+                  If you click
+                  on the county link, you will see progress of that county on the chart!"><i class="fas fa-list"></i></span>
                 </div>
             </div> <svg xmlns="http://www.w3.org/2000/svg" id="country_map" x="0" y="0" baseProfile="tiny" viewBox="0 0 660 447" xml:space="preserve">`
 
