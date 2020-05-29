@@ -3,12 +3,13 @@
 {% endblock %}
 {% block content %}
 <section id="user_input">
-     <a class="btn btn-large btn-success" href="javascript:void(0);" onclick="javascript:introJs().start();">Show me how</a>
+
     <form action="{{url_for('posts_bp.create_post')}}" method="POST" id="user_feel">
         <div class=" interaction-holder" data-cy="user_interaction">
             <div class="row ">
                 <!--GLOBE WITH FEELING-->
                 <div class="col d-flex justify-content-center  ml-1 mr-1 p-2 mt-1 align-items-center parent  int_steps"
+                     data-step="1" data-intro="This is how we feel!"
                      id="hearth">
                     <h4 class="child_at_top smaller_h text-center">This is how we feel</h4>{{ db }}
                     <div>
@@ -16,19 +17,38 @@
                             <h1 id="feel" class="feel_out"> {{world_feel}}</h1>
                         </div>
                     </div>
-
                     <div class="child_at_bottom ">
                         <p class="text-center">{{wf_full}}</p>
                         <div class="">
-                             <span id="map" class="gl_button " title="see the map"><i
-                                class="fas fa-globe"></i>&nbsp;map</span>
-                        <span id="charts" data-num_of_days=10 data-chart_for="world" class="gl_button chart" data-location="World" title="see the chart"><i
-                                class="far fa-chart-bar"></i>&nbsp;chart
+                             <span id="map"
+                                   class="gl_button "
+                                   title="see the map"
+                                   data-step="8"
+                                   data-intro="See the world map with color-coded countries, according to how they feel,
+                                    color legend buttons with numbers 20,40,60,80,100 above the map
+                                     will show you countries in that range. If you click on the country link,
+                                      you will be taken to that country page. Hovering over the map will
+                                      give you country name in the top left corner of the map, clicking on
+                                      the country will display little info about the country.">
+                                 <i class="fas fa-globe"></i>&nbsp;map</span>
+                            <span id="charts" data-num_of_days=10
+                                  data-chart_for="world"
+                                  class="gl_button chart"
+                                  data-location="World"
+                                  data-step="9"
+                                  data-intro="See the world and countries progress chart, click on past 10,30,90,180,360 days to see world progress.
+                                Click on countries button and top 10,30 or all to see a bar chart with top countries. Click on a country to see
+country progress in the past 10 days, or click oval buttons under country name to see progress over the past 30,90,180,360 days."
+                                  title="see the chart"><i class="far fa-chart-bar"></i>&nbsp;chart
                         </span>
-                        <span id="posts" class="gl_button " title="type how you feel..."><i
-                                class="far fa-heart"></i>&nbsp;posts</span>
-
-                        <span  class="gl_button write_post  d-md-none"><i class="fas fa-pencil-alt"></i>&nbsp;write</span>
+                            <span id="posts"
+                                  class="gl_button "
+                                  title="type how you feel..."
+                                  data-step="10"
+                                  data-intro="See for the posts worldwide"><i class="far fa-heart"></i>
+                                &nbsp;posts
+                            </span>
+                            <span class="gl_button write_post  d-lg-none"><i class="fas fa-pencil-alt"></i>&nbsp;write</span>
                         </div>
 
                     </div>
@@ -38,11 +58,11 @@
 
 
                 <!--SLIDER WITH TEXT AREAS FOR INPUTING HOW DOES USER FEELS-->
-                <div class="col-lg-4 int_steps  parent ml-1 mr-1 p-2 mt-1 align-content-around flex-wrap feel_form d-none d-md-block" id="how_do_you_feel">
+                <div class="col-lg-4 int_steps  parent ml-1 mr-1 p-2 mt-1 align-content-around flex-wrap feel_form d-none d-lg-block" id="how_do_you_feel">
                     <div class="col-md-12"><h4 class="smaller_h text-center">How do you feel?</h4></div>
-                     {{ feelometer() }}
-                    <div class="col-md-12" data-step="2" data-intro="Type in how you feel at the moment, or if you
-                        want to write in general, you can write in a sence of when I feel/ feel like...">
+                    {{ feelometer() }}
+                    <div class="col-md-12" data-step="3" data-intro="Type in how you feel at the moment, or if you
+    want to write in general, you can write in a sense of when I feel/ feel like...">
                         <input type="text" class="form-control border_bottom_only mb-1 form_label" form="user_feel" id="one"
                                name="i_feel"
                                data-cy="i_feel"
@@ -50,20 +70,18 @@
                                placeholder="( When ) I feel/ I feel like"
                                data-cy="description">
                     </div>
-                    <div class="col-md-12" data-step="3" data-intro="Type in why do you feel this way...">
+                    <div class="col-md-12" data-step="4" data-intro="Type in why do you feel this way...">
                     <textarea class="form-control border_bottom_only form_label" form="user_feel" id="two"
                               maxlength="200"
                               name="because"
                               data-cy="because"
                               required
                               placeholder="Because..."
-                             ></textarea>
-
-
-                         </div>
+                    ></textarea>
+                    </div>
                 </div>
                 <!--STEPS TO FEEL THIS WAY OR BETTER-->
-                <div class="col-lg-4 int_steps  parent  ml-1 mr-1 p-2 mt-1 align-content-around flex-wrap feel_form  feel_form d-none d-md-block"
+                <div class="col-lg-4 int_steps  parent  ml-1 mr-1 p-2 mt-1 align-content-around flex-wrap feel_form  feel_form d-none d-lg-block"
                      id="what_do_you_do">
                     <div class="col-md-12" >
                         <h4 class="smaller_h one_thing text-center">What is the one thing that you do
@@ -71,7 +89,7 @@
                             <span id="this_or_better" class=" text-center d-none">to feel this way or better ?</span>
                         </h4>
                     </div>
-                    <div class="col-md-12" data-step="4" data-intro="Type in what is the one thing that you do to feel this way, or one thing
+                    <div class="col-md-12" data-step="5" data-intro="Type in what is the one thing that you do to feel this way, or one thing
                     you recommend doing...">
                     <textarea form="user_feel"
                               rows="5"
@@ -83,17 +101,15 @@
                               required
                     ></textarea>
                     </div>
-                    <div class="text-center">
-
-
-                    {% if session.get('authorized_user') %}
-                    <button class="gl_button col-md-12 p-2" type="submit" data-cy="create_post">submit</button>
-                    {% else %}
-                    <a class="" href="{{url_for('authorize_bp.sign_in')}}">Sign in </a>
-                    or
-                    <a class="" href="{{url_for('authorize_bp.sign_up')}}">Sign up </a>
-                    to <br> <span class="gl_button ">submit</span>.
-                    {% endif %}
+                    <div class="text-center" data-step="6" data-intro="Sign in or Sign up to start with us!">
+                        {% if session.get('authorized_user') %}
+                        <button class="gl_button col-md-12 p-2" type="submit" data-cy="create_post">submit</button>
+                        {% else %}
+                        <a class="" href="{{url_for('authorize_bp.sign_in')}}">Sign in </a>
+                        or
+                        <a class="" href="{{url_for('authorize_bp.sign_up')}}">Sign up </a>
+                        to <br> <span class="gl_button ">submit</span>.
+                        {% endif %}
                          </div>
                 </div>
 
@@ -102,13 +118,12 @@
         </div>
     </form>
 </section>
-
-<section id="post_search" class="mt-2 landing_interaction d-none text-center">
+<section id="post_search" class="mt-2 landing_interaction d-none text-center"
+         >
     {{ search_box() }}
     <div data-cy="search_results" id="search_results">
-
     </div>
-    <span  class="gl_button write_post first_post d-none "><i class="fas fa-pencil-alt"></i>&nbsp;write</span>
+    <span class="gl_button write_post first_post d-none "><i class="fas fa-pencil-alt"></i>&nbsp;write</span>
 </section>
 <section id="map_search" class="mt-2 landing_interaction d-none">
     <div class="row">
@@ -122,11 +137,11 @@
                 </span><br>
             <hr class="bg_blue">
             <span class="map_controls" title="move up" data-action="panDown"><i class="far fa-arrow-alt-circle-up"></i></span><br>
-            <span class="map_controls" title="move right" data-action="panLeft"><i class="far fa-arrow-alt-circle-right"></i></i></span><br>
+            <span class="map_controls" title="move right" data-action="panLeft"><i class="far fa-arrow-alt-circle-right"></i></span><br>
             <span class="map_controls" title="move left" data-action="panRight"><i class="far fa-arrow-alt-circle-left"></i></span><br>
             <span class="map_controls" title="move down" data-action="panUp"><i class="far fa-arrow-alt-circle-down"></i></span><br>
             <hr class="bg_blue">
-            <span class="map_controls" title="reset" data-action="reset"><i class="fas fa-redo"></i></i></span><br>
+            <span class="map_controls" title="reset" data-action="reset"><i class="fas fa-redo"></i></span><br>
         </div>
         <!--MAP CONTROLS MOBILE-->
         <div class="col  text-center pt-4 d-md-none">
@@ -138,11 +153,11 @@
                 </span>
             <span class="blue mb-1 pl-1 pr-1 ">|</span>
             <span class="map_controls mobile" title="move up" data-action="panDown"><i class="far fa-arrow-alt-circle-up"></i></span>
-            <span class="map_controls mobile" title="move right" data-action="panLeft"><i class="far fa-arrow-alt-circle-right"></i></i></span>
+            <span class="map_controls mobile" title="move right" data-action="panLeft"><i class="far fa-arrow-alt-circle-right"></i></span>
             <span class="map_controls mobile" title="move left" data-action="panRight"><i class="far fa-arrow-alt-circle-left"></i></span>
             <span class="map_controls mobile" title="move down" data-action="panUp"><i class="far fa-arrow-alt-circle-down"></i></span>
             <span class="blue  pl-1 pr-1">|</span>
-            <span class="map_controls mobile" title="reset" data-action="reset"><i class="fas fa-redo"></i></i></span>
+            <span class="map_controls mobile" title="reset" data-action="reset"><i class="fas fa-redo"></i></span>
         </div>
         <div class="col-md-8 p-0 border_blue">
             <!--WORLD MAP WILL BE RENDERED HERE-->
@@ -153,11 +168,11 @@
                     <span id="current">Hover over map to see country name here</span>
                 </div>
                 <div class="col-md-6  text-center border_green border_bottom_only d-flex justify-content-around">
-                    <span class="map_color_legend map_20" data-range="20"><20 </span>
-                    <span class="map_color_legend map_40" data-range="40"><40 </span>
-                    <span class="map_color_legend map_60" data-range="60"><60 </span>
-                    <span class="map_color_legend map_80" data-range="80"><80 </span>
-                    <span class="map_color_legend map_100" data-range="100">≤100 </span>
+                    <span class="map_color_legend map_20" data-range="20"> &#60;20 </span>
+                    <span class="map_color_legend map_40" data-range="40"> &#60;40 </span>
+                    <span class="map_color_legend map_60" data-range="60"> &#60;60 </span>
+                    <span class="map_color_legend map_80" data-range="80"> &#60;80 </span>
+                    <span class="map_color_legend map_100" data-range="100"> &#8804;100 </span>
                     <span class="map_color_legend" data-range="all"><i class="fas fa-list"></i></span>
                 </div>
                 <div class="col-md-12 range d-none" id="r_20"><h4 class="feelist_title">Countries 0-20</h4></div>
@@ -238,6 +253,7 @@
     </div>
 </section>
 <section id="footer">
+    <span class="current_page" data-current_page="landing"></span>
 </section>
 {% endblock %}
 {% block js %}
@@ -246,4 +262,6 @@
         integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
 <script src="{{url_for('map_bp.static', filename='src/js/SVGPanZoom.js')}}"></script>
 <script src="{{url_for('assets_dist_bp.static', filename='js/landing.js')}}"></script>
+<script src="{{url_for('user_bp.static', filename='src/js/mobile_intro.js')}}"></script>
+
 {% endblock %}

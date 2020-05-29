@@ -14,7 +14,7 @@ function feelometer () {
 
         $('#feeling_holder').val(feelings);
 
-        if(feelings > 51){
+        if(feelings > 50){
             $('#this_or_better').removeClass('d-none');
             $('#better').addClass('d-none');
             $('#slider_result').html('')

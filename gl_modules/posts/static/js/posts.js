@@ -355,28 +355,34 @@ $(function () {
 
             $("#search_results").append(`
 
-                    <div class="row mb-2 border_blue_l pt-2">
+                    <div class="row mb-2 border_blue_l pt-2" >
                      
                      <div class="col-md-8 pb-2">
                       <span >(When) I feel :</span>  
                                <span class="text-info" >${post.i_feel.join(' ')}  </span>
                                <span >because :</span>
                                <span  class="text-info">${post.because.join(' ')}  </span> <br>
-                        
+                          <span class="text-info"><i class="fas fa-italic"></i> :</span>
                               <span>${post.action}</span> 
                             <br>
                      ${post.flags === 0 ? ` 
                                
                             
-                            <i  data-id="${post.id}"  data-action="likes"
+                            <i id="intro_likes"  data-id="${post.id}"  data-action="likes"
+                            data-step=${window.location.pathname === '/' ? "12":"8" } 
+                                  data-intro="Once you're signed in you can like the post"
                             class="fas fa-heart float-right ml-3 gl_action" title="like it!" >
                             <span id="likes_${post.id}" data-cy="like_post${counter}">&nbsp;${post.likes}</span> </i> 
           
-                            <i   data-id="${post.id}"  data-action="additions" data-cy="add_post${counter}"
+                            <i id="intro_add"  data-id="${post.id}"  data-action="additions" data-cy="add_post${counter}"
+                            data-step=${window.location.pathname === '/' ? "13":"9" }
+                                  data-intro="Once you're signed in you can add post to your feelist. A Feelist is like a playlist for actions you can take to feel better!"
                             class="fas fa-plus float-right ml-3 add_to_feelist" title="add to your feelist!">
                             <span id="additions_${post.id}" ></span>
                             </i>
-                            <i  data-id="${post.id}"  data-action="flags" data-cy="flag_post${counter}"
+                            <i id="intro_flag" data-id="${post.id}"  data-action="flags" data-cy="flag_post${counter}"
+                             data-step=${window.location.pathname === '/' ? "14":"10" }
+                                  data-intro="Once you're signed in, if you think that post is inappropriate, you can flag it, and we will review it!"
                             class="far fa-flag float-right ml-3 gl_action" title="report as inappropriate">
                              <span id="flags_${post.id}" ></span>
                                     </i>
@@ -388,7 +394,9 @@ $(function () {
                         <div class="col-md-4 ">
                         
                             <img class="avatar" src="assets/dist/images/avatars/${post.image_id}.png"/>
-                            <a href="/user/${post.user_id}" class="user">
+                            <a href="/user/${post.user_id}" class="user"  id="intro_user_link"
+                            data-step=${window.location.pathname === '/' ? "15":"11" }
+                                  data-intro="You can visit glober's public page.">
                            <span > ${post.name}</span>   <span class="user_heart post p-2 m-1">${post.user_feel}</span>  
                              </a> 
                               <span class="float-right remove_from_glob blue removed_from_glob${post.user_id}
@@ -402,6 +410,9 @@ $(function () {
                              </span>
                              <span class="float-right add_to_glob blue added_to_glob${post.user_id}
                             ${post.in_my_glob !== 1 ? '' : 'd-none'}" 
+                            id="intro_user_globe"
+                            data-step=${window.location.pathname === '/' ? "16":"12" }
+                                  data-intro="Once you're logged in, you can add globers to your globe."
                              data-user_id="${post.user_id}" 
                              data-cy="add_user${counter}"
                              data-user_name="${post.name}"

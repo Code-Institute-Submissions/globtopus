@@ -3,19 +3,32 @@
 <section id="user">
     <div class="row">
         <!--USER DASHBOARD NAV DESKTOP-->
-        <div class="d-none d-md-block col-md-4 border_blue">
+        <div id="user_desktop" class="d-none d-md-block col-md-4 border_blue">
             <ul class="list-group">
                 <li class="list-group-item no_border mb-1">
                     <span class="user_page user_heart d-flex justify-content-center align-items-center">{{session['user_feel']}}</span>
                 </li>
-                <a href="{{url_for('user_bp.user')}}" class="list-group-item no_border user_nav" data-nav="my_progress">My
+                <a href="{{url_for('user_bp.user')}}" class="list-group-item no_border user_nav" data-nav="my_progress"
+                   data-step="1"
+                   data-intro="Every time you log in,
+ or post, you will select how you feel, and here, you will see the chart with the progress of how you feel over time."
+                >My
                     Progress</a>
                 <a class="list-group-item no_border user_nav my_glob" data-nav="my_glob" data-cy="my_globe"
+                   data-step="2"
+                   data-intro="All the globers name's you add to your globe will appear here. Just click
+                    on the glober's name and his posts will display! <hr> You will be able to delete any of the globers by
+clicking on trash icon <i class='far fa-trash-alt'></i>"
                    data-toggle="collapse" href="#globber_list" role="button" aria-expanded="false" aria-controls="globber_list"
-                >My Globe</a>
-                <ul class="list-group collapse list_of_globers" id="globber_list" >
+                >My Globe </a>
+                <ul class="list-group collapse list_of_globers" id="globber_list">
                 </ul>
                 <a class="list-group-item no_border user_nav my_feelist" data-nav="my_feelist" data-cy="my_feelist"
+                   data-step="3"
+                   data-intro="If you added some of the posts to your feelists, you will see names of your feelists here, just click
+                        on the name of the feelist and all the posts from that feelist will display! <hr> You will be able to delete any
+                         of the posts or feelists by
+                        clicking on trash icon <i class='far fa-trash-alt'></i>"
                    data-toggle="collapse" href="#list_of_feelists" role="button" aria-expanded="false" aria-controls="list_of_feelists">My
                     Feelists
                 </a>
@@ -27,14 +40,26 @@
                     {% endif %}
                 </ul>
                 <li class="list-group-item no_border user_nav my_fav" data-nav="my_fav" data-cy="my_fav"
+                    data-step="4"
+                    data-intro="Every post that you liked will display!<hr> You will be able to delete any of the posts by
+                    clicking on trash icon <i class='far fa-trash-alt'></i>"
                 >My Favourites
                 </li>
-                <li class="list-group-item no_border user_nav my_posts" data-nav="my_posts"  data-cy="my_posts"
+                <li class="list-group-item no_border user_nav my_posts" data-nav="my_posts" data-cy="my_posts"
                     data-user_id={{session['user_id']}}
                     data-user_name={{session['user_name']}}
+                    data-step="5"
+                    data-intro="Every post that you have written will display! <hr>You will be able to delete any of the posts by
+clicking on trash icon <i class='far fa-trash-alt'></i> or edit by clicking on edit icon <i class='far fa-edit'></i><hr>If you post at least one post
+you will be able to create post from here by clicking on
+<small  class='new_post' >
+                    <i class='fas fa-pen-alt'></i>&nbsp;new</small> button on the top of the posts!"
                 >My Posts
                 </li>
-                <a href="{{url_for('landing_bp.index')}}"  class="list-group-item no_border user_nav" data-nav="my_posts">Add
+                <a href="{{url_for('landing_bp.index')}}" class="list-group-item no_border user_nav" data-nav="my_posts"
+                   data-step="6"
+                   data-intro="You can add your post on main page by clicking here!"
+                >Add
                     New Posts</a>
                 <li class="list-group-item no_border ">last login : <small> {{user.last_login}}</small></li>
             </ul>
@@ -111,7 +136,8 @@
             </div>
         </div>
         <span id="scroll_point"></span>
-        <div class="d-md-none">
+        <!--MOBILE NAVIGATION-->
+        <div class="d-md-none" id="user_mobile">
 
             <nav class="navbar fixed-bottom navbar-light bg_blue ">
                  <!--LIST OF GLOBBERS WILL RENDER HERE-->
@@ -129,23 +155,27 @@
 
             </div>
 
-                <a class="text-light text-center" href="{{url_for('user_bp.user')}}"><i class="fas fa-chart-line"></i>
+                <a class="text-light text-center" href="{{url_for('user_bp.user')}}"
+
+                ><i class="fas fa-chart-line" ></i>
                     <br><span class="user_mobile_nav">Progress</span></a>
                 <!---->
                 <a class="text-light text-center my_glob " data-nav="my_glob"
                    data-toggle="collapse" href="#globber_list_mobile" role="button"
-                   aria-expanded="false" aria-controls="globber_list_mobile"><i class="fas fa-user-friends"></i>
+                   aria-expanded="false" aria-controls="globber_list_mobile"><i class="fas fa-user-friends"
+               ></i>
                     <br><span class="user_mobile_nav">My globe</span></a>
                 <!---->
-                <a class="text-light text-center my_fav" > <i class="fas fa-heart"></i>
+                <a class="text-light text-center my_fav"  > <i class="fas fa-heart"></i>
                     <br><span class="user_mobile_nav">My favourites</span></a>
                 <!---->
-                <a class=" text-light text-center" href="#"><i class="fas fa-th-list"></i>
+                <a class=" text-light text-center" href="#"><i class="fas fa-th-list" ></i>
                     <br><span class="user_mobile_nav my_feelist" data-nav="my_feelist"
                    data-toggle="collapse" href="#list_of_feelists_mobile" role="button"
                               aria-expanded="false" aria-controls="list_of_feelists_mobile">My feelists</span></a>
                 <!---->
-                <a class=" text-light text-center" href="#"><i class="fas fa-pencil-alt"></i>
+                <a class=" text-light text-center" href="#"><i class="fas fa-pencil-alt"
+                 ></i>
                     <br><span class="user_mobile_nav my_posts" data-nav="my_posts"
                     data-user_id={{session['user_id']}}
                     data-user_name={{session['user_name']}}>My posts</span></a>
@@ -157,9 +187,14 @@
     <div id="search_results">
     </div>
 </section>
+<section id="footer">
+    <span class="current_page" data-current_page="user"></span>
+</section>
 {% endblock %}
 {% block js %}
 <!--CHARTS charts.js-->
+
+<script src="{{url_for('user_bp.static', filename='src/js/mobile_intro.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
         integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
 <script src="{{url_for('assets_dist_bp.static', filename='js/user.js')}}"></script>

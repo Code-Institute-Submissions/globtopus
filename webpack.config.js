@@ -23,6 +23,7 @@ var country = Object.assign ( {}, config, {
 		'./gl_modules/posts/static/js/posts.js',
 		'./gl_modules/charts/static/js/charts.js',
 		'./gl_modules/country/static/src/js/country.js',
+		'./gl_modules/shared/static/js/site_intro.js',
 
 
 
@@ -45,6 +46,7 @@ var landing = Object.assign ( {}, config, {
 		'./gl_modules/posts/static/js/posts.js',
 		'./gl_modules/charts/static/js/charts.js',
 		'./gl_modules/map/static/src/js/map_loader.js',
+		'./gl_modules/shared/static/js/site_intro.js',
 
 
 
@@ -61,6 +63,7 @@ var user = Object.assign ( {}, config, {
 		'./gl_modules/shared/static/js/feel_meter.js',
 		'./gl_modules/user/static/src/js/user.js',
 		'./gl_modules/posts/static/js/posts.js',
+		'./gl_modules/shared/static/js/site_intro.js',
 	],
 	output : {
 		path     : path.resolve ( __dirname, dist ),
@@ -73,6 +76,7 @@ var public_user = Object.assign ( {}, config, {
 	entry  : [
 		'./gl_modules/posts/static/js/posts.js',
 		'./gl_modules/user/static/src/js/public_user.js',
+		'./gl_modules/shared/static/js/site_intro.js',
 
 	],
 	output : {
@@ -104,7 +108,7 @@ var sign_up = Object.assign ( {}, config, {
 		'./gl_modules/authorize/static/src/js/form_check.js',
 		'./gl_modules/shared/static/js/feel_meter.js',
 		'./gl_modules/shared/static/js/form_label.js',
-
+'./gl_modules/shared/static/js/site_intro.js',
 		'./gl_modules/map/static/src/js/map_loader.js',
 
 	],
@@ -122,6 +126,7 @@ var sign_in = Object.assign ( {}, config, {
 
 		'./gl_modules/shared/static/js/feel_meter.js',
 		'./gl_modules/shared/static/js/form_label.js',
+		'./gl_modules/shared/static/js/site_intro.js',
 
 	],
 	output : {

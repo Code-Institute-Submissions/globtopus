@@ -59,6 +59,8 @@ It is my desire to know how does the world feel like, and whether we can help ea
    - [javascript,HTML,CSS](#javascriptHTMLCSS)
    - [Python,Flask](#PythonFlask)
    - [MongoDB](#MongoDB)
+   - [charts.js](#charts)
+   - [intro.js](#intro)
    
 
 - [Features](#Features)       
@@ -127,14 +129,11 @@ It is my desire to know how does the world feel like, and whether we can help ea
   
   Here guides for interactions with the application.
   
-  > mobile version of the user dashboard
+  > mobile and desktop version of the user dashboard
 
-  <img src="https://raw.githubusercontent.com/marcelkolarcik/globtopus/master/gl_modules/assets_dist/static/readme_images/mobile.gif"  alt="https://globtopus.herokuapp.com/">
+  <img src="https://raw.githubusercontent.com/marcelkolarcik/globtopus/master/gl_modules/assets_dist/static/readme_images/user_nav.png"  alt="https://globtopus.herokuapp.com/">
 
- > desktop version of the user dashboard
-    
-  <img src="https://raw.githubusercontent.com/marcelkolarcik/globtopus/master/gl_modules/assets_dist/static/readme_images/desktop.gif"  alt="https://globtopus.herokuapp.com/">
-
+ 
 
    - #### Create an account
         
@@ -382,10 +381,14 @@ I am using sweetalert2 because it allows me to customize my alerts to my users w
     
 ### Python,Flask
    - Python 
-   >    Python is an interpreted, object-oriented, high-level programming language with dynamic semantics. It's high-level built-in data structures, combined with dynamic typing and dynamic binding, make it very attractive for Rapid Application Development, as well as for use as a scripting or glue language to connect existing components.
+   >    Python is an interpreted, object-oriented, high-level programming language with dynamic semantics. 
+It's high-level built-in data structures, combined with dynamic typing and dynamic binding,
+ make it very attractive for Rapid Application Development, as well as for use 
+as a scripting or glue language to connect existing components.
    
    - Flask
-   >    Flask is a micro web framework written in Python. It is classified as a microframework because it does not require particular tools or libraries. It has no database abstraction layer, form validation,
+   >    Flask is a micro web framework written in Python. It is classified as a microframework because 
+it does not require particular tools or libraries. It has no database abstraction layer, form validation,
        or any other components where pre-existing third-party libraries provide common functions. 
        However, Flask supports extensions that can add application features as if they were implemented in Flask itself.
        Applications that use the Flask framework include Pinterest and LinkedIn.
@@ -395,6 +398,16 @@ I am using sweetalert2 because it allows me to customize my alerts to my users w
 ### MongoDB
    - MongoDB 
    >   MongoDB is a document database with the scalability and flexibility that you want with the querying and indexing that you need
+### charts
+  - charts.js
+  > Simple yet flexible JavaScript charting for designers & developers
+
+### intro
+   - intro.js 
+   > When new users visit your website or product you should demonstrate your product 
+   features using a step-by-step guide. Even when you develop and add a new feature to your product,
+  you should be able to represent them to your users using a user-friendly solution. 
+  Intro.js is developed to enable web and mobile developers to create a step-by-step introduction easily.
  
  ## Features
  
@@ -442,10 +455,9 @@ Admin can :
 
 - ### Custom Error page
 
-I have created custom error pages, one general for 404,500 errors and one for 403 error when an unauthorized user would
-be trying to access /admin page.
+I have created custom error pages, one general for 404,500 errors and one for 403 error.
 Custom error pages enable me to customize the pages that are displayed when an error occurs. 
-Not only do they make your website more professional, but they can also save us from losing visits to our site.
+Not only do they make your website more professional, they can also save us from losing visits to our site.
  If a visitor they see a helpful error page, they may continue to stay because they can simply click a 
  link to go to another page within our site.
  
@@ -456,6 +468,7 @@ text index, but as per documentation, not all languages are supported, so I deci
 ,sanitize each word first and then store it into DB as array, so then when user searches for strings I am performing
 this query to find the posts that would be match
 
+ 
 ```python
 search_results = mongo.db.users.aggregate([
 
@@ -475,27 +488,26 @@ search_results = mongo.db.users.aggregate([
 
         ])
 ``` 
-- ### DB data
+- ### Advertisements
+I thought that the best place for advertisement would be right next to the sign-in form on the sign-in page and next to the country map
+on the country page, so I just created some advertisements with Bootstrap carousel. It's just my previous Milestone projects.
 
-As I wanted to be able to see how the site would look like, once it is in full swing, I populated DB with random data
-for total world data, country data, and county data, I have also created 10 users per country. The code is in factory_b.py
-So that when the user is searching on the country page, he will get results from that country only. He can of course search for the posts
-on landing and he will get results worldwide.
+- ### Favicon
+I have created a Favicon. Favicons save the users time in identifying a website from bookmarks, history,
+ and other places where a browser places that favicon for quick identification. It just makes life easier for your average user.
  
  ## Testing
- 
-There are 3 ways how I tested this website:
--  Manual testing
--  Cypress end-to-end testing
--  Python testing ( with challenges)
- 
- 
  
  I decided to learn about cypress.io for testing and writing test for the application.
  The front-end testing was done in cypress.io, it allowed me to test my application automatically, and 
  it allowed me to record my tests using this command. 
  
+ ```
+ $  node_modules/.bin/cypress run --record --key { my_record_key } --spec "cypress/integration/path/to/file.js"
+
+ ``` 
  
+Tests for the front-end can be watched here.
  
   [TESTING.md](TESTING.md)
    
@@ -504,10 +516,11 @@ There are 3 ways how I tested this website:
   
    ## Version Control
    
-   During development, I was creating a new branch for every new feature I wanted to create or update an existing feature,
-   then I would merge it with the master branch and then create a new branch again to create new features again.
+   During development, I was creating a new branch for every new feature I wanted to create or update an existing feature.
+   Once I was 100% sure that feature works, I would merge the master branch
+   and then create a new branch again to create new features again.
    
-   To create new branch: 
+   To create new branch I used these commands: 
    
    ```cl
    $ git checkout master
@@ -517,7 +530,7 @@ There are 3 ways how I tested this website:
    
 > develop some code, add, commit, push, repeat...;-)
 
-To merge the branch with the master:
+To merge the branch with the master I used these commands:
  ```cl
    $ git checkout master
    $ git merge new-branch
@@ -528,13 +541,29 @@ To merge the branch with the master:
    At the moment I left them in the repository. The branches at the moment are :
    
  
-  - AUTH I created my own authorization logic to register and login new user
+  - AUTH 
+  >I created my own authorization logic to register and login new user, however I am planning to implement signing in with Google and/or Facebook
+    to create faster and smoother access to the site
   - CHARTS
+  >I am using charts.js library to display various charts on the site.
   - COUNTRY_PAGE
+   
   - FEELIST
   - MAP
+  >On landing page, when the world map is rendered, I am loading data from DB and applying different color according to country feel. 
   - SIGN_UP_MAP
+  >Originally I was using openstreet map on sign up page, but I have replaced it with svg maps, for accurate data collection from every location.
+  
   - USER_PAGE
+  >For user page I created 2 different navigations, for mobile version I created sticky bottom navigation, for better user experience.
+    User can preview his progress on the chart and can also see his favourites, his globe of users he's added into, his feelists and the posts
+>in them,his own posts. He can delete any of the saved posts from globe, feelist, favourites, he can delete his feelist and he can update
+>or delete his own posts.
+  - TESTING
+  >I wrote end-to-end tests in cypress.io, and also wrote python tests.
+  - INTRO
+  > On great suggestion from my mentor Aaron Sinnot I have created intros to landing page, 
+    sign-up page, country page public user page and logged in user page for better user experience using intro.js  
   
   I did my best to name each commit in a way, that the development process is clear.
   ## Deployment
@@ -741,8 +770,6 @@ Allow users to upload their avatars.
 Send a welcome email to every new user.
 
 When the user is flagging a post, to require his reason for flagging it. 
-
-Create paginations for search results
   
   
   
@@ -752,11 +779,22 @@ Create paginations for search results
    
    Currently supporting
    
-   - Firefox
+  
    - Chrome
    - Opera 
-   - Edge   
+   - Edge 
+   
+ 
+   - Firefox ?
+  I noticed that I am getting these warnings in Firefox when doing AJAX calls to get data for county chart:
   
+- Cookie “session” will be soon rejected because it has the “sameSite” attribute set to “none” or an invalid value, without the “secure” attribute. 
+- Cookie “session” is invalid because its size is too big. Max size is 4096 B.
+
+I am currently in the process of learning about “sameSite” cookies as there is one functionality, that is not working
+in Firefox, and that is when the user adds a post to his feelist or creates new feelist
+ new feelist is not created and the post is not added to existing feelist either. 
+ In Python, I am using user_id from the session, and I think somehow I am loosing session with this AJAX call.
  
 
 # Acknowledgements
