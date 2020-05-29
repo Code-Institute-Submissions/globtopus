@@ -55,7 +55,6 @@ It is my desire to know how does the world feel like, and whether we can help ea
    - [cypress.io](#cypressio)
    - [webpack](#webpack)
    - [sweetalert.js](#sweetalert)
-   - [simple-jQuery-translator](#simple-jQuery-translator)
    - [javascript,HTML,CSS](#javascriptHTMLCSS)
    - [Python,Flask](#PythonFlask)
    - [MongoDB](#MongoDB)
@@ -358,14 +357,6 @@ I am using sweetalert2 because it allows me to customize my alerts to my users w
   
       
 
-### simple-jQuery-translator
-
- > Simple jQuery translator for translating text, the title of an element, placeholder for input fields, and alt attribute for images. If you need to include variables, simple-jQuery-translator can handle it as well.
- 
- During the development of wake-up-happy application, I wanted to have a website translated into several languages.
- I didn't find any package that would solve my problem completely, so I tried to write my translating script and 
- simple-jQuery-translator is a result of my tries...
- 
  
  ### javascript,HTML,CSS
  
@@ -547,8 +538,9 @@ To merge the branch with the master I used these commands:
   - CHARTS
   >I am using charts.js library to display various charts on the site.
   - COUNTRY_PAGE
-   
+   > Previewing country page, map with color coded countries and charts for country and counties
   - FEELIST
+  > Serching for posts and adding them to user's feelists 
   - MAP
   >On landing page, when the world map is rendered, I am loading data from DB and applying different color according to country feel. 
   - SIGN_UP_MAP

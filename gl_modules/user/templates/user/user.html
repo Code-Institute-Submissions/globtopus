@@ -198,8 +198,9 @@ you will be able to create post from here by clicking on
 {% block js %}
 <!--CHARTS charts.js-->
 
-<script src="{{url_for('user_bp.static', filename='src/js/mobile_intro.js')}}"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
         integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
 <script src="{{url_for('assets_dist_bp.static', filename='js/user.js')}}"></script>
+
 {% endblock %}

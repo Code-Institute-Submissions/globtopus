@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, render_template
 from flask_pymongo import PyMongo
 
 app = Flask(__name__)
@@ -38,6 +38,10 @@ app.register_blueprint(admin_m.admin_bp, url_prefix='/')
 app.register_blueprint(errors_m.errors_bp, url_prefix='/')
 app.register_blueprint(tests_m.tests_bp, url_prefix='/')
 app.register_blueprint(country_m.country_bp, url_prefix='/')
+
+
+
+
 
 if __name__ == '__main__':
     app.run(

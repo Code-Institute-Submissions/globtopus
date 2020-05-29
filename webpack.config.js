@@ -75,7 +75,7 @@ var public_user = Object.assign ( {}, config, {
 
 	entry  : [
 		'./gl_modules/posts/static/js/posts.js',
-		'./gl_modules/user/static/src/js/public_user.js',
+
 		'./gl_modules/shared/static/js/site_intro.js',
 
 	],

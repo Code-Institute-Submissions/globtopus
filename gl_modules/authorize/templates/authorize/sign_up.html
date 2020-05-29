@@ -116,6 +116,8 @@ PAGE HAS INTRO BY intro.js-->
     </div>
 </form>
 <section id="footer">
+     <!--CURRENT PAGE FOR INTROJS-->
+    <span class="current_page" data-current_page="sign-up"></span>
     {{ footer() }}
 </section>
 {% endblock %}
@@ -123,4 +125,5 @@ PAGE HAS INTRO BY intro.js-->
 {% block js %}
 <script src="{{url_for('map_bp.static', filename='src/js/SVGPanZoom.js')}}"></script>
 <script src="{{url_for('assets_dist_bp.static', filename='js/sign_up.js')}}"></script>
+
 {% endblock %}
