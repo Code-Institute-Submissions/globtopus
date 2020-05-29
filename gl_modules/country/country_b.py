@@ -18,8 +18,7 @@ def country(country_code):
        DISPLAYING ERROR PAGE IN COUNTRY CODE IS NOT IN OUR ARRAY OF COUNTRY CODES
        OR IF USER IS MESSING WITH URL'S
     """
-    # if  not country_code in  cc_with_counties():
-    #     return render_template('errors/error.html')
+
     from app import mongo
 
     posts = []
@@ -53,7 +52,10 @@ def country(country_code):
             }
         )
 
-    return render_template('country/country.html', country_name=get_country_name(country_code), cc=country_code,
+    if not country_code in cc_with_counties():
+        return render_template('errors/error.html')
+    else:
+        return render_template('country/country.html', country_name=get_country_name(country_code), cc=country_code,
                            posts=posts, random=random)
 
 
