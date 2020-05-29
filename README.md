@@ -799,6 +799,7 @@ in Firefox, and that is when the user adds a post to his feelist or creates new 
 
 # Acknowledgements
 
+I would like to thank my mentor Aaron Sinnot for his advices, specially about using intro.js.
 Images used on the site were from 
 <a href="https://www.freepik.com/free-photos-vectors/background"> www.freepik.com</a>
 
