@@ -1,11 +1,9 @@
 import datetime
 import random
-from json import dump
 
-from bson.json_util import dumps
-
-from gl_modules.factory.factory_b import get_country_name, cc_with_counties
 from flask import Blueprint, request, jsonify
+
+from gl_modules.factory.factory_b import get_country_name
 
 charts_bp = Blueprint('charts_bp', __name__,
                       template_folder='templates',

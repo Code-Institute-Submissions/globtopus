@@ -2,7 +2,7 @@ import datetime
 import random
 
 from bson import ObjectId
-from flask import Blueprint, render_template, jsonify, request, flash
+from flask import Blueprint, render_template, jsonify, request
 from werkzeug.security import generate_password_hash
 
 from gl_modules.shared.sanitize import sanitize

@@ -10,14 +10,12 @@
    NOT PART OF GLOBTOPUS
 """
 
-import json
+import datetime
 import random
 
-import bson
 from bson import ObjectId
-from flask import Blueprint, jsonify, session, render_template, request
-import datetime
 from bson.json_util import dumps
+from flask import Blueprint, jsonify, session, render_template, request
 from werkzeug.security import generate_password_hash
 
 from gl_modules.shared.today import today_f
@@ -99,7 +97,9 @@ def countries_data():
 """
    CREATE COUNTIES DATA 
 """
-@factory_bp.route('/create_counties')
+
+
+@factory_bp.route('/create_countieás')
 def create_counties():
     from app import mongo
     feels = {}

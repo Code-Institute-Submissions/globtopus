@@ -1,5 +1,4 @@
-from bson.json_util import dumps
-from flask import Blueprint, jsonify, render_template, session
+from flask import Blueprint, render_template, session
 
 admin_bp = Blueprint('admin_bp', __name__,
                      template_folder='templates',

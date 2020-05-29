@@ -170,7 +170,7 @@ Clicking on the name of the file will take you to the source code of the test.
 |  [admin.js](https://github.com/marcelkolarcik/globtopus/blob/master/cypress/integration/admin.js)      |     pass  |
 |            |                   |         |
   
-<img src="https://raw.githubusercontent.com/marcelkolarcik/globtopus/master/gl_modules/assets_dist/static/readme_images/cypress_all.gif" title="https://globtopus.herokuapp.com/" alt="https://globtopus.herokuapp.com/">
+<img src="https://raw.githubusercontent.com/marcelkolarcik/globtopus/master/gl_modules/assets_dist/static/readme_images/dcypress_all.gif" title="https://globtopus.herokuapp.com/" alt="https://globtopus.herokuapp.com/">
             
 ### Python testing
 

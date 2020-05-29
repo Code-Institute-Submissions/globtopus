@@ -1,5 +1,4 @@
-from bson.json_util import dumps
-from flask import Blueprint, request, jsonify, session
+from flask import Blueprint, request, jsonify
 
 from gl_modules.factory.factory_b import get_country_name
 
